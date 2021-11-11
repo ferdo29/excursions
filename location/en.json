@@ -1,3 +1,15 @@
 {
+  "Login by phone": {
+    "Language selection": "Language selection",
+    "Number selection": "Number selection",
 
+    "Have an order number?":  "Have you order?",
+    "Enter here":  "Enter here",
+    "And so, let's go":  "And so, let's go ...",
+    "Enter your phone number and we will send you a login code":  "Enter your phone number and we will send you a login code",
+    "Confirm and send the code":  "Confirm and send the code",
+    "or": "or",
+    "Continue with": "Continue with",
+    "Continue through": "Continue through"
+  }
 }

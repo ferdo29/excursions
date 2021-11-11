@@ -1,3 +1,15 @@
 {
+  "Login by phone": {
+    "Language selection": "Выбор языка",
+    "Number selection": "Выбор номер",
 
+    "Have an order number?":  "Есть номер заказа?",
+    "Enter here":  "Введи здесь",
+    "And so, let's go":  "И так, поехали...",
+    "Enter your phone number and we will send you a login code":  "Введи здесь",
+    "Confirm and send the code":  "Подтвердить и прислать код",
+    "or": "или",
+    "Continue with": "Продолжить с",
+    "Continue through": "Продолжить через"
+  }
 }
