@@ -46,6 +46,18 @@ export const Text33 = styled.Text`
   font-size: 33px;
   line-height: 34px;;
 `
+export const Text28 = styled.Text`
+  font-family: "Ubuntu_400Regular";
+  color: #4F4F4F;
+  font-size: 28px;
+  line-height: 29px;
+`
+export const Text26 = styled.Text`
+  font-family: "Ubuntu_400Regular";
+  color: #4F4F4F;
+  font-size: 26px;
+  line-height: 27px;
+`
 export const Text18 = styled.Text`
   font-family: "Ubuntu_400Regular";
   font-size: 18px;
@@ -60,4 +72,10 @@ export const Text14 = styled.Text`
   font-family: "Ubuntu_400Regular";
   font-size: 14px;
   line-height: 24px;
+`
+export const URLText = styled.Pressable`
+  font-family: "Ubuntu_400Regular";
+  font-size: 16px;
+  line-height: 28px;
+
 `

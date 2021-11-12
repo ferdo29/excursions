@@ -18,7 +18,24 @@ export const WrapperInput = styled.View`
   border-radius: 20px;
   justify-content: center;
   align-items: center;
- 
+`
+export const WrapperInputNumber = styled.View`
+  width: 71px;
+  height: 88px;
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #0CA4A4;
+  border-width: 1px;
+  box-shadow: 6px 6px 35px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+`
+export const InputNumber = styled.TextInput`
+  width: 70px;
+  height: 79px;
+  padding: 0 25px;
+  font-size: 30px;
+  color: #0CA4A4;
+  align-items: center;
+  justify-content: center;
 `
 
 // export const WrapperLanguage

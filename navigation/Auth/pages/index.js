@@ -1,27 +1,43 @@
 import * as React from 'react';
-import {View} from "react-native";
+import {Dimensions, View} from "react-native";
 import {
     BoxColumnView,
     BoxRowView,
     MainBox,
     Text14,
     Text16,
-    Text18,
-    Text33
+    Text18, Text26, Text28,
+    Text33, URLText
 } from "../../../styles/components/tools";
-import {WrapperInput} from "../../../styles/components/inputs";
-import {ButtonWhite, ButtonWhiteOpacity} from "../../../styles/components/buttons";
+import {InputNumber, WrapperInput, WrapperInputNumber} from "../../../styles/components/inputs";
+import {ButtonGreenOpacity, ButtonWhite, ButtonWhiteOpacity} from "../../../styles/components/buttons";
 import {SelectorsLang, SelectorsZipCountry} from "../../../components/Selectors";
 import Svg, {Circle, G, Path} from "react-native-svg";
 import {CirclesAb} from "../../../layouts/CirclesAb";
 import Locale from "../../../contexts/locale";
-import {useContext} from "react";
+import {useContext, useRef, useState} from "react";
 import {t} from "i18n-js";
 import {TouchableOpacity} from "react-native";
+import LayoutPop from '../../../layouts/popups/LayoutPop'
+import {PopupsCheckSMS} from "../copmonents/popups";
+import {clearState} from "../../../store/sms/reducer";
+import {useDispatch} from "react-redux";
+
+const {height, width} = Dimensions.get('window')
 
 export default function ({}) {
     useContext(Locale)
+    const dispatch = useDispatch()
+    const [agreement, setAgreement] = useState(false)
+    const [confirmation, setConfirmation] = useState(false)
 
+    const handlerAgreement = () => {
+        setAgreement(!agreement)
+    }
+    const handlerConfirmation = () => {
+        setConfirmation(!confirmation)
+        dispatch(clearState())
+    }
 
     return (
         <MainBox>
@@ -50,7 +66,7 @@ export default function ({}) {
                 </WrapperInput>
             </BoxRowView>
 
-            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}}>
+            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={handlerAgreement}>
                 <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
                 <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
@@ -95,6 +111,48 @@ export default function ({}) {
                 </Svg>
                 <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue through')} Email</Text14>
             </ButtonWhiteOpacity>
+
+            <LayoutPop state={agreement} openClose={handlerAgreement} start={height * 0.43} mountainTop={true} reSizeOnSwipe={false}>
+                <BoxColumnView style={{justifyContent: 'center'}}>
+                    <Text28 style={{paddingBottom: 28}}>Соглашение</Text28>
+
+                    <BoxColumnView style={{paddingBottom: 40}}>
+                        <Text16 style={{color: '#828282'}}>Используя приложение вы соглашаетесь</Text16>
+                        <URLText style={{flexDirection: 'row', paddingBottom: 5}}>
+                            <Text16 style={{color: '#828282'}}>с </Text16>
+                            <Text16>
+                                <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Пользовательским соглашением</Text16>
+                            </Text16>
+                            <Text16 style={{color: '#828282'}}> и</Text16>
+                        </URLText>
+
+                        <URLText style={{paddingBottom: 10}}>
+                           <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Политикой конфиденциальности.</Text16>
+                        </URLText>
+                    </BoxColumnView>
+
+                    <ButtonGreenOpacity activeOpacity={0.6} onPress={() => {
+                        handlerAgreement()
+                        handlerConfirmation()
+                    }}>
+                        <Text16 style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>Да, согласен</Text16>
+                        <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
+                            <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                        </Svg>
+                    </ButtonGreenOpacity>
+
+                    <ButtonWhite onPress={handlerAgreement} activeOpacity={0.6} style={{backgroundColor: '#F5F5FA', borderWidth: 0}}>
+                        <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20}}>Нет, выйти</Text16>
+                    </ButtonWhite>
+
+                </BoxColumnView>
+            </LayoutPop>
+
+            <LayoutPop state={confirmation} openClose={handlerConfirmation} start={height * 0.4} mountainTop={true} reSizeOnSwipe={false}>
+                <PopupsCheckSMS openClose={handlerConfirmation}/>
+            </LayoutPop>
 
         </MainBox>
     );
