@@ -36,7 +36,7 @@ export default function ({children, state, openClose = () => {}, start = 50, mou
             onRequestClose={handlerClose}
         >
 
-            <WrapperPop style={{width, height, position: 'absolute'}} onPress={handlerClose}/>
+            <WrapperPop style={{width, height, position: 'absolute', backgroundColor: 'rgba(0,0,0,0.4)'}} onPress={handlerClose}/>
 
                     <Draggable onDragRelease={SwipeWindow}
                                shouldReverse={shouldReverse}

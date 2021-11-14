@@ -37,5 +37,18 @@ export const InputNumber = styled.TextInput`
   align-items: center;
   justify-content: center;
 `
+export const Input = styled.TextInput`
+  font-family: "Ubuntu_400Regular";
+  font-weight: 500;
+  width: 100%;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #0CA4A4;
+  border-width: 1px;
+  box-shadow: 6px 6px 35px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  font-size: 16px;
+  color: #828282;
+`
 
 // export const WrapperLanguage
