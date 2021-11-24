@@ -3,51 +3,28 @@ import {IconRu, IconCh, IconEn, IconGM, IconSP} from "./Icons";
 import {Picker} from "react-native-woodpicker";
 import Svg, {Path} from "react-native-svg";
 import {WrapperLanguage} from "../styles/components/inputs";
-import {Text18} from "../styles/components/tools";
-import {useContext} from "react";
+import {Text16, Text18} from "../styles/components/tools";
+import {useContext, useMemo} from "react";
 import Locale from "../contexts/locale";
 import {t} from "i18n-js";
-import {setItemAsync} from "expo-secure-store";
+import {useDispatch} from "react-redux";
+import {setZipPhoneSMS} from "../store/sms/reducer";
 
 
 
-export const SelectorsLang = ({callBack = () => {}}) => {
-    const {lang, setLang} = useContext(Locale)
+export const SelectorsLang = ({moveAction = () => {}}) => {
+    const {lang} = useContext(Locale)
 
-    const [pickedData, setPickedData] = React.useState({ label: lang, value: lang });
-    const arrLang = [
-        { label: 'EN', value: 'EN'},
-        { label: 'RU', value: 'RU' },
-        { label: 'GM', value: 'GM' },
-        { label: 'SP', value: 'SP' },
-        { label: 'CH', value: 'CH' },
-    ]
-    const handlerPickedData = (data) => {
-
-        setItemAsync("KExcLanguage", data.value)
-            .then(req => {
-                setLang(data.value)
-                callBack(data.value)
-                setPickedData(data)
-            })
-            .catch(err => console.error(err))
-    }
 
     return (
-        <WrapperLanguage style={{position: 'relative'}}>
-            {pickedData.label === 'EN' && <IconEn style={{position: 'absolute', left: 22, zIndex: -1}}/>}
-            {pickedData.label === 'RU' && <IconRu style={{position: 'absolute', left: 22, zIndex: -1}}/>}
-            {pickedData.label === 'GM' && <IconGM style={{position: 'absolute', left: 22, zIndex: -1}}/>}
-            {pickedData.label === 'SP' && <IconSP style={{position: 'absolute', left: 22, zIndex: -1}}/>}
-            {pickedData.label === 'CH' && <IconCh style={{position: 'absolute', left: 22, zIndex: -1}}/>}
-            <Picker
-                item={pickedData}
-                items={arrLang}
-                onItemChange={handlerPickedData}
-                title={t("Login by phone.Language selection")}
-                textInputStyle={{color: '#fff', textAlign: 'center', fontSize: 15, fontFamily: "Ubuntu_400Regular"}}
-                isNullable={false} style={{width: 119, marginLeft: 10}}
-            />
+        <WrapperLanguage style={{position: 'relative'}} onPress={moveAction}>
+            {lang === 'EN' && <IconEn style={{position: 'absolute', left: 22, zIndex: -1}}/>}
+            {lang === 'RU' && <IconRu style={{position: 'absolute', left: 22, zIndex: -1}}/>}
+            {lang === 'GM' && <IconGM style={{position: 'absolute', left: 22, zIndex: -1}}/>}
+            {lang === 'SP' && <IconSP style={{position: 'absolute', left: 22, zIndex: -1}}/>}
+            {lang === 'CH' && <IconCh style={{position: 'absolute', left: 22, zIndex: -1}}/>}
+
+            <Text16 style={{color: '#fff', textAlign: 'center'}}>{lang || 'EN'}</Text16>
 
             <Svg style={{position: 'absolute', right: 22, zIndex: -1}} width="11" height="6" viewBox={'0 0 11 6'} fill="none" xmlns="http://www.w3.org/2000/svg">
                 <Path d="m10.5.5-5 5-5-5" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"/>
@@ -58,7 +35,7 @@ export const SelectorsLang = ({callBack = () => {}}) => {
 };
 export const SelectorsZipCountry = ({callBack = () => {}}) => {
     useContext(Locale)
-
+    const dispatch = useDispatch()
     const [pickedData, setPickedData] = React.useState({ label: '+44', value: 'EN' });
     const arrLang = [
         { label: '+44', value: 'EN'},
@@ -71,6 +48,9 @@ export const SelectorsZipCountry = ({callBack = () => {}}) => {
         callBack(data.label)
         setPickedData(data)
     }
+    useMemo(() => {
+        dispatch(setZipPhoneSMS(pickedData.label))
+    }, [pickedData])
 
     return (
         <WrapperLanguage style={{position: 'relative', borderColor: '#fff'}}>

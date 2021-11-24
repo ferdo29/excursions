@@ -6,83 +6,72 @@ export default () => {
     const numbers = /[0-9]/g
     const upperCaseLetters = /[A-Z]/g
     const upperLetters = /[a-z]/g
-    const wordAll = /[aA-zZ]/g
-    const reg = /(.+)(@)(.+)(\.)(.+)/
-    const lat = /[',.!?;:()"|\/\\@#$%ˆ&*()_\-=+{}\[\]`˜±§<>©˙∆˚¬…Ω≈√∫˜µ≥≤÷∑´®†¥¨ˆøπ“‘]/gm
+    const letters = /[a-zA-Z]/g
+    const reg = /.+@.+\.[A-Za-z]+$/
 
-    const checkPassword = (password) => {
-        if (!(password.length >= length)) return {
-            correct: false,
-            cb: i18n.t("Error The minimum number of password characters is 8")
-        }
-        if (!password.match(numbers)) return {correct: false, cb: i18n.t("Error Password must contain clean characters")}
-        if (!password.match(upperLetters)) return {correct: false, cb: i18n.t("Error Password must contain alphabetic characters")}
-        if (!password.match(upperCaseLetters)) return {
-            correct: false,
-            cb: i18n.t("Error Password must contain at least one uppercase Latin letter")
-        }
-        if (password.match(lat)) return {correct: false, cb: i18n.t("Error Password contains invalid characters")}
-
-        return {correct: true, cb: ''}
-    }
-    const checkPasswords = (password, validPassword) => {
-        if (password !== validPassword) return {correct: false, cb: i18n.t('Error Password mismatch')}
-        return {correct: true, cb: ''}
-    }
-    const checkPhone = (phone) => {
-
-        const lengthNumber = phone.replace(/[+()-]|\s/gm, '').length
-        const phoneSlice = phone.slice(1, 100).split(' ')[0].length
-        const message = (num) => i18n.t(`Error Minimum phone number length ${num} characters`)
-
-        if (phone) {
-            if (phoneSlice === 1 && lengthNumber < 11) return {
-                correct: false,
-                cb: message(10)
-            }
-            if (phoneSlice === 2 && lengthNumber < 12) return {
-                correct: false,
-                cb: message(11)
-            }
-            if (phoneSlice === 3 && lengthNumber < 13) return {
-                correct: false,
-                cb: message(12)
-            }
-            if (phoneSlice === 4 && lengthNumber < 14) return {
-                correct: false,
-                cb: message(13)
-            }
-            if (lengthNumber > 14) return {
-                correct: false,
-                cb: i18n.t(`Error Exceeds phone number lengths`)
-            }
-        }
-        return {correct: true, cb: ''}
-    }
-    const checkEmail = (email) => {
-        if (!email.match(reg)) return {correct: false, cb: i18n.t("Error You entered an incorrect mailing address")}
-        return {correct: true, cb: ''}
-    }
-    const checkName = (name) => {
-        if ((name.replace(/\s/gm, '').length <= 0)) return {correct: false, cb: i18n.t('Error The field is not filled')}
-        if (name.length > 0 && name.length < 2) return {correct: false, cb: i18n.t('Error Minimum name length 2 characters')}
-        return {correct: true, cb: ''}
-    }
-    const clearingEmailPhone = (str) => {
-        if(str.match(wordAll)) {
-            if (str.match(reg)){
-                return {correct: true, cb: str}
-            }else {
-                return {correct: false, cb: ''}
-            }
+    const minMax = (value, nameField= '', minLength = 2, maxLength = 1000) => {
+        if(minLength > maxLength){
+            if((value.length < 2)) return {correct: false,   cb: `Минимальная длина ${nameField} ${2} символов` }
+            if((value.length > 1000)) return {correct: false,   cb: `Максимальная длина ${nameField} ${1000} символов` }
         }else{
-            const {correct, cb} = checkPhone(str)
-            if (correct) return {correct, cb: str.replace(lat, '').replace(/\s/gm, '')}
-                         return {correct, cb}
-            // return  {correct: true, cb: word.replace(lat, '').replace(/\s/gm, '')}
+            if((value.length < minLength)) return {correct: false,   cb: `Минимальная длина ${nameField} ${minLength} символов` }
+            if((value.length > maxLength)) return {correct: false,   cb: `Максимальная длина ${nameField} ${maxLength} символов` }
         }
+        return {correct: true, cb:'' }
     }
 
 
-    return {checkPassword, checkPasswords, checkPhone, checkEmail, checkName, clearingEmailPhone}
+    const checkPhone = (value) => {
+        if(value.match(numbers).length < 11) return {correct: false,   cb: 'Минимальная длина телефонного номера 11 символов' }
+        return {correct: true, cb:'' }
+    }
+    const checkNumber = (value, nameField= '', minLength = 2, maxLength = 1000) => {
+        if((value.length <= 0)) return {correct: false,   cb: `Поле${ " "+ nameField} не заполнено` }
+        if (!value.match(numbers) || !!value.match(letters)) return {correct: false, cb: `Поле${ " "+ nameField} должно содержать только числа`}
+
+        const result = minMax(value, nameField, minLength , maxLength)
+        if (!result.correct ) return result
+
+        return {correct: true, cb:'' }
+    }
+    const checkPassword = (value) => {
+        if (!value.match(numbers)) return {correct: false, cb: 'Пароль должен содержать чистые символы'}
+        if (!value.match(upperLetters)) return {correct: false, cb: 'Пароль должен содержать буквенные символы.'}
+        if (!value.match(upperCaseLetters)) return {correct: false, cb: 'Пароль должен содержать хотя бы одну заглавную латинскую букву.'}
+        if (!(value.length >= length)) return {correct: false, cb: 'Минимальное количество символов пароля - 8'}
+        return {correct: true, cb:'' }
+    }
+    const checkPasswords = (value, validCompare ) => {
+        if (value !== validCompare) return {correct: false, cb: 'Пароли не совпадают'}
+        else {return {correct: true, cb: ''}}
+    }
+    const checkEmail = (value) => {
+        if(!value.match(reg)) return {correct: false, cb: 'Вы ввели неверный почтовый адрес' }
+        return {correct: true, cb:'' }
+    }
+    const checkName = (value, nameField = '') => {
+        if((value.split(' ').join('').length <= 0)) return {correct: false,   cb: `Поле${ " "+ nameField} не заполнено` }
+        if(!(value.length >= 2)) return {correct: false,   cb: `Минимальная длина ${nameField} 2 символа` }
+        return {correct: true, cb:'' }
+    }
+    const checkText = (value, nameField = '', minLength = 2, maxLength = 1000) => {
+        if((value.length <= 0)) return {correct: false,   cb: `Поле${ " "+ nameField} не заполнено` }
+
+        const result = minMax(value, nameField, minLength , maxLength)
+        if (!result.correct ) return result
+
+        return {correct: true, cb:'' }
+    }
+    const phoneFormat = (value) => {
+        switch (value.match(numbers).length) {
+            case 11: return  value.replace(/(\d)(\d{3})(\d{3})(\d{2})(\d{2})/, "+$1 ($2) $3-$4-$5")
+            case 12: return  value.replace(/(\d2)(\d{3})(\d{3})(\d{2})(\d{2})/, "+$1 ($2) $3-$4-$5")
+            case 13: return  value.replace(/(\d3)(\d{3})(\d{3})(\d{2})(\d{2})/, "+$1 ($2) $3-$4-$5")
+            default: return value.match(numbers).join('')
+        }
+
+    }
+
+
+    return {checkPassword, checkPasswords, checkPhone, checkEmail, checkName, checkNumber, checkText, phoneFormat}
 }

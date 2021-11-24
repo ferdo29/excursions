@@ -1,17 +1,52 @@
 {
+  "error": {
+    "Enter your phone number": "Enter your phone number"
+  },
+  "ScrollHorizontal": {
+    "Show all": "Show all"
+  },
   "Login by phone": {
     "Language selection": "Language selection",
     "Number selection": "Number selection",
-
-    "Have an order number?":  "Have you order?",
-    "Enter here":  "Enter here",
-    "And so, let's go":  "And so, let's go ...",
-    "Enter your phone number and we will send you a login code":  "Enter your phone number and we will send you a login code",
-    "Confirm and send the code":  "Confirm and send the code",
+    "Have an order number?": "Have you order?",
+    "Enter here": "Enter here",
+    "And so, let's go": "And so, let's go ...",
+    "Enter your phone number and we will send you a login code": "Enter your phone number and we will send you a login code",
+    "Confirm and send the code": "Confirm and send the code",
     "or": "or",
     "Continue with": "Continue with",
     "Continue through": "Continue through",
     "Phone": "Phone",
-    "Your email": "Ваш email"
+    "Your email": "Your email",
+    "We are always glad to see you": "We are always glad to see you",
+    "Sign in to save your favorite excursions and see your purchases in your personal account": "Sign in to save your favorite excursions and see your purchases in your personal account"
+  },
+  "Preview": {
+    "Proceed": "Proceed",
+    "I already have an order number": "I already have an order number",
+    "First": {
+      "Travel": "Travel",
+      "in a new way": "in a new way",
+      "UNUSUAL": "UNUSUAL",
+      "audio guided tours around the world": "audio guided tours around the world.",
+      "country": "country",
+      "cities": "cities",
+      "emotions": "emotions"
+    },
+    "Second": {
+      "Audio guide": "Audio guide",
+      "always with you": "always with you",
+      "Start the tour at any time convenient for you The audio guide will be available to you offline": "Start the tour at any time convenient for you. The audio guide will be available to you offline."
+    },
+    "Third": {
+      "Begin": "Begin",
+      "always easy": "always easy",
+      "Follow the guided tour route with offline maps and audio guide": "Follow the guided tour route with offline maps and audio guide",
+      "More than 9000 excursions": "More than 9000 excursions",
+      "waiting for you": "waiting for you!"
+    }
+  },
+  "Language": {
+
   }
 }

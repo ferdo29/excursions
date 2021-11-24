@@ -2,6 +2,9 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     data: ['', '', '', ''],
+    phone: '',
+    zipPhone: '',
+    email: '',
     fetchData: '',
     isLoading: false,
     error: '',
@@ -18,10 +21,19 @@ const counterSlice = createSlice({
         },
         clearState(state){
             state.data = ['', '', '', '']
+        },
+        setPhoneSMS(state, action){
+            state.phone = action.payload.replace(/\D+/g,"")
+        },
+        setEmailSMS(state, action){
+            state.email = action.payload
+        },
+        setZipPhoneSMS(state, action){
+            state.zipPhone = action.payload.replace(/\D+/g,"")
         }
     },
 
 })
 
-export const {changeState, clearState} = counterSlice.actions
+export const {changeState, clearState, setPhoneSMS, setEmailSMS, setZipPhoneSMS} = counterSlice.actions
 export default counterSlice.reducer

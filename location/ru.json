@@ -1,4 +1,10 @@
 {
+  "error": {
+    "Enter your phone number": "Введите свой номер телефона"
+  },
+  "ScrollHorizontal": {
+    "Show all": "Показать все"
+  },
   "Login by phone": {
     "Language selection": "Выбор языка",
     "Number selection": "Выбор номер",
@@ -12,6 +18,34 @@
     "Continue with": "Продолжить с",
     "Continue through": "Продолжить через",
     "Phone": "Телефон",
-    "Your email": "Your email"
+    "Your email": "Ваш email",
+    "We are always glad to see you": "Мы вам всегда рады",
+    "Sign in to save your favorite excursions and see your purchases in your personal account" : "Войдите, что бы сохранить избранные экскурсии и видеть свои покупки в вашем личном кабинете"
+  },
+  "Preview": {
+    "Proceed": "Продолжить",
+    "I already have an order number": "У меня уже есть номер заказа",
+    "First": {
+      "Travel": "Путешествуй",
+      "in a new way": "по-новому",
+      "UNUSUAL": "НЕОБЫЧНЫЕ",
+      "audio guided tours around the world": "экскурсии с аудиогидом по всему миру.",
+      "country": "страны",
+      "cities": "городов",
+      "emotions": "эмоций"
+
+    },
+    "Second": {
+      "Audio guide": "Аудиогид",
+      "always with you":"всегда с тобой",
+      "Start the tour at any time convenient for you The audio guide will be available to you offline":"Начни экскурсию в любое удобное для вас время. Аудиогид будет доступен вам в режиме офлайн."
+    },
+    "Third":{
+      "Begin": "Начать",
+      "always easy":"всегда легко",
+      "Follow the guided tour route with offline maps and audio guide": "Следуйте по маршруту экскурсии с офлайн картами и  аудиогидом",
+      "More than 9000 excursions":"Более 9000 экскурсий",
+      "waiting for you": "ждут вас!"
+    }
   }
 }

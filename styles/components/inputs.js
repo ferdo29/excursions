@@ -1,6 +1,6 @@
 import styled from "styled-components/native/dist/styled-components.native.esm";
 
-export const WrapperLanguage = styled.View`
+export const WrapperLanguage = styled.Pressable`
   width: 122px;
   height: 54px;
   border: 1px solid #4A4848;
@@ -50,5 +50,28 @@ export const Input = styled.TextInput`
   font-size: 16px;
   color: #828282;
 `
+export const InputSearchWrapper = styled.View`
+  height: 46px;
+  flex-direction: row;
+  background: #F2F2F2;
+  border: 1px solid #F2F2F2;
+  border-radius: 20px;
+  shadow-color: rgba(0, 0, 0, 0.24);
+  shadow-offset: 10px;
+  shadow-opacity: 0.3;
+  shadow-radius: 10px;
+  elevation: 8;
+`
+export const InputSearch = styled.TextInput`
+  height: 100%;
+  width: 100%;
+  padding: 9px 30px 10px 60px;
+  font-family: "Ubuntu_400Regular";
+  font-weight: 500;
+  color: #4F4F4F;
+  
+`
 
 // export const WrapperLanguage
+//   box-sizing: border-box;
+//   box-shadow: 6px 6px 35px rgba(0, 0, 0, 0.1);

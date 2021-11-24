@@ -17,10 +17,12 @@ import {
     Ubuntu_700Bold,
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
+import { ToastProvider } from 'react-native-toast-notifications'
 
 export default function App() {
-    const [lang, setLang] = useState('EN');
+    const [lang, setLang] = useState('RU');
     const store = setupStore()
+    const [statePreview, setStatePreview] = useState(false)
     let [fontsLoaded] = useFonts({
         Ubuntu_300Light,
         Ubuntu_300Light_Italic,
@@ -45,15 +47,16 @@ export default function App() {
         'RU': require('./location/ru.json'),
     }
 
-
     if (!fontsLoaded) return <AppLoading />;
 
   return (
       <Provider store={store}>
           <Locale.Provider value={{lang, setLang}}>
-              <NavigationContainer>
-                  <NavigationController/>
-              </NavigationContainer>
+              <ToastProvider>
+                  <NavigationContainer>
+                      <NavigationController preview={statePreview} setCtxPreview={setStatePreview}/>
+                  </NavigationContainer>
+              </ToastProvider>
           </Locale.Provider>
       </Provider>
   );

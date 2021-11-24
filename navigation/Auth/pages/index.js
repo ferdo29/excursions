@@ -2,17 +2,14 @@ import * as React from 'react';
 import {Dimensions, View} from "react-native";
 import {
     BoxColumnView,
-    BoxRowView,
-    MainBox,
+    BoxRowView, ContainerMain,
     Text14,
     Text16,
     Text18,
-    Text28,
     Text33,
-    URLText
 } from "../../../styles/components/tools";
 import {Input,  WrapperInput} from "../../../styles/components/inputs";
-import {ButtonGreenOpacity, ButtonWhite, ButtonWhiteOpacity} from "../../../styles/components/buttons";
+import {ButtonWhite, ButtonWhiteOpacity} from "../../../styles/components/buttons";
 import {SelectorsLang, SelectorsZipCountry} from "../../../components/Selectors";
 import Svg, {Circle, Path} from "react-native-svg";
 import {CirclesAb} from "../../../layouts/CirclesAb";
@@ -21,18 +18,21 @@ import {useContext, useState} from "react";
 import {t} from "i18n-js";
 import {TouchableOpacity} from "react-native";
 import LayoutPop from '../../../layouts/popups/LayoutPop'
-import {PopupsCheckSMS} from "../copmonents/popups";
-import {clearState} from "../../../store/sms/reducer";
-import {useDispatch} from "react-redux";
+import {PopupAgreement, PopupsCheckSMS} from "../copmonents/popups";
+import {clearState, setEmailSMS, setPhoneSMS} from "../../../store/sms/reducer";
+import {useDispatch, useSelector} from "react-redux";
 import {TextInputMask} from "react-native-masked-text";
+import * as SecureStore from "expo-secure-store";
+import {setStatePreview} from "../../../store/previewPagination/reducer";
+import {showToastState} from "../../../store/toasts/reducer";
+import MainLayout from "../../../layouts/MainLayout";
 
 const {height, width} = Dimensions.get('window')
 
-export default function ({}) {
+export default function ({navigation}) {
     useContext(Locale)
     const dispatch = useDispatch()
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
+    const {phone, email} = useSelector(state => state.SMS)
     const [stateLogin, setStateLogin] = useState('Phone')
     const [agreement, setAgreement] = useState(false)
     const [confirmation, setConfirmation] = useState(false)
@@ -40,18 +40,34 @@ export default function ({}) {
     const handlerStateLogin = () => {
         setStateLogin(stateLogin === 'Phone' ? 'Email' : 'Phone')
     }
-
+    const setPhone = (data) => dispatch(setPhoneSMS(data))
+    const setEmail = (data) => dispatch(setEmailSMS(data))
     const handlerAgreement = () => {
+
+        if(!phone || (phone.match(/[0-9]/gm).length < 10)){
+            dispatch(showToastState({
+                type: 'error',
+                text1: t('error.Enter your phone number'),
+            }))
+            return
+        }
         setAgreement(!agreement)
     }
     const handlerConfirmation = () => {
         setConfirmation(!confirmation)
         dispatch(clearState())
     }
+    const handlerRemove = () => {
+        SecureStore.deleteItemAsync('KeyPreview').then(() => {
+            dispatch(setStatePreview(false))
+        })
+    }
+
 
     return (
-        <MainBox>
-            <CirclesAb/>
+        <MainLayout backgroundColor={'#11AEAE'} viewBottomNav={false} itemBack={<CirclesAb/>}>
+            <ContainerMain>
+
             <BoxRowView style={{paddingBottom: 37}}>
                 <BoxColumnView style={{alignItems: 'flex-start'}}>
                     <Text18 style={{color: '#fff', width:175}}>{t("Login by phone.Have an order number?")}</Text18>
@@ -61,44 +77,53 @@ export default function ({}) {
 
                 </BoxColumnView>
 
-                <SelectorsLang/>
+                <SelectorsLang  moveAction={() => navigation.navigate('Language')}/>
             </BoxRowView>
 
             <BoxColumnView style={{alignItems: 'flex-start', paddingBottom: 20}}>
-                <Text33 style={{color: '#fff'}}>{t("Login by phone.And so, let's go")}</Text33>
-                <Text16 style={{color: '#fff', paddingTop: 16}}>{t("Login by phone.Enter your phone number and we will send you a login code")}</Text16>
+                <Text33 style={{color: '#fff'}}>{
+                   !confirmation ? t("Login by phone.And so, let's go") : t("Login by phone.We are always glad to see you")
+                }</Text33>
+                <Text16 style={{color: '#fff', paddingTop: 16, paddingBottom: confirmation ? 120 : 0}}>{
+                  !confirmation ? t("Login by phone.Enter your phone number and we will send you a login code")
+                  : t("Login by phone.Sign in to save your favorite excursions and see your purchases in your personal account")
+                }</Text16>
             </BoxColumnView>
 
-            {stateLogin === 'Phone' && <BoxRowView style={{paddingBottom: 32}}>
-                <SelectorsZipCountry/>
-                <WrapperInput style={{borderColor: '#fff', flexGrow: 2, marginLeft: 13}}>
-                    <TextInputMask
-                        style={[{width: '100%', fontSize: 18, textAlign: 'center', color: '#828282'}]}
-                        type={'custom'}
-                        keyboardType="numeric"
-                        options={{mask: '(999) 999-99-99'}}
-                        placeholderTextColor={'#828282'}
-                        placeholder={'(999) 999-99-99'}
-                        onChangeText={setPhone}
-                        value={phone}
-                    />
-                </WrapperInput>
-            </BoxRowView>}
-            {stateLogin === 'Email' && <Input style={{borderColor: '#fff', textAlign: 'center', marginBottom: 32}}
-                                              placeholder={t('Login by phone.Your email')}
-                                              placeholderTextColor={'#828282'}
-                                              onChangeText={setEmail}
-                                              autoComplete={'email'}
-                                              value={email}/>}
+            {!confirmation && <>
+                {stateLogin === 'Phone' && <BoxRowView style={{paddingBottom: 32}}>
+                    <SelectorsZipCountry/>
+                    <WrapperInput style={{borderColor: '#fff', flexGrow: 2, marginLeft: 13}}>
+                        <TextInputMask
+                            style={[{width: '100%', fontSize: 18, textAlign: 'center', color: '#828282'}]}
+                            type={'custom'}
+                            keyboardType="numeric"
+                            options={{mask: '(999) 999-99-99'}}
+                            placeholderTextColor={'#828282'}
+                            placeholder={'(999) 999-99-99'}
+                            onChangeText={setPhone}
+                            value={phone}
+                        />
+                    </WrapperInput>
+                </BoxRowView>}
+                {stateLogin === 'Email' && <Input style={{borderColor: '#fff', textAlign: 'center', marginBottom: 32}}
+                                                  placeholder={t('Login by phone.Your email')}
+                                                  placeholderTextColor={'#828282'}
+                                                  onChangeText={setEmail}
+                                                  autoComplete={'email'}
+                                                  value={email}/>}
 
-            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={handlerAgreement}>
-                <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
-                <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
-                    <Path d="M13 21h14M20 14l7 7-7 7" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round"
-                          strokeLinejoin="round"/>
-                </Svg>
-            </ButtonWhite>
+                <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={handlerAgreement}>
+                    <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
+                    <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
+                        <Path d="M13 21h14M20 14l7 7-7 7" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round"/>
+                    </Svg>
+                </ButtonWhite>
+            </>}
+
+
             <BoxRowView style={{marginBottom: 26}}>
                 <View style={{height:1, minWidth: '40%', backgroundColor: '#fff'}}/>
                 <Text16 style={{color: '#fff'}}>{t('Login by phone.or')}</Text16>
@@ -141,7 +166,7 @@ export default function ({}) {
                 </Svg>
                 <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue with')} Google</Text14>
             </ButtonWhiteOpacity>
-            <ButtonWhiteOpacity activeOpacity={0.6}>
+            <ButtonWhiteOpacity onPress={handlerRemove} activeOpacity={0.6}>
                 <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 0 24 24'} fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Path d="M12 23.636c6.427 0 11.636-5.21 11.636-11.636C23.636 5.573 18.426.364 12 .364 5.573.364.364 5.574.364 12c0 6.427 5.21 11.636 11.636 11.636Z"
                           fill="#3F65A6"/>
@@ -153,46 +178,14 @@ export default function ({}) {
 
 
             <LayoutPop state={agreement} openClose={handlerAgreement} start={height * 0.43} mountainTop={true} reSizeOnSwipe={false}>
-                <BoxColumnView style={{justifyContent: 'center'}}>
-                    <Text28 style={{paddingBottom: 28}}>Соглашение</Text28>
-
-                    <BoxColumnView style={{paddingBottom: 40}}>
-                        <Text16 style={{color: '#828282'}}>Используя приложение вы соглашаетесь</Text16>
-                        <URLText style={{flexDirection: 'row', paddingBottom: 5}}>
-                            <Text16 style={{color: '#828282'}}>с </Text16>
-                            <Text16>
-                                <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Пользовательским соглашением</Text16>
-                            </Text16>
-                            <Text16 style={{color: '#828282'}}> и</Text16>
-                        </URLText>
-
-                        <URLText style={{paddingBottom: 10}}>
-                           <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Политикой конфиденциальности.</Text16>
-                        </URLText>
-                    </BoxColumnView>
-
-                    <ButtonGreenOpacity activeOpacity={0.6} onPress={() => {
-                        handlerAgreement()
-                        handlerConfirmation()
-                    }}>
-                        <Text16 style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>Да, согласен</Text16>
-                        <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
-                            <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
-                                  strokeLinejoin="round"/>
-                        </Svg>
-                    </ButtonGreenOpacity>
-
-                    <ButtonWhite onPress={handlerAgreement} activeOpacity={0.6} style={{backgroundColor: '#F5F5FA', borderWidth: 0}}>
-                        <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20}}>Нет, выйти</Text16>
-                    </ButtonWhite>
-
-                </BoxColumnView>
+                <PopupAgreement handlerAgreement={handlerAgreement}
+                                handlerConfirmation={handlerConfirmation}/>
             </LayoutPop>
             <LayoutPop state={confirmation} openClose={handlerConfirmation} start={height * 0.4} mountainTop={true} reSizeOnSwipe={false}>
                 <PopupsCheckSMS openClose={handlerConfirmation}/>
             </LayoutPop>
 
-        </MainBox>
+        </ContainerMain>
+        </MainLayout>
     );
 };
