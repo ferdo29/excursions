@@ -181,9 +181,8 @@ export default function ({navigation}) {
                 <PopupAgreement handlerAgreement={handlerAgreement}
                                 handlerConfirmation={handlerConfirmation}/>
             </LayoutPop>
-            <LayoutPop state={confirmation} openClose={handlerConfirmation} start={height * 0.4} mountainTop={true} reSizeOnSwipe={false}>
-                <PopupsCheckSMS openClose={handlerConfirmation}/>
-            </LayoutPop>
+
+            <PopupsCheckSMS openClose={handlerConfirmation} confirmation={confirmation} handlerConfirmation={handlerConfirmation}/>
 
         </ContainerMain>
         </MainLayout>

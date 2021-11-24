@@ -32,8 +32,8 @@ export const BottomSide = ({}) => {
                 </Svg>
             </ButtonGreenOpacity>
 
-            <ButtonWhite activeOpacity={0.6} style={{backgroundColor: '#F5F5FA', borderWidth: 0}}>
-                <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20}}>
+            <ButtonWhite activeOpacity={0.6} style={{backgroundColor: '#F5F5FA', borderWidth: 0, height: 40}}>
+                <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20, lineHeight: 18}}>
                     {t('Preview.I already have an order number')}
                 </Text16>
             </ButtonWhite>

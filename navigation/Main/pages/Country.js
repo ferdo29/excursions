@@ -14,8 +14,8 @@ import {CityBackground} from "../../../components/backgrounds/CityBackground";
 export const Country = ({}) => {
     const routes = useNavigationState(state => state.routes)
     const country = useSelector(state =>
-        routes.length > 1 ?
-            state.countries.data.find(value => value.id === parseInt(routes[1].params.screen)) :
+        routes.length > 1 && routes[routes.length - 1]?.params?.screen ?
+            state.countries.data.find(value => value.id === parseInt(routes[routes.length - 1].params.screen)) :
             state.countries.data[0]
     )
 
@@ -26,7 +26,7 @@ export const Country = ({}) => {
     return (
         <LayoutImageTop img={country.image}  itemBack={<CityBackground/>} count={country.count} title={country.country}>
             <ContainerMain>
-                <View style={{marginBottom: 20,}}>
+                <View style={{marginBottom: 20,marginTop: 20}}>
                     <InputSearchWrapper>
                         <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
                         <InputSearch placeholder={'Страна, город, экскурсия...'}/>

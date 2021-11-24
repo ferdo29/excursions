@@ -38,7 +38,6 @@ export const BottomNav = ({}) => {
             case 'City' : return '#11AEAE'
             case 'Cities' : return '#11AEAE'
             case 'Excursion' : return '#11AEAE'
-            case 'MyExcursions' : return '#11AEAE'
             default: return '#BDBDBD'
         }
     }

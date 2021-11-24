@@ -7,7 +7,7 @@ export default function ({name, star, body, date}) {
     return (
         <BoxColumnView style={{alignItems: 'flex-start', marginTop: 20, borderBottomColor: '#E0E0E0', borderBottomWidth: 1, width: '100%'}}>
             <BoxRow style={{justifyContent: 'space-between'}}>
-                <Text18Bold style={{color: '#4F4F4F'}}>{name}</Text18Bold>
+                <Text18Bold style={{color: '#4F4F4F', paddingRight: 10}}>{name}</Text18Bold>
                 <BoxRow>
                     {[1, 2, 3, 4, 5].map(value => value <= star ? <IconStar key={value}/> : <IconStarBoder key={value}/>)}
                 </BoxRow>

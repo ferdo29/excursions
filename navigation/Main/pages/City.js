@@ -30,7 +30,7 @@ export const City = ({}) => {
             count={country.count}
             title={country.country}>
             <ContainerMain>
-                <View style={{marginBottom: 20,}}>
+                <View style={{marginBottom: 20,marginTop: 20}}>
                     <InputSearchWrapper>
                         <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
                         <InputSearch placeholder={'Страна, город, экскурсия...'}/>

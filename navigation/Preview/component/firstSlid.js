@@ -14,7 +14,7 @@ export const FirstSlid = ({children}) => {
                 <View style={{marginRight: 15}}><SelectorsLang/></View>
 
                 <View style={{paddingTop: '45%'}}>
-                    <Svg width={width} height="109" viewBox="0 -10 452 109" fill="none"
+                    <Svg width={width + 2} height="109" viewBox="0 -12 454 109" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <Path fillRule="evenodd" clipRule="evenodd"
                               d="M0.925244 108.735H451.607C450.07 98.1362 445.435 88.176 437.657 80.6775C324.15 -28.7464 132.849 -24.8312 16.0078 80.418C7.7681 87.8403 2.72353 97.9137 0.925244 108.735Z"

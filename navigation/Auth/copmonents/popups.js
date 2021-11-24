@@ -1,24 +1,30 @@
 import * as React from 'react';
 import {BoxColumnView, BoxRowView, Text16, Text26, Text28, URLText} from "../../../styles/components/tools";
 import {InputNumber, WrapperInputNumber} from "../../../styles/components/inputs";
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState} from "react";
 import Locale from "../../../contexts/locale";
 import {useDispatch, useSelector} from "react-redux";
 import {changeState, clearState} from "../../../store/sms/reducer";
 import {ButtonGreenOpacity, ButtonWhite, ButtonWrapper} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {setPhoneAccount} from "../../../store/account/reducer";
+import LayoutPop from "../../../layouts/popups/LayoutPop";
+import {Dimensions} from "react-native";
 
-export const PopupsCheckSMS = ({openClose = () => {}}) => {
+const {height, width} = Dimensions.get('window')
+
+export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfirmation = () => {}}) => {
     useContext(Locale)
     const dispatch = useDispatch()
     const {data, timerView, timer, phone, zipPhone} = useSelector(state => state.SMS)
+    const [stateHeight, setStateHeight] = useState(height * 0.4)
     const ref_input0 = useRef();
     const ref_input1 = useRef();
     const ref_input2 = useRef();
     const ref_input3 = useRef();
 
     const handlerState = (num, value) => {
+
         dispatch(changeState({num, value}))
         num === 0 && ref_input1.current.focus()
         num === 1 && ref_input2.current.focus()
@@ -35,68 +41,81 @@ export const PopupsCheckSMS = ({openClose = () => {}}) => {
             }
         }
     }
+    const handleFocus = () => setStateHeight(height * 0.1)
+    const handleBlur = () => setStateHeight(height * 0.4)
 
     return (
-        <BoxColumnView style={{justifyContent: 'center'}}>
-            <Text26 style={{paddingBottom: 28}}>Подтверждение номера</Text26>
+        <LayoutPop state={confirmation} openClose={handlerConfirmation} start={stateHeight} mountainTop={true} reSizeOnSwipe={false}>
+            <BoxColumnView style={{justifyContent: 'center'}}>
+                <Text26 style={{paddingBottom: 28}}>Подтверждение номера</Text26>
 
-            <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
-                Введите 4-значный код, который мы отправили на указанный вами номер телефона +7 (913) 041-99-99
-            </Text16>
-            <BoxRowView style={{paddingBottom:22}}>
-                <WrapperInputNumber>
-                    <InputNumber
-                        ref={ref_input0}
-                        maxLength={1}
-                        textAlign={'center'}
-                        keyboardType={'number-pad'}
-                        onChangeText={(data) => handlerState(0, data)}
-                        returnKeyType={'next'}
-                        value={data[0]}/>
-                </WrapperInputNumber>
-                <WrapperInputNumber>
-                    <InputNumber
-                        ref={ref_input1}
-                        maxLength={1}
-                        textAlign={'center'}
-                        keyboardType={'number-pad'}
-                        onChangeText={(data) => handlerState(1, data)}
-                        returnKeyType={'next'}
-                        value={data[1]}/>
-                </WrapperInputNumber>
-                <WrapperInputNumber>
-                    <InputNumber
-                        ref={ref_input2}
-                        maxLength={1}
-                        textAlign={'center'}
-                        keyboardType={'number-pad'}
-                        onChangeText={(data) => handlerState(2, data)}
-                        returnKeyType={'next'}
-                        value={data[2]}/>
-                </WrapperInputNumber>
-                <WrapperInputNumber>
-                    <InputNumber
-                        ref={ref_input3}
-                        maxLength={1}
-                        textAlign={'center'}
-                        keyboardType={'number-pad'}
-                        onChangeText={(data) => handlerState(3, data)}
-                        value={data[3]}/>
-                </WrapperInputNumber>
-            </BoxRowView>
-            {timerView ?
                 <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
-                    Отправить СМС еще раз {timer}
-                </Text16>:
-                <ButtonWrapper>
-                    <Text16 style={{color: '#11AEAE', textAlign: 'center', paddingBottom: 40, textDecorationLine: 'underline'}}>
-                        Отправить СМС еще раз
-                    </Text16>
-                </ButtonWrapper>
-            }
+                    Введите 4-значный код, который мы отправили на указанный вами номер телефона +7 (913) 041-99-99
+                </Text16>
+                <BoxRowView style={{paddingBottom:22}}>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input0}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(0, data)}
+                            returnKeyType={'next'}
+                            value={data[0]}/>
+                    </WrapperInputNumber>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input1}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(1, data)}
+                            returnKeyType={'next'}
+                            value={data[1]}/>
+                    </WrapperInputNumber>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input2}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(2, data)}
+                            returnKeyType={'next'}
+                            value={data[2]}/>
+                    </WrapperInputNumber>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input3}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(3, data)}
+                            value={data[3]}/>
+                    </WrapperInputNumber>
+                </BoxRowView>
+                {timerView ?
+                    <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
+                        Отправить СМС еще раз {timer}
+                    </Text16>:
+                    <ButtonWrapper>
+                        <Text16 style={{color: '#11AEAE', textAlign: 'center', paddingBottom: 40, textDecorationLine: 'underline'}}>
+                            Отправить СМС еще раз
+                        </Text16>
+                    </ButtonWrapper>
+                }
 
 
-        </BoxColumnView>
+            </BoxColumnView>
+        </LayoutPop>
+
     );
 };
 export const PopupAgreement = ({handlerAgreement = () => {}, handlerConfirmation = () => {}}) => {

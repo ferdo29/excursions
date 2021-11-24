@@ -15,6 +15,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
     const linkTo = useLinkTo();
     const [stateScroll, setStateScroll] = useState(false)
     const [alignItems, setAlignItems] = useState('flex-start')
+    const [galleryItems, setGalleryItems] = useState('30%')
     const transform = useRef(new Animated.Value(270)).current
     const transformItemAbsolute = useRef(new Animated.Value(250)).current
     const [page, setPage] = useState(0)
@@ -31,6 +32,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
         })
             .start(() => {
                 setAlignItems(stateScroll ? viewOption ? 'center' : 'flex-end' :  'flex-start')
+                gallery ? setGalleryItems(stateScroll ? '60%' : '20%') : setGalleryItems(stateScroll ? '60%' : '40%')
             })
         Animated.timing(transformItemAbsolute, {
             toValue: stateScroll ? 100 : 250,
@@ -52,7 +54,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
             </Animated.View>}
             <Pressable
                 onPress={() => navigation.goBack()}
-                style={{position: 'absolute', left: 20, top: 44, zIndex: 1, transform: [{ rotate: "180deg" }]}}>
+                style={{position: 'absolute', left: 20, top: 44, zIndex: 10, transform: [{ rotate: "180deg" }]}}>
                 <Svg width="41" height="41" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -64,7 +66,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
             {viewOption &&
             <Pressable
                 onPress={() => linkTo(`/Filters`)}
-                style={{position: 'absolute', right: 20, top: 44, zIndex: 1, transform: [{rotate: "180deg"}]}}>
+                style={{position: 'absolute', right: 20, top: 44, zIndex: 10, transform: [{rotate: "180deg"}]}}>
                 <Svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle r="20.5" transform="matrix(-1 0 0 1 20.5 21.4714)" fill="#11AEAE"/>
                     <Path d="M17 15.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -99,7 +101,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                 colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.76)']}
                 style={{
                     width: '100%',
-                    height: gallery ? '40%' : '60%',
+                    height: galleryItems,
                     position: 'absolute',
                     zIndex: 3,
                     bottom: 0,
