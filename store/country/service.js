@@ -15,10 +15,9 @@ export const fetchCounter = ({id= 1, token= ''}) => async (dispatch) => {
 }
 export const fetchCounterCity = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        console.log(`${process.env.DB_HOST}/excursions?country=${id}`)
         dispatch(excursionFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cities?country=${id}`)
-        dispatch(excursionFetchingSuccessExcursion(data))
+        dispatch(excursionFetchingSuccessCity(data))
     }catch (e) {
         dispatch(excursionFetchingError(e.response.message))
     }
@@ -27,7 +26,7 @@ export const fetchCounterExcursion = ({id= 1, token= ''}) => async (dispatch) =>
     try {
         dispatch(excursionFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions?country=${id}`)
-        dispatch(excursionFetchingSuccessCity(data))
+        dispatch(excursionFetchingSuccessExcursion(data))
     }catch (e) {
         dispatch(excursionFetchingError(e.response.message))
     }

@@ -8,7 +8,7 @@ import {useLinkTo} from "@react-navigation/native";
 
 export const Cities = ({}) => {
     const linkTo = useLinkTo();
-    const {data} = useSelector(state => state.popularPlaces)
+    const {data, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
 
     return (
         <MainLayout animation={data.length > 6} viewBack={true}>

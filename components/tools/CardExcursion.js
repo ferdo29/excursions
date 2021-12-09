@@ -13,12 +13,33 @@ import {ButtonCircle, ButtonGrayWrapper} from "../../styles/components/buttons";
 import {useDispatch} from "react-redux";
 import {setBasket, setLike} from "../../store/excursions/reducer";
 import {useLinkTo} from "@react-navigation/native";
+import axios from "axios";
+import {getAuth} from "firebase/auth";
 
-export const CardExcursion = ({data, index}) => {
+export const CardExcursion = ({data, index, callBack = () => {}}) => {
+    const user = getAuth().currentUser
     const dispatch = useDispatch()
     const linkTo = useLinkTo();
-    const handlerLike = () => dispatch(setLike(index))
-    const handlerBasket = () => dispatch(setBasket(index))
+    const handlerLike = () => {
+        dispatch(setLike(index))
+
+        axios.get(`${process.env.DB_HOST}/excursions/${data.id}/like`,
+            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
+            .then(() => {callBack()})
+            .catch((e) => {
+                console.log(e.response)
+            })
+    }
+    const handlerBasket = () => {
+        axios.post(`${process.env.DB_HOST}/cart/${data.id}`, {"quantity": 1},
+            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
+            .then((data) => {
+                console.log(data)
+            })
+            .catch((e) => {
+                console.error(e.response)
+            })
+    }
 
     return (
         <ContainerMain style={{marginBottom: 20}}>
@@ -57,7 +78,7 @@ export const CardExcursion = ({data, index}) => {
                         </ButtonGrayWrapper>
                         <ButtonGrayWrapper  style={{width: 'auto'}}>
                         <ButtonCircle onPress={handlerLike} style={{marginRight: 10}}>
-                                <IconHeart fill={data?.like ? '#E0E0E0' : '#11AEAE'}/>
+                                <IconHeart fill={data?.liked ? '#E0E0E0' : '#11AEAE'}/>
                         </ButtonCircle>
                         </ButtonGrayWrapper>
                         <BoxRow>

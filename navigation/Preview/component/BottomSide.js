@@ -16,7 +16,7 @@ export const BottomSide = ({}) => {
             dispatch(nextPage()) :
             SecureStore.setItemAsync('KeyPreview', 'true')
                 .then(() => dispatch(setStatePreview(true)))
-                .catch(e => console.log(e))
+                .catch(e => {})
 
     }
 

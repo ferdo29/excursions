@@ -20,7 +20,6 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
     useContext(Locale)
     const linkTo = useLinkTo();
 
-
     const validImg = (value) => {
             if(value &&  value?.images &&  value?.images.length > 0 && value?.images[0]?.path){
                 return {uri: value.images[0].path}
@@ -38,7 +37,7 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
                                 showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     {model && model.length > 0 && model.map((value, index) => index < limit &&
                         <WrapperImagePressable
-                            key={value.country}
+                            key={value.name}
                             onPress={() => linkTo(`/${toLink}/${value.id}`)}>
                             <CardImage
                                 style={{marginRight: index + 1 === (limit > model.length ? model.length : limit) ? 22 : 0}}

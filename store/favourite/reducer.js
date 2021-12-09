@@ -8,14 +8,9 @@ const initialState = {
 }
 
 const counterSlice = createSlice({
-    name: 'countries',
+    name: 'favourite',
     initialState,
     reducers: {
-        setCountries(state, action){
-            state.data = action.payload.data
-            state.isLoading = action.payload.isLoading
-            state.error = action.payload.error
-        },
         excursionFetching(state) {
             state.isLoading = true
             state.isView = false
@@ -24,7 +19,7 @@ const counterSlice = createSlice({
             state.isLoading = false
             state.isView = true
             state.error = ''
-            state.data = action.payload.data
+            if(action.payload.data) state.data = action.payload.data
         },
         excursionFetchingError(state, action) {
             state.isLoading = false
@@ -37,9 +32,13 @@ const counterSlice = createSlice({
             state.error = ''
             state.data = {}
         },
+        setLikeById(state, action){
+            const index = state.data.findIndex(value => value.id === action.payload)
+            state.data[index].liked = !state.data[index].liked
+        },
     },
 
 })
 
-export const {setCountries, excursionFetching, excursionFetchingSuccess, excursionFetchingError,} = counterSlice.actions
+export const {setCountries, excursionFetching, excursionFetchingSuccess, excursionFetchingError, setLikeById} = counterSlice.actions
 export default counterSlice.reducer

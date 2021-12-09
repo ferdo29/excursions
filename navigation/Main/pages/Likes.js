@@ -1,28 +1,35 @@
 import * as React from 'react';
 import MainLayout from "../../../layouts/MainLayout";
 import {BoxRow, ContainerMain, Text12, Text23Bold} from "../../../styles/components/tools";
-import {useSelector} from "react-redux";
-import {CardExcursion} from "../../../components/tools/CardExcursion";
+import {useDispatch, useSelector} from "react-redux";
 import {IconHeart} from "../../../components/Icons";
 import {ButtonCircle} from "../../../styles/components/buttons";
 import Svg, {Path} from "react-native-svg";
 import {Image} from "react-native";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
+import {CardExcursion} from "../../../components/tools/CardExcursion";
+import {fetchFavourite} from "../../../store/favourite/service";
+import {getAuth} from "firebase/auth";
 
 export default function ({}) {
+    const dispatch = useDispatch()
+    const user = getAuth().currentUser
+    const {data: favourite} = useSelector(state => state.favourite)
 
-    const excursions = useSelector(state => state.excursions.data.filter(value => value.like))
+    const onRefresh = () => {
+        dispatch(fetchFavourite({token: user.stsTokenManager.accessToken}))
+    }
 
     return (
-        <MainLayout animation={excursions.length > 2} itemBack={<FirstBackground/>}>
+        <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={favourite.length > 2} itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>Избранное</Text23Bold>
-                <Text12 style={{textAlign: 'center', marginTop: excursions.length <= 0 ? 15 : 0}}>
-                    {excursions.length > 0 ?
-                            `У вас в избранном ${excursions.length} экскурсий` :
+                <Text12 style={{textAlign: 'center', marginTop: favourite.length <= 0 ? 15 : 0}}>
+                    {favourite.length > 0 ?
+                            `У вас в избранном ${favourite.length} экскурсий` :
                             'У вас в избранном нет добавленных экскурсий'}
                 </Text12>
-                {excursions.length <= 0 &&
+                {favourite.length <= 0 &&
                 <>
                     <Text12 style={{textAlign: 'center', color: '#828282', paddingTop: 50}}>
                         Добавляй экскурсии в избранное, нажимая
@@ -46,13 +53,9 @@ export default function ({}) {
                 }
 
             </ContainerMain>
-            {excursions.map((value, index) => <CardExcursion key={value.id} data={value} index={index}/>)}
-            {excursions.length <= 0 && <ContainerMain>
-                <Image
-                    // style={{width: 'auto', height: 'auto'}}
-                    // resizeMode={'stretch'}
-                    // resizeMethod={'scale'}
-                    source={require('../../../assets/image/Woman.png')}/>
+            {favourite.map((value, index) => <CardExcursion callBack={onRefresh} key={value.id} data={value} index={index}/>)}
+            {favourite.length <= 0 && <ContainerMain>
+                <Image source={require('../../../assets/image/Woman.png')}/>
             </ContainerMain>}
         </MainLayout>
     );

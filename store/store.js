@@ -11,11 +11,8 @@ import popularPlaces from './popularPlaces/reducer'
 import excursions from './excursions/reducer'
 import excursion from './excursion/reducer'
 import faq from './faq/reducer'
-import {countriesAPI} from "./countries/service";
-import {popularPlacesAPI} from "./popularPlaces/service";
-import {excursionsAPI} from "./excursions/service";
-import {excursionAPI} from "./excursions/service";
-import {reviewsAPI} from "./excursions/reviews.service";
+import favourite from './favourite/reducer'
+import cart from './cart/reducer'
 
 const rootReducer = combineReducers(
     {
@@ -30,11 +27,8 @@ const rootReducer = combineReducers(
         excursions,
         excursion,
         faq,
-        [countriesAPI.reducerPath]: countriesAPI.reducer,
-        [popularPlacesAPI.reducerPath]: popularPlacesAPI.reducer,
-        [excursionsAPI.reducerPath]: excursionsAPI.reducer,
-        [excursionAPI.reducerPath]: excursionAPI.reducer,
-        [reviewsAPI.reducerPath]: reviewsAPI.reducer,
+        favourite,
+        cart,
     }
 )
 
@@ -43,11 +37,6 @@ export default function setupStore() {
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(
-                countriesAPI.middleware,
-                popularPlacesAPI.middleware,
-                excursionsAPI.middleware,
-                excursionAPI.middleware,
-                reviewsAPI.middleware,
             )
     })
 }

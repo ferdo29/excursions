@@ -1,17 +1,17 @@
-import {createApi} from "@reduxjs/toolkit/dist/query/react";
-import {fetchBaseQuery} from "@reduxjs/toolkit/query";
+import axios from "axios";
+import {
+    excursionFetching, excursionFetchingSuccess, excursionFetchingError,
+} from "./reducer";
+import {setInfo} from "../info/reducer";
 
-export const countriesAPI = createApi({
-    reducerPath: 'countriesAPI',
-    baseQuery: fetchBaseQuery({baseUrl: `${process.env.DB_HOST}`}),
-    endpoints: (build) => ({
-        fetchCountries: build.query({
-            query: (token = '') => ({
-                url: '/countries',
-                headers: {
-                    Authorization: token
-                }
-            })
-        })
-    })
-})
+export const fetchCounter = ({token= ''}) => async (dispatch) => {
+    try {
+        dispatch(excursionFetching())
+        const {data} = await axios.get(`${process.env.DB_HOST}/countries/`,
+            {headers: {Authorization: `Bearer ${token}`}})
+        dispatch(excursionFetchingSuccess(data))
+        dispatch(setInfo(data.info))
+    }catch (e) {
+        dispatch(excursionFetchingError(e.response.message))
+    }
+}

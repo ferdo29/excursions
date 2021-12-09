@@ -12,6 +12,9 @@ const counterSlice = createSlice({
     name: 'excursion',
     initialState,
     reducers: {
+        Liked(state){
+            state.data.data.liked = !state.data.data.liked
+        },
         excursionFetching(state) {
             state.isLoading = true
             state.isView = false
@@ -39,5 +42,5 @@ const counterSlice = createSlice({
 
 })
 
-export const {excursionFetching, excursionFetchingSuccess, excursionFetchingError, excursionDelete} = counterSlice.actions
+export const {excursionFetching, excursionFetchingSuccess, excursionFetchingError, excursionDelete, Liked} = counterSlice.actions
 export default counterSlice.reducer

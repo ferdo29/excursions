@@ -3,23 +3,27 @@ import {BoxColumnView, BoxRow, Text10, Text12, Text16} from "../../../../styles/
 import {CardBasketImage, InputBasket, WrapperInputBasket, WrapperSale} from "../../../../styles/components/Cards";
 import {IconClose, IconHeadPhone} from "../../../../components/Icons";
 import {useDispatch} from "react-redux";
-import {setBasketById, setBasketCount} from "../../../../store/excursions/reducer";
 import {TouchableOpacity} from "react-native";
 import InsetShadow from 'react-native-inset-shadow'
+import {setDeleteCartById} from "../../../../store/cart/reducer";
+import {getAuth} from "firebase/auth";
+import {fetchCartChange} from "../../../../store/cart/service";
 
-export default function ItemBasket({image, title, price, id, count}) {
+export default function ItemBasket({image, name, price, id, quantity, percent}) {
 
     const dispatch = useDispatch()
-
-    const handlerRemoveBasket = () => dispatch(setBasketById(id))
-    const handlerChangeCount = (data) => dispatch(setBasketCount({id, value: data}))
+    const user = getAuth().currentUser
+    const handlerRemoveBasket = () => dispatch(setDeleteCartById(id))
+    const handlerChangeCount = (data) => {
+        dispatch(fetchCartChange({id, quantity: data, token: user.stsTokenManager.accessToken}))
+    }
 
     return (
         <BoxRow style={{justifyContent: 'space-between', paddingBottom: 40, borderBottomWidth: 1, borderBottomColor: '#E0E0E0', marginBottom:20}}>
             <CardBasketImage source={image} style={{flexGrow: 1, marginRight: 10}}/>
             <BoxColumnView style={{ alignItems: 'flex-start', flexGrow: 2, height: 97}}>
                 <BoxRow style={{justifyContent: 'space-between'}}>
-                    <Text16 numberOfLines={2} style={{lineHeight: 20, paddingBottom: 5, flexGrow: 1, maxWidth: 200}}>{title}</Text16>
+                    <Text16 numberOfLines={2} style={{lineHeight: 20, paddingBottom: 5, flexGrow: 1, maxWidth: 200}}>{name}</Text16>
 
                     <TouchableOpacity onPress={handlerRemoveBasket} style={{flexGrow: 1}}>
                         <IconClose/>
@@ -41,12 +45,15 @@ export default function ItemBasket({image, title, price, id, count}) {
                                 <InputBasket
                                     keyboardType={'numeric'}
                                     onChangeText={handlerChangeCount}
-                                    value={count.toString()} style={{textAlignVertical: 'top', flexGrow: 1}}/>
+                                    value={quantity.toString()}
+                                    style={{textAlignVertical: 'top', flexGrow: 1}}/>
                             </InsetShadow>
                             </InsetShadow>
                         </WrapperInputBasket>
-                        <WrapperSale  style={{marginLeft: 10, justifyContent: 'center'}}>
-                            <Text12 style={{color: '#fff', lineHeight: 14, textAlign: 'center'}}>-20%</Text12>
+                        <WrapperSale style={{marginLeft: 10, justifyContent: 'center', backgroundColor: percent !== 0 ? '#11AEAE' : null}}>
+                            {percent !== 0 &&
+                            <Text12 style={{color: '#fff', lineHeight: 14, textAlign: 'center'}}>-{percent}%</Text12>
+                            }
                         </WrapperSale>
                     </BoxRow>
                     <BoxRow style={{justifyContent: 'space-between'}}>

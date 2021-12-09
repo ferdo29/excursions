@@ -11,29 +11,53 @@ import {
 } from "../../../styles/components/tools";
 import {ButtonGray, ButtonGrayWrapper} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
-import {useLinkTo} from "@react-navigation/native";
+import {useIsFocused, useLinkTo} from "@react-navigation/native";
 import {Image} from "react-native";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ItemBasket from "./components/ItemBasket";
 import {t} from "i18n-js";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
+import {fetchCart} from "../../../store/cart/service";
+import {getAuth} from "firebase/auth";
+import {useEffect} from "react";
+
+const percent = (count) => {
+    if (count < 3) return 1
+    if (count < 5) return 0.90
+    if (count < 7) return 0.85
+    return 0.8
+}
+const reducer = (array) => {
+    let sum = 0
+    array.length > 0 && array.forEach(value => {
+        sum +=  (value.quantity * parseFloat(value.price)) * percent(value.quantity)
+    })
+    return sum.toFixed(2)
+}
 
 export default function ({}) {
     const linkTo = useLinkTo();
-    const excursions = useSelector(state => state.excursions.data.filter(value => value.inBasket))
-    const {allPrice, allPriceSale} = useSelector(state => state.excursions)
+    const isFocused = useIsFocused();
+    const dispatch = useDispatch()
+    const user = getAuth().currentUser
+    const {data: cart, error} = useSelector(state => state.cart);
+
+    const onRefresh = () => dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+    useEffect(() => {
+        isFocused && onRefresh()
+    }, [isFocused])
 
     return (
-        <MainLayout animation={0}  itemBack={<FirstBackground/>}>
+        <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={0}  itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>Корзина</Text23Bold>
                 <Text12 style={{textAlign: 'center', marginBottom: 54, marginTop: 24}}>
-                    {excursions.length > 0 ?
-                        `У вас в корзине ${excursions.length} экскурсии` :
+                    {cart.length > 0 ?
+                        `У вас в корзине ${cart.length} экскурсии` :
                         'К сожалению, но ваша корзина пуста.'
                     }
                 </Text12>
-                {excursions.length <= 0 && <ButtonGrayWrapper style={{width: 'auto'}}>
+                {cart.length <= 0 && <ButtonGrayWrapper style={{width: 'auto'}}>
                     <ButtonGray onPress={() => linkTo(`/Home`)}
                                 activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
@@ -47,13 +71,15 @@ export default function ({}) {
                     </ButtonGray>
                 </ButtonGrayWrapper>}
 
-                {excursions.length > 0 && excursions.map(value => <ItemBasket {...value} key={value.id}/>)}
-                {excursions.length > 0 && <BoxColumnView>
-                    <Text14 style={{marginBottom: 12}}>Общая сумма покупки {allPrice} € </Text14>
-                    <Text14 style={{marginBottom: 12}}>Скидка 10% (Акция «Пригласи друга»)</Text14>
-                    <Text18Bold style={{marginBottom: 40}}>Итого к оплате {allPriceSale} €</Text18Bold>
+                {cart.length > 0 && cart.map(value => <ItemBasket {...value}
+                                                                  percent={Math.ceil((1 - percent(value.quantity)) * 100) }
+                                                                  key={value.id}/>)}
+                {cart.length > 0 && <BoxColumnView>
+                    <Text14 style={{marginBottom: 12}}>Общая сумма покупки {reducer(cart)} € </Text14>
+                    <Text14 style={{marginBottom: 12}}>Скидка {10}% (Акция «Пригласи друга»)</Text14>
+                    <Text18Bold style={{marginBottom: 40}}>Итого к оплате {reducer(cart)} €</Text18Bold>
                 </BoxColumnView>}
-                {excursions.length > 0 && <ButtonGrayWrapper style={{width: '100%'}}>
+                {cart.length > 0 && <ButtonGrayWrapper style={{width: '100%'}}>
                     <ButtonGray activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
                             style={{color: '#828282'}}>Оплатить</Text16Bold500>
@@ -67,7 +93,7 @@ export default function ({}) {
                 </ButtonGrayWrapper>}
 
             </ContainerMain>
-            {excursions.length <= 0 && <Image source={require('../../../assets/image/Woman.png')}/>}
+            {cart.length <= 0 && <Image source={require('../../../assets/image/Woman.png')}/>}
         </MainLayout>
     );
 };

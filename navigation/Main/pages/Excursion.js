@@ -21,19 +21,30 @@ import img from '../../../assets/image/Shiadu.png'
 import {Loader} from "../../../components/Loader";
 import { useIsFocused } from '@react-navigation/native';
 import {fetchExcursion} from "../../../store/excursion/service";
-import {excursionDelete} from "../../../store/excursion/reducer";
+import {excursionDelete, Liked} from "../../../store/excursion/reducer";
+import {getAuth} from "firebase/auth";
+import axios from "axios";
 
 
 export const Excursion = ({}) => {
     const dispatch = useDispatch()
     const isFocused = useIsFocused();
+    const user = getAuth().currentUser
     const [maxReviews, setMaxReviews] = useState(3)
     const routes = useNavigationState(state => state.routes)
     const excursion = useSelector(state => state.excursions.data[0])
     const {data: Excursion, reviews: Reviews, isLoading, isView, error} = useSelector(state => state.excursion)
 
 
-    const handlerLike = () => dispatch(setLikeById(excursion.id))
+    const handlerLike = () => {
+        axios.get(`${process.env.DB_HOST}/excursions/${routes[routes.length - 1]?.params?.screen}/like`,
+            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
+            .then(() => {dispatch(Liked())})
+            .catch((e) => {
+            })
+
+    }
+    // console.log(Excursion)
     const handlerMaxReviews = () => setMaxReviews(Reviews?.data.length)
     const handlerGallery = () => {
         if (!isLoading && Excursion?.data?.images && Excursion?.data?.images.length > 0){
@@ -48,7 +59,7 @@ export const Excursion = ({}) => {
 
     useEffect(() => {
         if(isFocused){
-            dispatch(fetchExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
+            dispatch(fetchExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.stsTokenManager.accessToken}))
         }
         else{
             dispatch(excursionDelete())
@@ -59,7 +70,7 @@ export const Excursion = ({}) => {
         <LayoutImageTop
             itemAbsolute={
                 <ButtonCircle onPress={handlerLike}>
-                    <IconHeart fill={excursion.like ? '#E0E0E0' : '#11AEAE'}/>
+                    <IconHeart fill={Excursion?.data?.liked ? '#E0E0E0' : '#11AEAE'}/>
                 </ButtonCircle>
             }
             img={handlerGallery()[0] }

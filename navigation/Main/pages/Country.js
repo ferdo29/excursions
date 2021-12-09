@@ -8,7 +8,6 @@ import {IconSearch} from "../../../components/Icons";
 import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
-import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {CityBackground} from "../../../components/backgrounds/CityBackground";
 import img from '../../../assets/image/Portug.jpg'
 import {useEffect} from "react";
@@ -25,9 +24,7 @@ export const Country = ({}) => {
     const country = useSelector(state => state.countries.data
         .find(value => value.id === (routes.length > 1 && parseInt(routes[routes.length - 1]?.params?.screen)))
     )
-    // const {data: popularPlaces} = useSelector(state => state.popularPlaces)
-    // const {data: excursions} = useSelector(state => state.excursions)
-    console.log(city.data)
+
     useEffect(() => {
         if(isFocused){
             dispatch(fetchCounter({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
@@ -45,7 +42,7 @@ export const Country = ({}) => {
         <>
             {isView && <LayoutImageTop img={img}
                              itemBack={<CityBackground/>}
-                             count={'sdf'} title={'sdf'}>
+                             count={country?.excursions_count ? country.excursions_count : ' '} title={country?.name ? country.name : ' '}>
                 <ContainerMain>
                     <View style={{marginBottom: 20, marginTop: 20}}>
                         <InputSearchWrapper>
@@ -60,7 +57,7 @@ export const Country = ({}) => {
                 <ContainerMain>
                     <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
                 </ContainerMain>
-                {/*{excursion?.data.length > 0 && excursion.data.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}}*/}
+                {isView && excursion?.data.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
 
             </LayoutImageTop>}
             {!isView &&

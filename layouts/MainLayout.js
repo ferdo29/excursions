@@ -11,6 +11,7 @@ import Svg, {Circle, Path} from "react-native-svg";
 import {useNavigation} from "@react-navigation/native";
 import {ContainerMain} from "../styles/components/tools";
 import {styles} from "../styles/global";
+import {RefreshControl} from "react-native";
 
 const toastConfig = {
     success: ({text1}) => (
@@ -39,7 +40,9 @@ export default function ({
                              viewBack = false,
                              itemBack,
                              itemTitle,
-                             title
+                             title,
+                             Refreshing = false,
+                             handlerRefresh = () => {}
                          }) {
     const dispatch = useDispatch()
     const navigation = useNavigation();
@@ -47,6 +50,7 @@ export default function ({
     const scrolling = useRef(new Animated.Value(40)).current;
     const titleAbsolute = useRef(new Animated.Value(20)).current;
     const paddingAbsolute = useRef(new Animated.Value(60)).current;
+    const [refreshing, setRefreshing] = React.useState(false);
 
     const {type, text1, text2, view} = useSelector(state => state.toasts)
     const translation = scrolling.interpolate({
@@ -54,6 +58,15 @@ export default function ({
         outputRange: [40, 25],
         extrapolate: 'clamp',
     });
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true)
+        handlerRefresh()
+        setTimeout( () => {
+            setRefreshing(false)
+        } , 2000)
+
+    }, []);
     const handlerScroll = (event) => {
         const data = event.nativeEvent.contentOffset.y
         setStateScroll(data > 200)
@@ -105,6 +118,8 @@ export default function ({
                 <SafeAreaView>
                     <Animated.ScrollView
                         scrollEventThrottle={16}
+                        refreshControl={
+                            Refreshing && <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         onScroll={(data) => {
                             animation && handlerScroll(data)
                             animation && Animated.event(

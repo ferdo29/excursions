@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider} from "react-redux";
 import setupStore from "./store/store";
 import {NavigationContainer} from "@react-navigation/native";
@@ -19,8 +19,12 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
-import { initializeApp } from "firebase/app"
-import {getAuth} from "firebase/auth";
+import { initializeApp, FirebaseAppSettings } from "firebase/app"
+import {getAuth, User} from "firebase/auth";
+import {View} from "react-native";
+import {Loader} from "./components/Loader";
+import * as SecureStore from "expo-secure-store";
+import PreviewNavigation from "./navigation/Preview/PreviewNavigation";
 
 const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -33,11 +37,11 @@ const firebaseConfig = {
     measurementId: process.env.MEASUREMENT_ID,
 };
 const app = initializeApp(firebaseConfig);
-const x = getAuth()
-
 export default function App() {
-    const [auth, setAuth] = useState(x)
+    let x = getAuth()
+    const [auth, setAuth] = useState({})
     const [lang, setLang] = useState('RU');
+    const [loading, setLoading] = useState(true);
     const store = setupStore()
     const [statePreview, setStatePreview] = useState(false)
     let [fontsLoaded] = useFonts({
@@ -63,16 +67,36 @@ export default function App() {
         'Ru': require('./location/ru.json'),
         'RU': require('./location/ru.json'),
     }
+        useEffect(() => {
+            !statePreview && SecureStore.getItemAsync('KeyPreview')
+                .then((result) => {
+                if (!!result){
+                    setStatePreview(true)
+                }else {
+                    setStatePreview(false)
+                }
 
-    if (!fontsLoaded || !app) return <AppLoading />;
+            })
+            setTimeout(() => {
+                const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
+                if(token){
+                    setAuth(getAuth().currentUser)
+                }
+                setLoading(false)
+            }, 2000)
+        },[])
+
+
+    if (!fontsLoaded && !app && !loading)
+        return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><Loader/></View>;
 
   return (
       <Provider store={store}>
           <Locale.Provider value={{lang, setLang}}>
-              <UserFB.Provider value={{auth, setAuth}}>
+              <UserFB.Provider value={{auth: auth, setAuth}}>
               <ToastProvider>
                   <NavigationContainer>
-                      <NavigationController preview={statePreview} setCtxPreview={setStatePreview}/>
+                      <NavigationController/>
                   </NavigationContainer>
               </ToastProvider>
               </UserFB.Provider>

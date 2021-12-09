@@ -87,7 +87,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                 }} >
 
                 {!gallery && img && <Animated.Image source={img} style={{position: 'absolute', height: transform, zIndex: 2, width}}/>}
-                {gallery && <Gallery
+                {gallery && gallery.length > 0 && <Gallery
                     style={{width, height: 200,}}
                     onPageSelected={setPage}
                     imageComponent={(img2) => {
@@ -114,7 +114,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                     paddingRight:21,}}>
                 <Text23 style={{color: '#fff', lineHeight: 38}}>{title}</Text23>
                 {count && <Text12 style={{color: '#fff'}}>{count} экскурсий</Text12>}
-                {gallery &&
+                {gallery && gallery.length > 0 &&
                 <View style={{
                     paddingLeft: 20,
                     paddingRight: 20,

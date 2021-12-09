@@ -4,8 +4,8 @@ import {excursionFetching, excursionFetchingSuccess, excursionFetchingError} fro
 export const fetchExcursion = ({id= 1, token= ''}) => async (dispatch) => {
     try {
         dispatch(excursionFetching())
-        const {data} = await axios.get(`${process.env.DB_HOST}/excursions/${id}`)
-        const {data: reviews} = await axios.get(`${process.env.DB_HOST}/excursions/${id}/reviews`)
+        const {data} = await axios.get(`${process.env.DB_HOST}/excursions/${id}`, {headers: {Authorization: `Bearer ${token}`}})
+        const {data: reviews} = await axios.get(`${process.env.DB_HOST}/excursions/${id}/reviews`, {headers: {Authorization: `Bearer ${token}`}})
         dispatch(excursionFetchingSuccess({data, reviews}))
     }catch (e) {
         dispatch(excursionFetchingError(e.response.message))
