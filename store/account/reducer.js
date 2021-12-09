@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     data: {
-        phone: null,
+        phone: '89998435416',
         name: 'Vitya',
         excursions: [
             {

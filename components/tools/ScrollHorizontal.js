@@ -16,9 +16,18 @@ import Locale from "../../contexts/locale";
 import {t} from "i18n-js";
 import {useLinkTo} from "@react-navigation/native";
 
-export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Cities', buttonView = false}) => {
+export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Cities', buttonView = false, limit = 4}) => {
     useContext(Locale)
     const linkTo = useLinkTo();
+
+
+    const validImg = (value) => {
+            if(value &&  value?.images &&  value?.images.length > 0 && value?.images[0]?.path){
+                return {uri: value.images[0].path}
+            }
+            return require('../../assets/image/Church.png')
+    }
+
     return (
         <>
             <ContainerMain>
@@ -27,16 +36,16 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
             <SafeAreaView>
                 <CardScrollView horizontal={true} vertical={false}
                                 showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                    {model.map((value, index) =>
+                    {model && model.length > 0 && model.map((value, index) => index < limit &&
                         <WrapperImagePressable
                             key={value.country}
                             onPress={() => linkTo(`/${toLink}/${value.id}`)}>
                             <CardImage
-                                style={{marginRight: index + 1 === model.length ? 22 : 0}}
+                                style={{marginRight: index + 1 === (limit > model.length ? model.length : limit) ? 22 : 0}}
                                 imageStyle={{borderRadius: 15}}
-                                source={value.image}>
-                                <Text16Bold style={{color: '#fff'}}>{value.country}</Text16Bold>
-                                <Text12 style={{color: '#fff', lineHeight: 14}}>{value.count} экскурсий</Text12>
+                                source={validImg(value)}>
+                                <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
+                                <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } экскурсий</Text12>
                             </CardImage>
                         </WrapperImagePressable>
                     )}

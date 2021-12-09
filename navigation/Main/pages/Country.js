@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, View} from "react-native";
-import {useNavigation, useNavigationState} from "@react-navigation/native";
-import {useSelector} from "react-redux";
+import {useIsFocused, useNavigation, useNavigationState} from "@react-navigation/native";
+import {useDispatch, useSelector} from "react-redux";
 import {LayoutImageTop} from "../../../layouts/LayoutImageTop";
 import {InputSearch, InputSearchWrapper} from "../../../styles/components/inputs";
 import {IconSearch} from "../../../components/Icons";
@@ -10,38 +10,62 @@ import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {CityBackground} from "../../../components/backgrounds/CityBackground";
+import img from '../../../assets/image/Portug.jpg'
+import {useEffect} from "react";
+import {fetchCounter, fetchCounterCity, fetchCounterExcursion} from "../../../store/country/service";
+import {excursionDelete, excursionDeleteCity, excursionDeleteExcursion} from "../../../store/country/reducer";
+import {Loader} from "../../../components/Loader";
 
 export const Country = ({}) => {
+    const dispatch = useDispatch()
+    const isFocused = useIsFocused();
     const routes = useNavigationState(state => state.routes)
-    const country = useSelector(state =>
-        routes.length > 1 && routes[routes.length - 1]?.params?.screen ?
-            state.countries.data.find(value => value.id === parseInt(routes[routes.length - 1].params.screen)) :
-            state.countries.data[0]
-    )
-
     const {data: countries} = useSelector(state => state.countries)
-    const {data: popularPlaces} = useSelector(state => state.popularPlaces)
-    const {data: excursions} = useSelector(state => state.excursions)
+    const {data, error, isLoading, isView, city, excursion} = useSelector(state => state.country)
+    const country = useSelector(state => state.countries.data
+        .find(value => value.id === (routes.length > 1 && parseInt(routes[routes.length - 1]?.params?.screen)))
+    )
+    // const {data: popularPlaces} = useSelector(state => state.popularPlaces)
+    // const {data: excursions} = useSelector(state => state.excursions)
+    console.log(city.data)
+    useEffect(() => {
+        if(isFocused){
+            dispatch(fetchCounter({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
+            dispatch(fetchCounterCity({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
+            dispatch(fetchCounterExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
+        }
+        else{
+            dispatch(excursionDelete())
+            dispatch(excursionDeleteCity())
+            dispatch(excursionDeleteExcursion())
+        }
+    }, [isFocused])
 
     return (
-        <LayoutImageTop img={country.image}  itemBack={<CityBackground/>} count={country.count} title={country.country}>
-            <ContainerMain>
-                <View style={{marginBottom: 20,marginTop: 20}}>
-                    <InputSearchWrapper>
-                        <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                        <InputSearch placeholder={'Страна, город, экскурсия...'}/>
-                    </InputSearchWrapper>
-                </View>
-            </ContainerMain>
+        <>
+            {isView && <LayoutImageTop img={img}
+                             itemBack={<CityBackground/>}
+                             count={'sdf'} title={'sdf'}>
+                <ContainerMain>
+                    <View style={{marginBottom: 20, marginTop: 20}}>
+                        <InputSearchWrapper>
+                            <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
+                            <InputSearch placeholder={'Страна, город, экскурсия...'}/>
+                        </InputSearchWrapper>
+                    </View>
+                </ContainerMain>
 
-            <ScrollHorizontal title={'Экскурсии по странам'} model={countries}/>
-            <ScrollHorizontal title={'Популярные места'} model={popularPlaces}/>
-            <ContainerMain>
-                <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
-            </ContainerMain>
-            {excursions.map((value, index) => <CardExcursion key={value.id} data={value} index={index}/>)}
+                <ScrollHorizontal title={'Экскурсии по странам'} model={countries}/>
+                {city.data && <ScrollHorizontal title={'Популярные места'} model={city.data}/>}
+                <ContainerMain>
+                    <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
+                </ContainerMain>
+                {/*{excursion?.data.length > 0 && excursion.data.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}}*/}
 
-
-        </LayoutImageTop>
+            </LayoutImageTop>}
+            {!isView &&
+            <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
+            }
+        </>
     );
 };

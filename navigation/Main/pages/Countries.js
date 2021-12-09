@@ -26,9 +26,9 @@ export const Countries = ({}) => {
                         onPress={() => linkTo(`/Country/${value.id}`)}>
                         <CardImage
                             imageStyle={{borderRadius: 15}}
-                            source={value.image}>
-                            <Text16Bold style={{color: '#fff'}}>{value.country}</Text16Bold>
-                            <Text12 style={{color: '#fff', lineHeight: 14}}>{value.count} экскурсий</Text12>
+                            source={{uri: value.images[0].path}}>
+                            <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
+                            <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } экскурсий</Text12>
                         </CardImage>
                     </Pressable>
                 )}

@@ -249,6 +249,12 @@ const counterSlice = createSlice({
     name: 'excursions',
     initialState,
     reducers: {
+        setExcursions(state, action){
+            state.data = action.payload.data
+            state.isLoading = action.payload.isLoading
+            state.error = action.payload.error
+        },
+        //old
         setLike(state, action){
             state.data[action.payload].like = !state.data[action.payload].like
         },
@@ -279,5 +285,5 @@ const counterSlice = createSlice({
 
 })
 
-export const {setLike, setBasket, setLikeById, setBasketById, setBasketCount} = counterSlice.actions
+export const {setLike, setBasket, setLikeById, setBasketById, setBasketCount, setExcursions} = counterSlice.actions
 export default counterSlice.reducer

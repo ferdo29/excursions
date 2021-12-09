@@ -4,6 +4,7 @@ import setupStore from "./store/store";
 import {NavigationContainer} from "@react-navigation/native";
 import i18n from "i18n-js";
 import Locale from './contexts/locale'
+import UserFB from './contexts/userFB'
 import {NavigationController} from "./navigation/navigation.controller";
 import AppLoading from 'expo-app-loading';
 import {
@@ -18,8 +19,24 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
+import { initializeApp } from "firebase/app"
+import {getAuth} from "firebase/auth";
+
+const firebaseConfig = {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DARA_BASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID,
+};
+const app = initializeApp(firebaseConfig);
+const x = getAuth()
 
 export default function App() {
+    const [auth, setAuth] = useState(x)
     const [lang, setLang] = useState('RU');
     const store = setupStore()
     const [statePreview, setStatePreview] = useState(false)
@@ -47,16 +64,18 @@ export default function App() {
         'RU': require('./location/ru.json'),
     }
 
-    if (!fontsLoaded) return <AppLoading />;
+    if (!fontsLoaded || !app) return <AppLoading />;
 
   return (
       <Provider store={store}>
           <Locale.Provider value={{lang, setLang}}>
+              <UserFB.Provider value={{auth, setAuth}}>
               <ToastProvider>
                   <NavigationContainer>
                       <NavigationController preview={statePreview} setCtxPreview={setStatePreview}/>
                   </NavigationContainer>
               </ToastProvider>
+              </UserFB.Provider>
           </Locale.Provider>
       </Provider>
   );

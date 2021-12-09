@@ -32,10 +32,14 @@ const counterSlice = createSlice({
     name: 'countries',
     initialState,
     reducers: {
-
+        setCountries(state, action){
+            state.data = action.payload.data
+            state.isLoading = action.payload.isLoading
+            state.error = action.payload.error
+        },
     },
 
 })
 
-export const {} = counterSlice.actions
+export const {setCountries} = counterSlice.actions
 export default counterSlice.reducer

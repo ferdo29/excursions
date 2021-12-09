@@ -32,10 +32,15 @@ const counterSlice = createSlice({
     name: 'popularPlaces',
     initialState,
     reducers: {
+        setPopularPlaces(state, action){
+            state.data = action.payload.data
+            state.isLoading = action.payload.isLoading
+            state.error = action.payload.error
+        },
 
     },
 
 })
 
-export const {} = counterSlice.actions
+export const {setPopularPlaces} = counterSlice.actions
 export default counterSlice.reducer

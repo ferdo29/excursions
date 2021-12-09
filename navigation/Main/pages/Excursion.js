@@ -15,23 +15,45 @@ import Svg, {Circle, Path} from "react-native-svg";
 import {ButtonCircle, ButtonGray, ButtonGrayWrapper} from "../../../styles/components/buttons";
 import CardReview from "../../../components/tools/CardReview";
 import {TouchableOpacity} from "react-native";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {setLikeById} from "../../../store/excursions/reducer";
+import img from '../../../assets/image/Shiadu.png'
+import {Loader} from "../../../components/Loader";
+import { useIsFocused } from '@react-navigation/native';
+import {fetchExcursion} from "../../../store/excursion/service";
+import {excursionDelete} from "../../../store/excursion/reducer";
+
 
 export const Excursion = ({}) => {
     const dispatch = useDispatch()
+    const isFocused = useIsFocused();
     const [maxReviews, setMaxReviews] = useState(3)
     const routes = useNavigationState(state => state.routes)
-    const excursion = useSelector(state =>
-        routes.length > 1 && routes[routes.length - 1]?.params?.screen ?
-            state.excursions.data.find(value => value.id === parseInt(routes[routes.length - 1].params.screen)) :
-            state.excursions.data[0]
-    )
+    const excursion = useSelector(state => state.excursions.data[0])
+    const {data: Excursion, reviews: Reviews, isLoading, isView, error} = useSelector(state => state.excursion)
 
-    const handlerLike = () => {
-        dispatch(setLikeById(excursion.id))
+
+    const handlerLike = () => dispatch(setLikeById(excursion.id))
+    const handlerMaxReviews = () => setMaxReviews(Reviews?.data.length)
+    const handlerGallery = () => {
+        if (!isLoading && Excursion?.data?.images && Excursion?.data?.images.length > 0){
+            return Excursion.data.images.map(value => ({uri: value.path}))
+        }
+        return [
+            img,
+            img,
+            img,
+        ]
     }
-    const handlerMaxReviews = () => setMaxReviews(excursion.details.reviews.length)
+
+    useEffect(() => {
+        if(isFocused){
+            dispatch(fetchExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
+        }
+        else{
+            dispatch(excursionDelete())
+        }
+    }, [isFocused])
 
     return (
         <LayoutImageTop
@@ -40,47 +62,47 @@ export const Excursion = ({}) => {
                     <IconHeart fill={excursion.like ? '#E0E0E0' : '#11AEAE'}/>
                 </ButtonCircle>
             }
-            img={excursion.image}
-            gallery={excursion.gallery}>
+            img={handlerGallery()[0] }
+            gallery={handlerGallery()}>
 
 
-
-            <ContainerMain>
+            {!isLoading && isView && <ContainerMain>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 16}}>
                     <IconStar style={{marginRight: 5}}/>
                     <BoxRow>
-                        <Text14>{excursion.rang} </Text14>
-                        <Text10 style={{color: '#4F4F4F'}}>({excursion.countRang} оценок)</Text10>
+                        <Text14>{Excursion.data.stars} </Text14>
+                        <Text10 style={{color: '#4F4F4F'}}>({Excursion.data.reviews_count} оценок)</Text10>
                     </BoxRow>
 
                 </BoxRow>
-                <Text23Bold style={{marginBottom: 10}}>{excursion.title}</Text23Bold>
+                <Text23Bold numberOfLines={1} style={{marginBottom: 10}}>{Excursion.data.name}</Text23Bold>
                 <BoxRow style={{justifyContent: 'space-between', alignItems: 'center', marginBottom: 24}}>
                     <BoxColumnView style={{justifyContent: 'flex-start', alignItems: 'center'}}>
                         <BoxRow style={{justifyContent: 'flex-start'}}>
                             <IconHeadPhone width={26} height={26} style={{marginRight: 12}}/>
-                            <Text28 style={{ color: '#11AEAE'}}>228 €</Text28>
+                            <Text28 style={{color: '#11AEAE'}}>{Excursion.data.price} €</Text28>
                         </BoxRow>
-                        <Text10 style={{lineHeight: 18,color: '#BDBDBD'}}>Цена аудиоэкскурсии</Text10>
+                        <Text10 style={{lineHeight: 18, color: '#BDBDBD'}}>Цена аудиоэкскурсии</Text10>
                     </BoxColumnView>
-                    <ButtonGrayWrapper  style={{width: 'auto'}}>
-                    <ButtonGray activeOpacity={0.6}  style={{width: 'auto'}}>
-                        <Text16Bold500 style={{color: '#828282', width: 89}}>Купить</Text16Bold500>
+                    <ButtonGrayWrapper style={{width: 'auto'}}>
+                        <ButtonGray activeOpacity={0.6} style={{width: 'auto'}}>
+                            <Text16Bold500 style={{color: '#828282', width: 89}}>Купить</Text16Bold500>
 
-                        <Svg width="29" height="29"  viewBox="0 0 41 41"
-                             style={{position: 'absolute', right: 10}} fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
-                            <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
-                                  strokeLinejoin="round"/>
-                        </Svg>
-                    </ButtonGray>
+                            <Svg width="29" height="29" viewBox="0 0 41 41"
+                                 style={{position: 'absolute', right: 10}} fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
+                                <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
+                                      strokeLinejoin="round"/>
+                            </Svg>
+                        </ButtonGray>
                     </ButtonGrayWrapper>
                 </BoxRow>
-                <Text16 style={{color: '#4F4F4F', marginBottom: 30}}>{excursion.description}</Text16>
+                <Text16 style={{color: '#4F4F4F', marginBottom: 30}}>{Excursion.data.short_description}</Text16>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 15}}>Маршрут</Text18Bold>
-                {excursion.road.map((road, index) =>
-                    <Text16 style={{color: '#4F4F4F', lineHeight: 27}} key={index}>{road}</Text16>)}
+
+                    <Text16 style={{color: '#4F4F4F', lineHeight: 27}} >{Excursion.data.points_path}</Text16>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 24}}> Детали экскурсии</Text18Bold>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 24}}>
@@ -88,22 +110,20 @@ export const Excursion = ({}) => {
                     <BoxColumnView style={{alignItems: 'flex-start'}}>
                         <Text16 style={{color: '#4F4F4F', lineHeight: 21}}>Время аудиоэкскурсии</Text16>
                         <Text16 style={{color: '#4F4F4F', lineHeight: 21}}>
-                            {excursion.details.time.split(':')[0]} ч. {excursion.details.time.split(':')[1]} мин.
+                            {Excursion.data.minutes} мин.
                         </Text16>
                     </BoxColumnView>
                 </BoxRow>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 30}}>
                     <IconWarning style={{marginRight: 34}}/>
                     <Text16 style={{color: '#4F4F4F', width: 290}}>
-                        {excursion.details.warning}
+                        В цену экскурсии не включены стоимость входных билетов в достопримечательности.
                     </Text16>
                 </BoxRow>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 20}}>Описание</Text18Bold>
                 <BoxColumnView style={{marginBottom: 30}}>
-                    {excursion.details.description.map(value =>
-                    <Text14 style={{color:'#828282', marginBottom: 15}}>{value}</Text14>
-                    )}
+                        <Text14 style={{color: '#828282', marginBottom: 15}}>{Excursion.data.description}</Text14>
                 </BoxColumnView>
 
                 <ButtonGrayWrapper style={{width: 'auto'}}>
@@ -119,17 +139,17 @@ export const Excursion = ({}) => {
                 </ButtonGrayWrapper>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 22}}>Отзывы</Text18Bold>
-
-                {excursion.details.reviews.map((value, index) =>
+                {Reviews?.data.length <= 0 && <Text18Bold style={{color: '#11AEAE', marginBottom: 20, textAlign: 'center'}}>Нет отзывов</Text18Bold>}
+                {Reviews?.data.length > 0 && Reviews?.data.map((value, index) =>
                         index < maxReviews && <CardReview
                             key={value.id}
-                            star={value.star}
+                            star={Math.ceil(parseFloat(value.stars))}
                             name={value.name}
-                            body={value.description}
-                            date={value.date}
+                            body={value.text}
+                            date={value.created_at}
                         />
                 )}
-                {excursion.details.reviews.length !== maxReviews && excursion.details.reviews.length >= 3 &&
+                {Reviews?.data.length !== maxReviews && Reviews?.data.length >= 3 &&
                 <TouchableOpacity activeOpacity={0.6}
                                   onPress={handlerMaxReviews}
                                   style={{
@@ -142,17 +162,21 @@ export const Excursion = ({}) => {
                                       paddingBottom: 17,
                                       width: '100%'
                                   }}>
-                    <Text12 style={{color:'#4F4F4F'}}>
-                        Посмотреть еще {excursion.details.reviews.length - 3} отзывов
+                    <Text12 style={{color: '#4F4F4F'}}>
+                        Посмотреть еще {Reviews?.data.length - 3} отзывов
                     </Text12>
                     <Svg width="22" height="20" viewBox="0 -4 22 20" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
-                        <Path d="M1 13L7 7L1 1" stroke="#828282" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <Path d="M1 13L7 7L1 1" stroke="#828282" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round"/>
                     </Svg>
                 </TouchableOpacity>
                 }
 
-            </ContainerMain>
+            </ContainerMain>}
+            {isLoading && !isView && <Text18Bold style={{color: '#11AEAE', marginBottom: 20, textAlign: 'center'}}>Нет данных</Text18Bold>}
+            {error !== '' && <Text18Bold style={{color: '#11AEAE', marginBottom: 20, textAlign: 'center'}}>Ошибка с данными на сервере</Text18Bold>}
+            {isLoading && <Loader/>}
         </LayoutImageTop>
     );
 };
