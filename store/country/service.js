@@ -1,33 +1,33 @@
 import axios from "axios";
 import {
-    excursionFetching, excursionFetchingSuccess, excursionFetchingError,
-excursionFetchingSuccessCity, excursionFetchingSuccessExcursion,
+    countryFetching, countryFetchingSuccess, countryFetchingError,
+    countryFetchingSuccessCity, countryFetchingSuccessExcursion,
 } from "./reducer";
 
 export const fetchCounter = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(countryFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/countries/${id}`)
-        dispatch(excursionFetchingSuccess(data))
+        dispatch(countryFetchingSuccess(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(countryFetchingError(e.response.message))
     }
 }
 export const fetchCounterCity = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(countryFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cities?country=${id}`)
-        dispatch(excursionFetchingSuccessCity(data))
+        dispatch(countryFetchingSuccessCity(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(countryFetchingError(e.response.message))
     }
 }
 export const fetchCounterExcursion = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(countryFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions?country=${id}`)
-        dispatch(excursionFetchingSuccessExcursion(data))
+        dispatch(countryFetchingSuccessExcursion(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(countryFetchingError(e.response.message))
     }
 }

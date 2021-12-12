@@ -11,22 +11,22 @@ const counterSlice = createSlice({
     name: 'favourite',
     initialState,
     reducers: {
-        excursionFetching(state) {
+        favouriteFetching(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccess(state, action) {
+        favouriteFetchingSuccess(state, action) {
             state.isLoading = false
             state.isView = true
             state.error = ''
             if(action.payload.data) state.data = action.payload.data
         },
-        excursionFetchingError(state, action) {
+        favouriteFetchingError(state, action) {
             state.isLoading = false
             state.isView = false
             state.error = action.payload
         },
-        excursionDelete(state) {
+        favouriteDelete(state) {
             state.isLoading = false
             state.isView = false
             state.error = ''
@@ -40,5 +40,5 @@ const counterSlice = createSlice({
 
 })
 
-export const {setCountries, excursionFetching, excursionFetchingSuccess, excursionFetchingError, setLikeById} = counterSlice.actions
+export const {setCountries, favouriteFetching, favouriteFetchingSuccess, favouriteFetchingError, setLikeById} = counterSlice.actions
 export default counterSlice.reducer

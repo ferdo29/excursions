@@ -1,13 +1,13 @@
-import {excursionFetching, excursionFetchingError, excursionFetchingSuccess} from "./reducer";
+import {favouriteFetching, favouriteFetchingError, favouriteFetchingSuccess} from "./reducer";
 import axios from "axios";
 
 export const fetchFavourite = ({token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(favouriteFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions/favourite`,
             {headers: {Authorization: `Bearer ${token}`}})
-        dispatch(excursionFetchingSuccess(data))
+        dispatch(favouriteFetchingSuccess(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(favouriteFetchingError(e.response.message))
     }
 }

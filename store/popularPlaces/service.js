@@ -1,32 +1,39 @@
-import {excursionFetching, excursionFetchingSuccess, excursionFetchingError, excursionFetchingSuccessExcursion, excursionFetchingSuccessData, excursionFetchingErrorData} from "./reducer";
+import {
+    popularPlacesFetching,
+    popularPlacesFetchingSuccess,
+    popularPlacesFetchingError,
+    popularPlacesFetchingSuccessExcursion,
+    popularPlacesFetchingSuccessData,
+    popularPlacesFetchingErrorData
+} from "./reducer";
 import axios from "axios";
 
 
 export const fetchPopularPlaces = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(popularPlacesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cities/${id}`)
-        dispatch(excursionFetchingSuccess(data.info))
+        dispatch(popularPlacesFetchingSuccess(data.info))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(popularPlacesFetchingError(e.response.message))
     }
 }
 export const fetchPopularPlacesData = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(popularPlacesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cities?country=1`,
             {headers: {Authorization: `Bearer ${token}`}})
-        dispatch(excursionFetchingSuccessData(data.data))
+        dispatch(popularPlacesFetchingSuccessData(data.data))
     }catch (e) {
-        dispatch(excursionFetchingErrorData(e.response.message))
+        dispatch(popularPlacesFetchingErrorData(e.response.message))
     }
 }
 export const fetchPopularPlacesExcursions = ({id= 1, token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(popularPlacesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions?country=${id}`)
-        dispatch(excursionFetchingSuccessExcursion(data))
+        dispatch(popularPlacesFetchingSuccessExcursion(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(popularPlacesFetchingError(e.response.message))
     }
 }

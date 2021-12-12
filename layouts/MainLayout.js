@@ -52,7 +52,7 @@ export default function ({
     const paddingAbsolute = useRef(new Animated.Value(60)).current;
     const [refreshing, setRefreshing] = React.useState(false);
 
-    const {type, text1, text2, view} = useSelector(state => state.toasts)
+    const {type, text1, text2, view, top} = useSelector(state => state.toasts)
     const translation = scrolling.interpolate({
         inputRange: [100, 250],
         outputRange: [40, 25],
@@ -141,7 +141,7 @@ export default function ({
                 </SafeAreaView>
             </Animated.View>
 
-            <Toast config={toastConfig} position={'bottom'}/>
+            <Toast config={toastConfig} position={top ? 'bottom': 'top'}/>
             {viewBottomNav && <BottomNav/>}
         </View>
     );

@@ -27,6 +27,9 @@ import {setStatePreview} from "../../../store/previewPagination/reducer";
 import {showToastState} from "../../../store/toasts/reducer";
 import MainLayout from "../../../layouts/MainLayout";
 import {AuthGoogle} from "../copmonents/authGoogle";
+import {AuthFacebook} from "../copmonents/authFacebook";
+import {AuthPhone} from "../copmonents/authPhone";
+import {AuthEmail} from "../copmonents/authEmail";
 
 const {height, width} = Dimensions.get('window')
 
@@ -90,39 +93,8 @@ export default function ({navigation}) {
                   : t("Login by phone.Sign in to save your favorite excursions and see your purchases in your personal account")
                 }</Text16>
             </BoxColumnView>
+                { stateLogin === 'Phone' ? <AuthPhone/> : <AuthEmail/>}
 
-            {!confirmation && <>
-                {stateLogin === 'Phone' && <BoxRowView style={{paddingBottom: 32}}>
-                    <SelectorsZipCountry/>
-                    <WrapperInput style={{borderColor: '#fff', flexGrow: 2, marginLeft: 13}}>
-                        <TextInputMask
-                            style={[{width: '100%', fontSize: 18, textAlign: 'center', color: '#828282'}]}
-                            type={'custom'}
-                            keyboardType="numeric"
-                            options={{mask: '(999) 999-99-99'}}
-                            placeholderTextColor={'#828282'}
-                            placeholder={'(999) 999-99-99'}
-                            onChangeText={setPhone}
-                            value={phone}
-                        />
-                    </WrapperInput>
-                </BoxRowView>}
-                {stateLogin === 'Email' && <Input style={{borderColor: '#fff', textAlign: 'center', marginBottom: 32}}
-                                                  placeholder={t('Login by phone.Your email')}
-                                                  placeholderTextColor={'#828282'}
-                                                  onChangeText={setEmail}
-                                                  autoComplete={'email'}
-                                                  value={email}/>}
-
-                <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={handlerAgreement}>
-                    <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
-                    <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
-                        <Path d="M13 21h14M20 14l7 7-7 7" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round"
-                              strokeLinejoin="round"/>
-                    </Svg>
-                </ButtonWhite>
-            </>}
 
 
             <BoxRowView style={{marginBottom: 26}}>
@@ -155,15 +127,7 @@ export default function ({navigation}) {
                 <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue through')} Email</Text14>
             </ButtonWhiteOpacity>}
                 <AuthGoogle/>
-            <ButtonWhiteOpacity onPress={handlerRemove} activeOpacity={0.6}>
-                <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 0 24 24'} fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <Path d="M12 23.636c6.427 0 11.636-5.21 11.636-11.636C23.636 5.573 18.426.364 12 .364 5.573.364.364 5.574.364 12c0 6.427 5.21 11.636 11.636 11.636Z"
-                          fill="#3F65A6"/>
-                    <Path d="M10.232 8.173v1.836H8.886v2.246h1.346v6.154h2.763V12.25h1.855s.173-1.077.259-2.255h-2.1V8.46c0-.227.3-.536.6-.536h1.505V5.586h-2.046c-2.904.005-2.836 2.25-2.836 2.587Z"
-                          fill="#fff"/>
-                </Svg>
-                <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue with')} Facebook</Text14>
-            </ButtonWhiteOpacity>
+                <AuthFacebook/>
 
 
             <LayoutPop state={agreement} openClose={handlerAgreement} start={height * 0.43} mountainTop={true} reSizeOnSwipe={false}>

@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "397777745125",
+    "firebase_url": "https://spa-sport-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "spa-sport",
+    "storage_bucket": "spa-sport.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397777745125:android:0c8ebd6e2fbd9c3dc5d00c",
+        "android_client_info": {
+          "package_name": "spa.sport.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397777745125-5ge3u63h5jugckba9kv5p6j0njng5bhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCReBqvDoMz9OkJY0DoMpq9fh1gs47WvJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397777745125-5ge3u63h5jugckba9kv5p6j0njng5bhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "397777745125-m9k6khpeo738c511rcmmo5219enr7t6h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "spa.sport.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397777745125:android:3ca835efee768da2c5d00c",
+        "android_client_info": {
+          "package_name": "spa.sportA.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397777745125-5ge3u63h5jugckba9kv5p6j0njng5bhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCReBqvDoMz9OkJY0DoMpq9fh1gs47WvJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397777745125-5ge3u63h5jugckba9kv5p6j0njng5bhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "397777745125-m9k6khpeo738c511rcmmo5219enr7t6h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "spa.sport.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

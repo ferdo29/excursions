@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {BoxColumnView, BoxRowView, Text16, Text26, Text28, URLText} from "../../../styles/components/tools";
-import {InputNumber, WrapperInputNumber} from "../../../styles/components/inputs";
+import {Input, InputNumber, WrapperInputNumber} from "../../../styles/components/inputs";
 import {useContext, useRef, useState} from "react";
 import Locale from "../../../contexts/locale";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,10 @@ import Svg, {Circle, Path} from "react-native-svg";
 import {setPhoneAccount} from "../../../store/account/reducer";
 import LayoutPop from "../../../layouts/popups/LayoutPop";
 import {Dimensions} from "react-native";
+import {t} from "i18n-js";
+import {createUserWithEmailAndPassword, getAuth} from "firebase/auth";
+import userFB from "../../../contexts/userFB";
+import {showToastState} from "../../../store/toasts/reducer";
 
 const {height, width} = Dimensions.get('window')
 
@@ -155,5 +159,64 @@ export const PopupAgreement = ({handlerAgreement = () => {}, handlerConfirmation
             </ButtonWhite>
 
         </BoxColumnView>
+    )
+}
+export const PopupRegForm = ({state, openClose = () => {}}) => {
+    useContext(Locale)
+    const dispatch = useDispatch()
+    const {setAuth} = useContext(userFB)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [Height, setHeight] = useState(height * 0.5)
+
+    const handlerFocus = () => setHeight(height * 0.35)
+    const handlerFocusPassword = () => setHeight(height * 0.25)
+    const handlerBlur = () => setHeight(height * 0.5)
+
+    const Register = () => {
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((data) => {
+                setAuth(true)
+                openClose()
+            })
+            .catch((e) => {
+                switch (e.code) {
+                    case 'auth/weak-password': return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.${e.code}`)}))
+                    case 'auth/email-already-in-use': return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.${e.code}`)}))
+                    default: return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
+                }
+            })
+    }
+
+    return(
+        <LayoutPop state={state} openClose={openClose} start={Height} responseSize={false} mountainTop={true} reSizeOnSwipe={true}>
+        <BoxColumnView style={{justifyContent: 'center'}}>
+            <Input style={{borderColor: '#11AEAE', textAlign: 'center', marginBottom: 15, marginTop: 30}}
+                   placeholder={t('Login by phone.Your email')}
+                   placeholderTextColor={'#828282'}
+                   onChangeText={setEmail}
+                   onFocus={handlerFocus}
+                   onBlur={handlerBlur}
+                   autoComplete={'email'}
+                   value={email}/>
+            <Input style={{borderColor: '#11AEAE', textAlign: 'center', marginBottom: 32}}
+                   placeholder={t('Login by phone.Password')}
+                   placeholderTextColor={'#828282'}
+                   onChangeText={setPassword}
+                   onFocus={handlerFocusPassword}
+                   onBlur={handlerBlur}
+                   autoComplete={'password'}
+                   value={password}/>
+            <ButtonGreenOpacity activeOpacity={0.6} onPress={Register}>
+                <Text16 style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>{t('Login by phone.Register')}</Text16>
+                <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
+                    <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
+                </Svg>
+            </ButtonGreenOpacity>
+        </BoxColumnView>
+        </LayoutPop>
     )
 }

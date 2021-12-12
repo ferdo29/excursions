@@ -23,14 +23,17 @@ import PrivacyPolicy from "./Main/pages/Account/PrivacyPolicy";
 import {Faq} from "./Main/pages/Account/FAQ";
 import {Support} from "./Main/pages/Account/Support";
 import Home from "./Main/pages/Home";
+import {useContext} from "react";
+import userFB from "../contexts/userFB";
 
 const Stack = createStackNavigator();
 
 export const NavigationController = ({}) => {
+    const {auth} = useContext(userFB)
     const user = getAuth().currentUser
     return (
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                {!!user ?
+                {(auth && !!user) ?
                     <>
                         <Stack.Screen name="Home" component={Home}/>
 

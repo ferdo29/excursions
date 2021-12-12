@@ -11,11 +11,11 @@ const counterSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        excursionFetching(state) {
+        cartFetching(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccess(state, action) {
+        cartFetchingSuccess(state, action) {
             state.isLoading = false
             state.isView = true
             state.error = ''
@@ -35,12 +35,12 @@ const counterSlice = createSlice({
 
             state.data = data
         },
-        excursionFetchingError(state, action) {
+        cartFetchingError(state, action) {
             state.isLoading = false
             state.isView = false
             state.error = action.payload
         },
-        excursionDelete(state) {
+        cartDelete(state) {
             state.isLoading = false
             state.isView = false
             state.error = ''
@@ -66,6 +66,6 @@ const counterSlice = createSlice({
 
 })
 
-export const {setCountries, excursionFetching, excursionFetchingSuccess, excursionFetchingError,
+export const {setCountries, cartFetching, cartFetchingSuccess, cartFetchingError,
     setAddToCart, setDeleteCartById, setChangeCartById, setChangeCart} = counterSlice.actions
 export default counterSlice.reducer

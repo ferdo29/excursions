@@ -4,6 +4,7 @@ const initialState = {
     type: 'success',
     text1: 'Hello11',
     text2: 'This is some something 👋',
+    top: false,
     view: false
 }
 
@@ -21,6 +22,7 @@ const counterSlice = createSlice({
             state.type = ''
             state.text1 = ''
             state.text2 = ''
+            state.top = false
             state.view = false
         }
     },

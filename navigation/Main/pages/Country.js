@@ -12,7 +12,7 @@ import {CityBackground} from "../../../components/backgrounds/CityBackground";
 import img from '../../../assets/image/Portug.jpg'
 import {useEffect} from "react";
 import {fetchCounter, fetchCounterCity, fetchCounterExcursion} from "../../../store/country/service";
-import {excursionDelete, excursionDeleteCity, excursionDeleteExcursion} from "../../../store/country/reducer";
+import {countryDelete, countryDeleteCity, countryDeleteExcursion} from "../../../store/country/reducer";
 import {Loader} from "../../../components/Loader";
 
 export const Country = ({}) => {
@@ -32,9 +32,9 @@ export const Country = ({}) => {
             dispatch(fetchCounterExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
         }
         else{
-            dispatch(excursionDelete())
-            dispatch(excursionDeleteCity())
-            dispatch(excursionDeleteExcursion())
+            // dispatch(countryDelete())
+            // dispatch(countryDeleteCity())
+            // dispatch(countryDeleteExcursion())
         }
     }, [isFocused])
 

@@ -29,33 +29,33 @@ const counterSlice = createSlice({
             state.error = action.payload.error
         },
 
-        excursionFetching(state) {
+        popularPlacesFetching(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccessData(state, action) {
+        popularPlacesFetchingSuccessData(state, action) {
             state.isLoading = false
             state.isView = true
             state.error = ''
             if(action.payload) state.data = action.payload
         },
-        excursionFetchingErrorData(state, action) {
+        popularPlacesFetchingErrorData(state, action) {
             state.isLoading = false
             state.isView = false
             state.error = action.payload
         },
-        excursionFetchingSuccess(state, action) {
+        popularPlacesFetchingSuccess(state, action) {
             state.isLoading = false
             state.isView = true
             state['one'].error = ''
             state['one'].data = action.payload
         },
-        excursionFetchingError(state, action) {
+        popularPlacesFetchingError(state, action) {
             state.isLoading = false
             state.isView = false
             state['one'].error = action.payload
         },
-        excursionDelete(state) {
+        popularPlacesDelete(state) {
             state.isLoading = false
             state.isView = false
             state['one'].error = ''
@@ -63,22 +63,22 @@ const counterSlice = createSlice({
             state['one'].data = {}
         },
 
-        excursionFetchingExcursion(state) {
+        popularPlacesFetchingExcursion(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccessExcursion(state, action) {
+        popularPlacesFetchingSuccessExcursion(state, action) {
             state.isLoading = false
             state.isView = true
             state['excursion'].error = ''
             state['excursion'].data = action.payload.data
         },
-        excursionFetchingErrorExcursion(state, action) {
+        popularPlacesFetchingErrorExcursion(state, action) {
             state.isLoading = false
             state.isView = false
             state['excursion'].error = action.payload
         },
-        excursionDeleteExcursion(state) {
+        popularPlacesDeleteExcursion(state) {
             state.isLoading = false
             state.isView = false
             state['excursion'].error = ''
@@ -89,8 +89,17 @@ const counterSlice = createSlice({
 
 })
 
-export const {setPopularPlaces, excursionFetching, excursionFetchingSuccess, excursionFetchingError, excursionDelete,
-    excursionFetchingExcursion, excursionFetchingSuccessExcursion, excursionFetchingErrorExcursion, excursionDeleteExcursion,
-    excursionFetchingSuccessData, excursionFetchingErrorData
+export const {
+    setPopularPlaces,
+    popularPlacesFetching,
+    popularPlacesFetchingSuccess,
+    popularPlacesFetchingError,
+    popularPlacesDelete,
+    popularPlacesFetchingExcursion,
+    popularPlacesFetchingSuccessExcursion,
+    popularPlacesFetchingErrorExcursion,
+    popularPlacesDeleteExcursion,
+    popularPlacesFetchingSuccessData,
+    popularPlacesFetchingErrorData
 } = counterSlice.actions
 export default counterSlice.reducer

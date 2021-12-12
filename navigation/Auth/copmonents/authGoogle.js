@@ -6,10 +6,13 @@ import {ButtonWhiteOpacity} from "../../../styles/components/buttons";
 import {getAuth, GoogleAuthProvider, signInWithCredential} from "firebase/auth";
 import * as Google from "expo-google-app-auth";
 import userFB from "../../../contexts/userFB";
-import axios from "axios";
+import {useDispatch} from "react-redux";
+import {showToastState} from "../../../store/toasts/reducer";
 
 export const AuthGoogle = ({}) => {
-    const {auth, setAuth} = useContext(userFB)
+    const dispatch = useDispatch()
+    const {setAuth} = useContext(userFB)
+
     const handlerGoogle = () => {
         const auth = getAuth();
 
@@ -18,9 +21,7 @@ export const AuthGoogle = ({}) => {
             androidClientId: process.env.ANDROID_CLIENT_ID,
             scopes: ['profile', 'email'],
         }
-        Google
-            .logInAsync(config)
-            .then((result) => {
+        Google.logInAsync(config).then((result) => {
                 const {type, user} = result
 
                 if(type === 'success'){
@@ -29,15 +30,14 @@ export const AuthGoogle = ({}) => {
                         idToken,
                         accessToken
                     );
-
                     return signInWithCredential(auth, credential).then(data => {
-                        setAuth(data)
+                        setAuth(true)
                     })
                 }else{
-                    console.log('error')
+                   dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }
             })
-            .catch(err => {console.log(err)})
+            .catch(err => {dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))})
 
     }
 

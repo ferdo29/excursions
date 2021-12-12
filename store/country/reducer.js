@@ -23,22 +23,22 @@ const counterSlice = createSlice({
     name: 'country',
     initialState,
     reducers: {
-        excursionFetching(state) {
+        countryFetching(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccess(state, action) {
+        countryFetchingSuccess(state, action) {
             state.isLoading = false
             state.isView = true
             state.error = ''
             state.data = action.payload.data
         },
-        excursionFetchingError(state, action) {
+        countryFetchingError(state, action) {
             state.isLoading = false
             state.isView = false
             state.error = action.payload
         },
-        excursionDelete(state) {
+        countryDelete(state) {
             state.isLoading = false
             state.isView = false
             state.error = ''
@@ -46,44 +46,44 @@ const counterSlice = createSlice({
             state.data = {}
         },
 
-        excursionFetchingCity(state) {
+        countryFetchingCity(state) {
             state['city'].isLoading = true
             state['city'].isView = false
         },
-        excursionFetchingSuccessCity(state, action) {
+        countryFetchingSuccessCity(state, action) {
             state['city'].isLoading = false
             state['city'].isView = true
             state['city'].error = ''
             state['city'].data = action.payload.data
         },
-        excursionFetchingErrorCity(state, action) {
+        countryFetchingErrorCity(state, action) {
             state['city'].isLoading = false
             state['city'].isView = false
             state['city'].error = action.payload
         },
-        excursionDeleteCity(state) {
+        countryDeleteCity(state) {
             state['city'].isLoading = false
             state['city'].isView = false
             state['city'].error = ''
             state['city'].data = {}
         },
 
-        excursionFetchingExcursion(state) {
+        countryFetchingExcursion(state) {
             state['excursion'].isLoading = true
             state['excursion'].isView = false
         },
-        excursionFetchingSuccessExcursion(state, action) {
+        countryFetchingSuccessExcursion(state, action) {
             state['excursion'].isLoading = false
             state['excursion'].isView = true
             state['excursion'].error = ''
             state['excursion'].data = action.payload.data
         },
-        excursionFetchingErrorExcursion(state, action) {
+        countryFetchingErrorExcursion(state, action) {
             state['excursion'].isLoading = false
             state['excursion'].isView = false
             state['excursion'].error = action.payload
         },
-        excursionDeleteExcursion(state) {
+        countryDeleteExcursion(state) {
             state['excursion'].isLoading = false
             state['excursion'].isView = false
             state['excursion'].error = ''
@@ -95,8 +95,17 @@ const counterSlice = createSlice({
 })
 
 export const {
-    excursionFetching, excursionFetchingSuccess, excursionFetchingError, excursionDelete,
-    excursionFetchingCity, excursionFetchingSuccessCity, excursionFetchingErrorCity, excursionDeleteCity,
-    excursionFetchingExcursion, excursionFetchingSuccessExcursion, excursionFetchingErrorExcursion, excursionDeleteExcursion,
+    countryFetching,
+    countryFetchingSuccess,
+    countryFetchingError,
+    countryDelete,
+    countryFetchingCity,
+    countryFetchingSuccessCity,
+    countryFetchingErrorCity,
+    countryDeleteCity,
+    countryFetchingExcursion,
+    countryFetchingSuccessExcursion,
+    countryFetchingErrorExcursion,
+    countryDeleteExcursion,
 } = counterSlice.actions
 export default counterSlice.reducer

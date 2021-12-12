@@ -1,17 +1,17 @@
 import axios from "axios";
 import {
-    excursionFetching, excursionFetchingSuccess, excursionFetchingError,
+    countriesFetching, countriesFetchingSuccess, countriesFetchingError,
 } from "./reducer";
 import {setInfo} from "../info/reducer";
 
 export const fetchCounter = ({token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(countriesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/countries/`,
             {headers: {Authorization: `Bearer ${token}`}})
-        dispatch(excursionFetchingSuccess(data))
+        dispatch(countriesFetchingSuccess(data))
         dispatch(setInfo(data.info))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(countriesFetchingError(e.response.message))
     }
 }

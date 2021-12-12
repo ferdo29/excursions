@@ -7,17 +7,24 @@ import Svg, {Path} from "react-native-svg";
 
 const {width, height} = Dimensions.get('window');
 
-export default function ({children, state, openClose = () => {}, start = 50, mountainTop = true, shouldReverse = true, reSizeOnSwipe= true}) {
+export default function ({children, state, openClose = () => {}, start = 50,
+                             mountainTop = true,
+                             shouldReverse = true,
+                             responseSize = true,
+                             reSizeOnSwipe= true}) {
     const [stateDraggable, setStateDraggable] = useState(true)
     const [Height, setHeight] = useState(height)
 
     const SwipeWindow = ({nativeEvent}) => {
-        if(!stateDraggable && nativeEvent.pageY >= (height - 200)) {
-            handlerClose()
-            return
+        if(responseSize){
+            if(!stateDraggable && nativeEvent.pageY >= (height - 200)) {
+                handlerClose()
+                return
+            }
+            nativeEvent?.pageY && setHeight(height - nativeEvent.pageY)
+            setStateDraggable(true)
         }
-        nativeEvent?.pageY && setHeight(height - nativeEvent.pageY)
-        setStateDraggable(true)
+
     }
 
     const handlerDraggable = () => {

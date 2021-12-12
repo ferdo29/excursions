@@ -16,7 +16,6 @@ import {ButtonCircle, ButtonGray, ButtonGrayWrapper} from "../../../styles/compo
 import CardReview from "../../../components/tools/CardReview";
 import {TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
-import {setLikeById} from "../../../store/excursions/reducer";
 import img from '../../../assets/image/Shiadu.png'
 import {Loader} from "../../../components/Loader";
 import { useIsFocused } from '@react-navigation/native';

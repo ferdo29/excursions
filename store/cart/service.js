@@ -1,14 +1,14 @@
-import {excursionFetching, excursionFetchingError, excursionFetchingSuccess, setChangeCart} from "./reducer";
+import {cartFetching, cartFetchingError, cartFetchingSuccess, setChangeCart} from "./reducer";
 import axios from "axios";
 
 export const fetchCart = ({token= ''}) => async (dispatch) => {
     try {
-        dispatch(excursionFetching())
+        dispatch(cartFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cart`,
             {headers: {Authorization: `Bearer ${token}`}})
-        dispatch(excursionFetchingSuccess(data))
+        dispatch(cartFetchingSuccess(data))
     }catch (e) {
-        dispatch(excursionFetchingError(e.response.message))
+        dispatch(cartFetchingError(e.response.message))
     }
 }
 export const fetchCartChange = ({token, id, quantity}) => async (dispatch) => {

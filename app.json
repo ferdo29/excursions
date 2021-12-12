@@ -18,10 +18,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/appIcons/playstore.png"
+      "icon": "./assets/appIcons/playstore.png",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "icon": "./assets/appIcons/playstore.png",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/appIcons/android/mipmap-xxxhdpi/ic_launcher.png",
         "backgroundColor": "#FFFFFF"
@@ -30,6 +32,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-facebook"
+    ]
   }
 }

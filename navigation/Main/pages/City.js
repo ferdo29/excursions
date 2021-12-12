@@ -10,7 +10,7 @@ import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {CityBackground} from "../../../components/backgrounds/CityBackground";
 import {useEffect} from "react";
-import {excursionDelete, excursionDeleteExcursion} from "../../../store/popularPlaces/reducer";
+import {popularPlacesDelete, popularPlacesDeleteExcursion} from "../../../store/popularPlaces/reducer";
 import {fetchPopularPlaces, fetchPopularPlacesExcursions} from "../../../store/popularPlaces/service";
 import {Loader} from "../../../components/Loader";
 import img from "../../../assets/image/Shiadu.png";
@@ -40,8 +40,8 @@ export const City = ({}) => {
             dispatch(fetchPopularPlacesExcursions({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.stsTokenManager.accessToken}))
 
         }else{
-            dispatch(excursionDelete())
-            dispatch(excursionDeleteExcursion())
+            dispatch(popularPlacesDelete())
+            dispatch(popularPlacesDeleteExcursion())
         }
     }, [isFocused])
     console.log()

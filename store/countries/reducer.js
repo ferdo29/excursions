@@ -16,22 +16,22 @@ const counterSlice = createSlice({
             state.isLoading = action.payload.isLoading
             state.error = action.payload.error
         },
-        excursionFetching(state) {
+        countriesFetching(state) {
             state.isLoading = true
             state.isView = false
         },
-        excursionFetchingSuccess(state, action) {
+        countriesFetchingSuccess(state, action) {
             state.isLoading = false
             state.isView = true
             state.error = ''
             state.data = action.payload.data
         },
-        excursionFetchingError(state, action) {
+        countriesFetchingError(state, action) {
             state.isLoading = false
             state.isView = false
             state.error = action.payload
         },
-        excursionDelete(state) {
+        countriesDelete(state) {
             state.isLoading = false
             state.isView = false
             state.error = ''
@@ -41,5 +41,5 @@ const counterSlice = createSlice({
 
 })
 
-export const {setCountries, excursionFetching, excursionFetchingSuccess, excursionFetchingError,} = counterSlice.actions
+export const {setCountries, countriesFetching, countriesFetchingSuccess, countriesFetchingError,} = counterSlice.actions
 export default counterSlice.reducer

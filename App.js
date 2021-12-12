@@ -19,8 +19,8 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
-import { initializeApp, FirebaseAppSettings } from "firebase/app"
-import {getAuth, User} from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import {getAuth} from "firebase/auth";
 import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
@@ -38,8 +38,7 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 export default function App() {
-    let x = getAuth()
-    const [auth, setAuth] = useState({})
+    const [auth, setAuth] = useState(false)
     const [lang, setLang] = useState('RU');
     const [loading, setLoading] = useState(true);
     const store = setupStore()
@@ -77,13 +76,13 @@ export default function App() {
                 }
 
             })
-            setTimeout(() => {
-                const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
-                if(token){
-                    setAuth(getAuth().currentUser)
-                }
-                setLoading(false)
-            }, 2000)
+            // setTimeout(() => {
+            //     const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
+            //     if(token){
+            //         setAuth(true)
+            //     }
+            //     setLoading(false)
+            // }, 2000)
         },[])
 
 

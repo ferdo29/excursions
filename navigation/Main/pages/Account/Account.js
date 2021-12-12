@@ -10,24 +10,38 @@ import {IconAlertCircle, IconFile, IconHelp, IconSettings, IconUserPlus} from ".
 import useValidDataUser from "../../../../hooks/useValidDataUser";
 import {useLinkTo} from "@react-navigation/native";
 import {AccountBackground} from "../../../../components/backgrounds/AccountBackground";
-import {setLogout} from "../../../../store/account/reducer";
 import {useContext} from "react";
 import userFB from "../../../../contexts/userFB";
+import {getAuth, signOut} from "firebase/auth";
 
 export default function Account({}) {
-    const {auth} = useContext(userFB)
+    const {setAuth} = useContext(userFB)
+    const user = getAuth()
     const linkTo = useLinkTo();
     const dispatch = useDispatch()
     const {phoneFormat} = useValidDataUser()
+    const handlerLogout = async () => {
+        try{
+            await setAuth(false)
+            await signOut(user)
+        }catch (e) {
+            console.log(e)
+        }
 
-    const handlerLogout = () => dispatch(setLogout())
+    }
+    console.log(user)
+
     return (
         <MainLayout animation={0}
                     itemBack={<AccountBackground/>}
                     itemTitle={
                         <View>
                             <Text23 style={{color: '#4f4f4f', textAlign: 'center', paddingBottom: 10}}>Мы рады видеть вас!</Text23>
-                            <Text14 style={{color: '#828282', textAlign: 'center'}}>{auth.currentUser.providerData[0].phoneNumber && phoneFormat(auth.currentUser.providerData[0].phoneNumber)}</Text14>
+                            <Text14 style={{color: '#828282', textAlign: 'center'}}>{
+                                user.currentUser.providerData[0].displayName ||
+                                user.currentUser.providerData[0].phoneNumber ||
+                                user.currentUser.providerData[0].email
+                            }</Text14>
                         </View>}
         >
 

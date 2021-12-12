@@ -1,6 +1,9 @@
 {
   "error": {
-    "Enter your phone number": "Введите свой номер телефона"
+    "Enter your phone number": "Введите свой номер телефона",
+    "auth/weak-password": "Слабый пароль",
+    "auth/email-already-in-use": "Электронная почта уже используется",
+    "error": "Ошибка"
   },
   "ScrollHorizontal": {
     "Show all": "Показать все"
@@ -18,6 +21,9 @@
     "Continue with": "Продолжить с",
     "Continue through": "Продолжить через",
     "Phone": "Телефон",
+    "Login": "Войти",
+    "Register": "Зарегистрироватся",
+    "Password": "Ваш пароли",
     "Your email": "Ваш email",
     "We are always glad to see you": "Мы вам всегда рады",
     "Sign in to save your favorite excursions and see your purchases in your personal account" : "Войдите, что бы сохранить избранные экскурсии и видеть свои покупки в вашем личном кабинете"
