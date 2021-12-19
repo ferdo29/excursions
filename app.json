@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "excursions",
-    "slug": "excursions",
-    "version": "1.0.0",
+    "name": "ExcursionsApp",
+    "slug": "ExcursionsApp",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/appIcons/playstore.png",
     "splash": {
@@ -19,9 +19,17 @@
     "ios": {
       "supportsTablet": true,
       "icon": "./assets/appIcons/playstore.png",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBPrJo-rkFS4pcSBoflnmVjN05aeYinzSY"
+      }
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDh3e1fXDRVpMf0PcN7JOT3qwqmiuCK5bk"
+        }
+      },
       "icon": "./assets/appIcons/playstore.png",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {

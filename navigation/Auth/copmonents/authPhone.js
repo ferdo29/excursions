@@ -8,8 +8,21 @@ import {ButtonWhite} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useContext, useRef, useState} from "react";
 import Locale from "../../../contexts/locale";
-import {getAuth, signInWithPhoneNumber, PhoneAuthProvider} from "firebase/auth";
+import {getAuth, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential,} from "firebase/auth";
 import userFB from "../../../contexts/userFB";
+import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
+import {PopupsCheckSMS} from "./popups";
+
+const firebaseConfig = {
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DARA_BASE_URL,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID,
+};
 
 export const AuthPhone = ({}) => {
     useContext(Locale)
@@ -19,36 +32,42 @@ export const AuthPhone = ({}) => {
     const [phone, setPhone] = useState('')
     const [zip, setZip] = useState('+44')
     const [confirm, setConfirm] = useState(null);
+    const [pop, setPop] = useState(false);
 
-    const Login = async () => {
+    const verif = async () => {
+        const auth = getAuth();
+        try {
+            const phoneProvider = new PhoneAuthProvider(auth);
+            await phoneProvider.verifyPhoneNumber(zip + phone.match(/[0-9]/g).join(''), recaptchaVerifier.current);
+
+
+        } catch (e) {
+            console.log(e)
+            setPop(true)
+        }
+    }
+    const Login = async (code) => {
         const auth = getAuth();
 
+        // console.log(zip + phone)
+        // const appVerifier = PhoneAuthProvider.credential(
+        //     verificationId,
+        //     code
+        // );
+        const credential = PhoneAuthProvider.credential(
+            verificationId,
+            code
+        )
 
-        // const phoneProvider = new PhoneAuthProvider(auth);
-        // phoneProvider
-        //     .verifyPhoneNumber(zip + ' ' + phone.replace(/[()-]|\s/gm, ''), recaptchaVerifier.current)
-        //     .then((data) => {
-        //         console.log(data)
-        //         setVerificationId(data)
+        signInWithCredential(auth, credential)
+            .then((result) => {
+                console.error(result);
+            });
+        // signInWithPhoneNumber(auth, zip + phone.match(/[0-9]/g), data)
+        //     .then((res) => {
+        //         console.log(res)
         //     })
-        //     .catch((e) => {
-        //         console.log(e)
-        //     })
-
-        // try {
-        //     const confirmation = await signInWithPhoneNumber(auth, zip + ' ' + phone.replace(/[()-]|\s/gm, ''), recaptchaVerifier.current);
-        //     // setConfirm(confirmation);
-        //     console.log(confirmation)
-        // }catch (e) {
-        //     console.log(e)
-        // }
-
-
-        // signInWithPhoneNumber( auth, phone, )
-        //     .then(() => {
-        //         setAuth(true)
-        //     })
-        //     .catch(e=> console.log(e))
+        //     .catch(e => console.error(e))
     }
 
     return (
@@ -69,7 +88,7 @@ export const AuthPhone = ({}) => {
                 </WrapperInput>
             </BoxRowView>
 
-            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={Login}>
+            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={verif}>
                 <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
                 <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
@@ -77,6 +96,16 @@ export const AuthPhone = ({}) => {
                           strokeLinejoin="round"/>
                 </Svg>
             </ButtonWhite>
+            <PopupsCheckSMS
+                openClose={Login}
+                confirmation={pop}
+                Phone={zip + phone}
+                handlerConfirmation={() => setPop(!pop)}/>
+            <FirebaseRecaptchaVerifierModal
+                ref={recaptchaVerifier}
+                firebaseConfig={firebaseConfig}
+                attemptInvisibleVerification={true}
+            />
         </>
     );
 };

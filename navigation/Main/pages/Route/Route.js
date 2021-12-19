@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MainLayout from "../../../../layouts/MainLayout";
-import {useSelector} from "react-redux";
-import {useLinkTo, useNavigationState} from "@react-navigation/native";
+import {useDispatch, useSelector} from "react-redux";
+import {useIsFocused, useLinkTo, useNavigationState} from "@react-navigation/native";
 import {
     BoxRow,
     ContainerMain,
@@ -11,29 +11,44 @@ import {
 import Svg, {Circle, Path} from "react-native-svg";
 import {Pressable, Image, View, Dimensions} from "react-native";
 import {WrapperCircle} from "../../../../styles/components/Cards";
-import {useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import Carousel from 'react-native-snap-carousel';
 import {ButtonGray} from "../../../../styles/components/buttons";
 import AudioSlider from "../../../../components/AudioSlider";
+import {fetchMyExcursion} from "../../../../store/myExcursion/service";
+import {getAuth} from "firebase/auth";
+import {Loader} from "../../../../components/Loader";
+import {validPointsImages} from "../../../../middleware/middlewares";
+import {DownloadFile} from "./components/DownloadFile";
+import filesStore from "../../../../contexts/filesStore";
 
 const {height, width} = Dimensions.get('window')
 
 export default function Route({}) {
     const linkTo = useLinkTo();
+    const dispatch = useDispatch()
+    const isFocused = useIsFocused();
+    const user = getAuth().currentUser
+    const {excursionStore} = useContext(filesStore)
     const routes = useNavigationState(state => state.routes)
+    const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
 
-    const excursion = useSelector(state =>
-        !!routes.find(value => value.name === 'Route') ?
-            state.account.data.excursions.find(value => value.id === parseInt(routes.find(value => value.name === 'Route').params.screen)) :
-            state.account.data.excursions[0]
-    )
-    const [state, setState] = useState(1)
+    const [state, setState] = useState(0)
     const ref = useRef();
-
+    const ValidAudio = () => {
+        const value = excursionStore.find(value => value.name === data.audio[0].path)
+        // if(!!value){
+        //     return (<>
+        //         <AudioSlider audioFile={value.uri}/>
+        //         <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
+        //     </>)
+        // }
+        return <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
+    }
     const renderItem = ({item : { title, image, id}}) => {
         return(
             <View>
-                <Image source={image} style={{width: (width  * 11/12) - 10, height: 350}}/>
+                <Image source={image} style={{width: (width  * 11/12) - 10, height: 350, }}/>
                 <BoxRow style={{justifyContent:'flex-start', paddingTop: 10}}>
                     <WrapperCircle style={{marginRight: 20, borderColor:  state === id ? '#11AEAE': '#828282'}}>
                         <Text28 style={{color: state === id ? '#11AEAE': '#828282'}}>{id + 1}</Text28>
@@ -46,7 +61,13 @@ export default function Route({}) {
             </View>
         )
     }
-
+    useEffect(() => {
+        (isFocused) && dispatch(fetchMyExcursion({
+            token: user.stsTokenManager.accessToken,
+            id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
+        }))
+    }, [isFocused])
+    if (idExcursion < 0) return <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
 
     return (
         <>
@@ -54,7 +75,7 @@ export default function Route({}) {
 
             <ContainerMain style={{marginBottom: 24}}>
                 <BoxRow style={{justifyContent: 'space-between'}}>
-                    <Text20>{excursion.title}</Text20>
+                    <Text20 style={{width: '80%'}}>{data.name}</Text20>
                     <Pressable onPress={() => linkTo('/Participants')}>
                         <Svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Circle r="20.5" transform="matrix(-1 0 0 1 20.5 21.4714)" fill="#11AEAE"/>
@@ -70,9 +91,9 @@ export default function Route({}) {
                 </BoxRow>
             </ContainerMain>
 
-            <Carousel
+            {data?.points && <Carousel
                 ref={ref}
-                data={excursion.place.map((value, index) => ({...value, id: index }))}
+                data={validPointsImages(data)}
                 renderItem={renderItem}
                 activeAnimationType={'spring'}
                 sliderWidth={width}
@@ -81,14 +102,17 @@ export default function Route({}) {
                 inactiveSlideScale={1}
                 onSnapToItem={(index) => setState(index)}
                 useScrollView={true}
-                itemWidth={width  * 11/12}
-            />
+                itemWidth={width * 11 / 12}
+            />}
             <ContainerMain style={{marginTop: 43}}>
 
-                <AudioSlider audioFile={excursion.place[state].audio}/>
+                {data?.audio && data?.audio.length > 0 && <ValidAudio/>}
+            {/*{validAudio()  && <AudioSlider audioFile={data.audio[0].path}/>}*/}
+
+            {/*    {!validAudio()  && <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>}*/}
 
                 <ButtonGray activeOpacity={0.6}
-                            onPress={() => linkTo(`/Map`)}
+                            onPress={() => linkTo(`/Map/`+ state)}
                             style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
                     <Text16Bold500
                         style={{color: '#828282'}}>Показать маршрут на карте</Text16Bold500>

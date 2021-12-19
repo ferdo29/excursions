@@ -17,7 +17,7 @@ import {showToastState} from "../../../store/toasts/reducer";
 
 const {height, width} = Dimensions.get('window')
 
-export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfirmation = () => {}}) => {
+export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfirmation = () => {}, Phone = '+7 (913) 041-99-99'}) => {
     useContext(Locale)
     const dispatch = useDispatch()
     const {data, timerView, timer, phone, zipPhone} = useSelector(state => state.SMS)
@@ -26,6 +26,8 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
     const ref_input1 = useRef();
     const ref_input2 = useRef();
     const ref_input3 = useRef();
+    const ref_input4 = useRef();
+    const ref_input5 = useRef();
 
     const handlerState = (num, value) => {
 
@@ -33,16 +35,13 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
         num === 0 && ref_input1.current.focus()
         num === 1 && ref_input2.current.focus()
         num === 2 && ref_input3.current.focus()
+        num === 3 && ref_input4.current.focus()
+        num === 4 && ref_input5.current.focus()
 
-        if (data[0] !== '' && data[1] !== '' && data[2] !== '' && (num === 3 && value !== '')){
-            if ('1234' !== data.join('') + value){
-                dispatch(clearState())
-                ref_input0.current.focus()
-            }else{
-                dispatch(clearState())
-                openClose()
-                dispatch(setPhoneAccount(zipPhone + phone))
-            }
+        if (data[0] !== '' && data[1] !== '' && data[2] !== '' && data[3] !== '' && data[4] !== '' && (num === 5 && value !== '')){
+            dispatch(clearState())
+            openClose(data.join('') + value)
+            handlerConfirmation()
         }
     }
     const handleFocus = () => setStateHeight(height * 0.1)
@@ -54,7 +53,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                 <Text26 style={{paddingBottom: 28}}>Подтверждение номера</Text26>
 
                 <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
-                    Введите 4-значный код, который мы отправили на указанный вами номер телефона +7 (913) 041-99-99
+                    Введите 6-значный код, который мы отправили на указанный вами номер телефона {Phone}
                 </Text16>
                 <BoxRowView style={{paddingBottom:22}}>
                     <WrapperInputNumber>
@@ -74,7 +73,6 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                             ref={ref_input1}
                             maxLength={1}
                             onFocus={handleFocus}
-                            onBlur={handleBlur}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(1, data)}
@@ -86,7 +84,6 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                             ref={ref_input2}
                             maxLength={1}
                             onFocus={handleFocus}
-                            onBlur={handleBlur}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(2, data)}
@@ -98,11 +95,31 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                             ref={ref_input3}
                             maxLength={1}
                             onFocus={handleFocus}
-                            onBlur={handleBlur}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(3, data)}
                             value={data[3]}/>
+                    </WrapperInputNumber>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input4}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(4, data)}
+                            value={data[4]}/>
+                    </WrapperInputNumber>
+                    <WrapperInputNumber>
+                        <InputNumber
+                            ref={ref_input5}
+                            maxLength={1}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            textAlign={'center'}
+                            keyboardType={'number-pad'}
+                            onChangeText={(data) => handlerState(5, data)}
+                            value={data[5]}/>
                     </WrapperInputNumber>
                 </BoxRowView>
                 {timerView ?

@@ -16,7 +16,7 @@ export const AuthFacebook = ({}) => {
 
     async function logIn() {
         const auth = getAuth()
-        const appId = '1572059736459646'
+        const appId = process.env.facebook
         const permissions = ['public_profile', 'email'];
         try {
             await initializeAsync(appId)
@@ -35,6 +35,7 @@ export const AuthFacebook = ({}) => {
                 }
             }
         }catch (e) {
+            console.log(e)
             dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
         }
 

@@ -1,9 +1,33 @@
 {
+  "All": {
+    "Pay": "Оплатить",
+    "Paid up": "Оплачено",
+    "Cart": "Корзина"
+  },
+  "Basket": {
+    "Total purchase amount": "Общая сумма покупки ",
+    "Discount":"Скидка",
+    "Promotion Invite a friend": "Акция «Пригласи друга»",
+    "Total payable":"Итого к оплате ",
+    "You have": "У вас в корзине",
+    "excursions in your basket": "экскурсии",
+    "Sorry, but your cart is empty":"К сожалению, но ваша корзина пуста.",
+    "View excursions":"Посмотреть экскурсии"
+  },
+  "myExcursions": {
+    "My excursions": "Мои экскурсии",
+    "Order": "Заказ",
+    "Valid until": "Действительна до",
+    "y": "г.",
+    "New": "Новые",
+    "Completed": "Завершенные"
+  },
   "error": {
     "Enter your phone number": "Введите свой номер телефона",
     "auth/weak-password": "Слабый пароль",
     "auth/email-already-in-use": "Электронная почта уже используется",
-    "error": "Ошибка"
+    "error": "Ошибка",
+    "Payment error": "Ошибка при оплатите"
   },
   "ScrollHorizontal": {
     "Show all": "Показать все"

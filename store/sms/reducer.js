@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-    data: ['', '', '', ''],
+    data: ['', '', '', '', '', ''],
     phone: '',
     zipPhone: '',
     email: '',
@@ -20,7 +20,7 @@ const counterSlice = createSlice({
             state.data[payload.num] = payload.value
         },
         clearState(state){
-            state.data = ['', '', '', '']
+            state.data = ['', '', '', '', '', '']
         },
         setPhoneSMS(state, action){
             state.phone = action.payload.replace(/\D+/g,"")

@@ -13,6 +13,8 @@ import excursion from './excursion/reducer'
 import faq from './faq/reducer'
 import favourite from './favourite/reducer'
 import cart from './cart/reducer'
+import myExcursions from './myExcursions/reducer'
+import myExcursion from './myExcursion/reducer'
 
 const rootReducer = combineReducers(
     {
@@ -29,6 +31,8 @@ const rootReducer = combineReducers(
         faq,
         favourite,
         cart,
+        myExcursions,
+        myExcursion,
     }
 )
 

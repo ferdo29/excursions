@@ -8,8 +8,9 @@ import InsetShadow from 'react-native-inset-shadow'
 import {setDeleteCartById} from "../../../../store/cart/reducer";
 import {getAuth} from "firebase/auth";
 import {fetchCartChange} from "../../../../store/cart/service";
+import {validImg} from "../../../../middleware/middlewares";
 
-export default function ItemBasket({image, name, price, id, quantity, percent}) {
+export default function ItemBasket({name, price, id, quantity, percent, ...props}) {
 
     const dispatch = useDispatch()
     const user = getAuth().currentUser
@@ -20,7 +21,7 @@ export default function ItemBasket({image, name, price, id, quantity, percent}) 
 
     return (
         <BoxRow style={{justifyContent: 'space-between', paddingBottom: 40, borderBottomWidth: 1, borderBottomColor: '#E0E0E0', marginBottom:20}}>
-            <CardBasketImage source={image} style={{flexGrow: 1, marginRight: 10}}/>
+            <CardBasketImage source={validImg(props)} style={{flexGrow: 1, marginRight: 10}}/>
             <BoxColumnView style={{ alignItems: 'flex-start', flexGrow: 2, height: 97}}>
                 <BoxRow style={{justifyContent: 'space-between'}}>
                     <Text16 numberOfLines={2} style={{lineHeight: 20, paddingBottom: 5, flexGrow: 1, maxWidth: 200}}>{name}</Text16>

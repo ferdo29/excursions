@@ -1,9 +1,33 @@
 {
+  "All": {
+    "Pay": "Pay",
+    "Paid up": "Paid up",
+    "Cart": "Cart"
+  },
+  "Basket": {
+    "Total purchase amount": "Total purchase amount",
+    "Discount":"Discount",
+    "Promotion Invite a friend": "Promotion \"Invite a friend\"",
+    "Total payable":"Total payable",
+    "You have": "You have",
+    "excursions in your basket": "excursions in your basket",
+    "Sorry, but your cart is empty":"Sorry, but your cart is empty.",
+    "View excursions":"View excursions"
+  },
+  "myExcursions": {
+    "My excursions": "My excursions",
+    "Order": "Order",
+    "Valid until": "Valid until",
+    "y": "",
+    "New": "New",
+    "Completed": "Completed"
+  },
   "error": {
     "Enter your phone number": "Enter your phone number",
     "auth/weak-password": "Weak password",
     "auth/email-already-in-use": "Email already in use",
-    "error": "Error"
+    "error": "Error",
+    "Payment error": "Payment error "
   },
   "ScrollHorizontal": {
     "Show all": "Show all"

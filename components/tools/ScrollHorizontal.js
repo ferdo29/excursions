@@ -37,7 +37,7 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
                                 showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     {model && model.length > 0 && model.map((value, index) => index < limit &&
                         <WrapperImagePressable
-                            key={value.name}
+                            key={value.id}
                             onPress={() => linkTo(`/${toLink}/${value.id}`)}>
                             <CardImage
                                 style={{marginRight: index + 1 === (limit > model.length ? model.length : limit) ? 22 : 0}}

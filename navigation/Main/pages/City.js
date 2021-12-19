@@ -44,7 +44,7 @@ export const City = ({}) => {
             dispatch(popularPlacesDeleteExcursion())
         }
     }, [isFocused])
-    console.log()
+
     return (
         <>
             {isView && !isLoading && <LayoutImageTop

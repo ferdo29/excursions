@@ -6,7 +6,7 @@ import {Text14, Text16} from "../../../styles/components/tools";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useContext, useState} from "react";
 import Locale from "../../../contexts/locale";
-import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {getAuth, signInWithEmailAndPassword, signInWithEmailLink} from "firebase/auth";
 import userFB from "../../../contexts/userFB";
 import {Dimensions, TouchableOpacity} from "react-native";
 import {PopupAgreement, PopupRegForm} from "./popups";
@@ -43,6 +43,9 @@ export const AuthEmail = ({}) => {
         setErrorEmail(false)
         setErrorPassword(false)
         const auth = getAuth();
+
+
+
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {setAuth(true)})
             .catch(e=> {

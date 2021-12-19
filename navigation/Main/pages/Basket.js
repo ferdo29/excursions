@@ -15,11 +15,13 @@ import {useIsFocused, useLinkTo} from "@react-navigation/native";
 import {Image} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import ItemBasket from "./components/ItemBasket";
-import {t} from "i18n-js";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {fetchCart} from "../../../store/cart/service";
 import {getAuth} from "firebase/auth";
 import {useEffect} from "react";
+import axios from "axios";
+import {showToastState} from "../../../store/toasts/reducer";
+import {t} from "i18n-js";
 
 const percent = (count) => {
     if (count < 3) return 1
@@ -47,21 +49,42 @@ export default function ({}) {
         isFocused && onRefresh()
     }, [isFocused])
 
+    const PayPal = async () => {
+        try {
+            const data = await axios.get(`${process.env.DB_HOST}/cart/pay-url`,
+                {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+            if(data["message"] === 'success'){
+                onRefresh()
+                dispatch(showToastState({
+                    type: 'success',
+                    text1: t('All.Paid up'),
+                }))
+            }
+
+        }catch (e) {
+            dispatch(showToastState({
+                type: 'success',
+                text1: t('error.Payment error'),
+            }))
+        }
+
+    }
+
     return (
         <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={0}  itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
-                <Text23Bold style={{textAlign: 'center'}}>Корзина</Text23Bold>
+                <Text23Bold style={{textAlign: 'center'}}>{t('All.Cart')}</Text23Bold>
                 <Text12 style={{textAlign: 'center', marginBottom: 54, marginTop: 24}}>
                     {cart.length > 0 ?
-                        `У вас в корзине ${cart.length} экскурсии` :
-                        'К сожалению, но ваша корзина пуста.'
+                        `${t('Basket.You have')} ${cart.length} ${t('Basket.excursions in your basket')}` :
+                        t('Basket.Sorry, but your cart is empty')
                     }
                 </Text12>
                 {cart.length <= 0 && <ButtonGrayWrapper style={{width: 'auto'}}>
                     <ButtonGray onPress={() => linkTo(`/Home`)}
                                 activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
-                            style={{color: '#828282', width: '65%'}}>Посмотреть экскурсии</Text16Bold500>
+                            style={{color: '#828282', width: '65%'}}>{t('Basket.View excursions')}</Text16Bold500>
                         <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -75,14 +98,14 @@ export default function ({}) {
                                                                   percent={Math.ceil((1 - percent(value.quantity)) * 100) }
                                                                   key={value.id}/>)}
                 {cart.length > 0 && <BoxColumnView>
-                    <Text14 style={{marginBottom: 12}}>Общая сумма покупки {reducer(cart)} € </Text14>
-                    <Text14 style={{marginBottom: 12}}>Скидка {10}% (Акция «Пригласи друга»)</Text14>
-                    <Text18Bold style={{marginBottom: 40}}>Итого к оплате {reducer(cart)} €</Text18Bold>
+                    <Text14 style={{marginBottom: 12}}>{t('Basket.Total purchase amount')} {reducer(cart)} € </Text14>
+                    <Text14 style={{marginBottom: 12}}>{t('Basket.Discount')} {10}% ({t('Basket.Promotion Invite a friend')})</Text14>
+                    <Text18Bold style={{marginBottom: 40}}>{t('Basket.Total payable')} {reducer(cart)} €</Text18Bold>
                 </BoxColumnView>}
                 {cart.length > 0 && <ButtonGrayWrapper style={{width: '100%'}}>
-                    <ButtonGray activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
+                    <ButtonGray onPress={PayPal} activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
-                            style={{color: '#828282'}}>Оплатить</Text16Bold500>
+                            style={{color: '#828282'}}>{t('All.Pay')}</Text16Bold500>
                         <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>

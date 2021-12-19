@@ -4,12 +4,15 @@ import { Audio } from "expo-av";
 import moment from 'moment'
 import {BoxRow, ColumnCenterView, Text12} from "../styles/components/tools";
 import Svg, {Path} from "react-native-svg";
+import {getAuth} from "firebase/auth";
+import {SafeAreaView, ScrollView} from "react-native";
 
 const {height, width} = Dimensions.get('window')
 
 export default function AudioSlider({audioFile}) {
     const AudioPlayer = useRef(new Audio.Sound());
     const ref = useRef({})
+    const user = getAuth().currentUser
 
     const [AudioPermission, SetAudioPermission] = useState(false);
     const [IsPLaying, SetIsPLaying] = useState(false);
@@ -19,10 +22,21 @@ export default function AudioSlider({audioFile}) {
     }, [audioFile]);
 
     const GetPermission = async () => {
-        const getAudioPerm = await Audio.requestPermissionsAsync();
-        SetAudioPermission(getAudioPerm.granted);
-        await AudioPlayer.current.loadAsync(require('../assets/audio/DjAristocrat.mp3'), {}, true);
-        ref.current = await AudioPlayer.current.getStatusAsync();
+        try {
+            const getAudioPerm = await Audio.requestPermissionsAsync();
+            SetAudioPermission(getAudioPerm.granted);
+            AudioPlayer.current.loadAsync({
+                uri: audioFile,
+            }, {}, true).then((data) => {
+                console.log(data)
+                AudioPlayer.current.getStatusAsync().then()
+            })
+
+            ref.current = await AudioPlayer.current.getStatusAsync();
+        }catch (e) {
+            console.log(e)
+        }
+
     };
     const PlayRecordedAudio = async () => {
         try {
@@ -52,24 +66,29 @@ export default function AudioSlider({audioFile}) {
             SetIsPLaying(false);
         } catch (error) {}
     };
+    console.log(ref.current)
 
     return (
-        <BoxRow style={{justifyContent: 'space-between', marginBottom: 40}}>
+        <BoxRow style={{justifyContent: 'flex-start', marginBottom: 40}}>
 
-            <TouchableOpacity onPress={IsPLaying ? StopPlaying : PlayRecordedAudio}>
+            <TouchableOpacity onPress={IsPLaying ? StopPlaying : PlayRecordedAudio} style={{marginRight: 20}}>
                 <Svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Path d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33Z" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <Path d="M15 12L24 18L15 24V12Z" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
             </TouchableOpacity>
-            <ColumnCenterView style={{width: width * .8 - 20, justifyContent: 'flex-start', alignItems:'space-between'}}>
-
-                <View style={{position: 'relative', height: 1,marginTop: 15, marginBottom: 7, backgroundColor: '#BDBDBD', width: width * .8 - 20}}>
-                    <View style={{height: 3, backgroundColor: '#11AEAE', width: width * .6 - 20, position: 'absolute', left: 0, top: -1}}/>
+            <ColumnCenterView style={{width: (width * .8) - 20, justifyContent: 'flex-start', alignItems:'space-between'}}>
+                {/*<SafeAreaView>*/}
+                {/*    <ScrollView style={{position: 'relative', height: 1,marginTop: 15, marginBottom: 7, backgroundColor: '#BDBDBD', width: width * .8 - 20}}>*/}
+                {/*        */}
+                {/*    </ScrollView>*/}
+                {/*</SafeAreaView>*/}
+                <View style={{position: 'relative', height: 1,marginTop: 15, marginBottom: 7, backgroundColor: '#BDBDBD', width: (width * .8) - 20}}>
+                    <View style={{height: 3, backgroundColor: '#11AEAE', width: (width * .6) - 20, position: 'absolute', left: 0, top: -1}}/>
                 </View>
-                <BoxRow style={{justifyContent: 'space-between', width: width * .8 - 20}}>
-                    <Text12 style={{color: '#BDBDBD', lineHeight: 17}}>{moment.utc(ref.current.positionMillis).format('mm:ss')}</Text12>
-                    <Text12 style={{color: '#BDBDBD', lineHeight: 17}}>{moment.utc(ref.current.durationMillis).format('mm:ss')}</Text12>
+                <BoxRow style={{justifyContent: 'space-between', width:( width * .8) - 20}}>
+                    <Text12 style={{color: '#BDBDBD', lineHeight: 17}}>{moment.utc(ref.current.positionMillis).format('hh:mm:ss')}</Text12>
+                    <Text12 style={{color: '#BDBDBD', lineHeight: 17}}>{moment.utc(ref.current.durationMillis).format('hh:mm:ss')}</Text12>
                 </BoxRow>
             </ColumnCenterView>
 

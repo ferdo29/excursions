@@ -8,6 +8,7 @@ import * as Google from "expo-google-app-auth";
 import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
+import {Platform} from "react-native";
 
 export const AuthGoogle = ({}) => {
     const dispatch = useDispatch()
@@ -15,10 +16,10 @@ export const AuthGoogle = ({}) => {
 
     const handlerGoogle = () => {
         const auth = getAuth();
-
         const config = {
             iosClientId: process.env.DB_IOS_CLIENT_ID,
             androidClientId: process.env.ANDROID_CLIENT_ID,
+            clientId: Platform.OS === 'android' ? process.env.ANDROID_CLIENT_ID : process.env.DB_IOS_CLIENT_ID,
             scopes: ['profile', 'email'],
         }
         Google.logInAsync(config).then((result) => {
@@ -37,7 +38,10 @@ export const AuthGoogle = ({}) => {
                    dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }
             })
-            .catch(err => {dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))})
+            .catch(err => {
+                console.log(err)
+                dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
+            })
 
     }
 

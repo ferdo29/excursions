@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Provider} from "react-redux";
 import setupStore from "./store/store";
-import {NavigationContainer} from "@react-navigation/native";
 import i18n from "i18n-js";
 import Locale from './contexts/locale'
 import UserFB from './contexts/userFB'
+import FilesStore from './contexts/filesStore'
 import {NavigationController} from "./navigation/navigation.controller";
-import AppLoading from 'expo-app-loading';
 import {
     useFonts,
     Ubuntu_300Light,
@@ -24,7 +23,6 @@ import {getAuth} from "firebase/auth";
 import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
-import PreviewNavigation from "./navigation/Preview/PreviewNavigation";
 
 const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -41,6 +39,7 @@ export default function App() {
     const [auth, setAuth] = useState(false)
     const [lang, setLang] = useState('RU');
     const [loading, setLoading] = useState(true);
+    const [excursionStore, setExcursionStore] = useState([{}])
     const store = setupStore()
     const [statePreview, setStatePreview] = useState(false)
     let [fontsLoaded] = useFonts({
@@ -66,39 +65,74 @@ export default function App() {
         'Ru': require('./location/ru.json'),
         'RU': require('./location/ru.json'),
     }
-        useEffect(() => {
-            !statePreview && SecureStore.getItemAsync('KeyPreview')
-                .then((result) => {
-                if (!!result){
+    
+    const handlerSetExcursionsStore = (object) => {
+        const data = [...excursionStore, ...[object]]
+        SecureStore.setItemAsync('KeyExcursionStore', JSON.stringify(data))
+            .then(value => {
+                setExcursionStore(data)
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+    }
+    const reExcursionStoreFile = (id) => {
+
+    }
+    const clearExcursionsStore = () => {
+        SecureStore.deleteItemAsync('KeyExcursionStore')
+            .then(() => {
+
+                setExcursionStore([])
+            })
+            .catch((e) => console.log(e))
+    }
+
+    useEffect(() => {
+
+        SecureStore.getItemAsync('KeyExcursionStore').then(data => {
+            if (!!data && data !== 'undefined' && data !== 'false') {
+                const jsonData = JSON.parse(data)
+                setExcursionStore(jsonData)
+            } else {
+                SecureStore.setItemAsync('KeyExcursionStore', JSON.stringify([])).then()
+                setExcursionStore([])
+            }
+
+        })
+
+        !statePreview && SecureStore.getItemAsync('KeyPreview')
+            .then((result) => {
+                if (!!result) {
                     setStatePreview(true)
-                }else {
+                } else {
                     setStatePreview(false)
                 }
 
             })
-            // setTimeout(() => {
-            //     const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
-            //     if(token){
-            //         setAuth(true)
-            //     }
-            //     setLoading(false)
-            // }, 2000)
-        },[])
+        setTimeout(() => {
+            const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
+            if (token) {
+                setAuth(true)
+            }
+            setLoading(false)
+        }, 2000)
+    }, [])
 
 
-    if (!fontsLoaded && !app && !loading)
+    if (loading && (!fontsLoaded || !app))
         return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><Loader/></View>;
 
   return (
       <Provider store={store}>
           <Locale.Provider value={{lang, setLang}}>
+          <FilesStore.Provider value={{excursionStore, handlerSetExcursionsStore, clearExcursionsStore, reExcursionStoreFile}}>
               <UserFB.Provider value={{auth: auth, setAuth}}>
               <ToastProvider>
-                  <NavigationContainer>
                       <NavigationController/>
-                  </NavigationContainer>
               </ToastProvider>
               </UserFB.Provider>
+          </FilesStore.Provider>
           </Locale.Provider>
       </Provider>
   );

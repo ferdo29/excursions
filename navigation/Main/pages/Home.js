@@ -10,14 +10,14 @@ import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {useContext, useEffect, useLayoutEffect} from "react";
 import Locale from "../../../contexts/locale";
 import {HomeBackground} from "../../../components/backgrounds/HomeBackground";
-import {countriesAPI, fetchCounter} from "../../../store/countries/service";
+import {fetchCounter} from "../../../store/countries/service";
 import {fetchPopularPlacesData} from "../../../store/popularPlaces/service";
 import {fetchExcursions} from "../../../store/excursions/service";
 import {Loader} from "../../../components/Loader";
 import {getAuth} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
-import {excursionFetchingSuccess} from "../../../store/countries/reducer";
+import {fetchMyExcursions} from "../../../store/myExcursions/service";
 
 export default function Home({}) {
     useContext(Locale)
@@ -26,17 +26,16 @@ export default function Home({}) {
     const {data: countries, isLoading: isLoadingC} = useSelector(state => state.countries)
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const {data: excursions, isLoading} = useSelector(state => state.excursions)
+
     const onRefresh = () => {
         dispatch(fetchCounter({token: user.stsTokenManager.accessToken}))
         dispatch(fetchPopularPlacesData({token: user.stsTokenManager.accessToken}))
         dispatch(fetchExcursions({token: user.stsTokenManager.accessToken}))
         dispatch(fetchFavourite({token: user.stsTokenManager.accessToken}))
         dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
     }
-    useLayoutEffect(() => {
-        onRefresh()
-    }, [])
-
+    useEffect(() => {onRefresh()}, [user])
     return (
         <MainLayout
             Refreshing={true}

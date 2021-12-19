@@ -20,19 +20,19 @@ export const WrapperInput = styled.View`
   align-items: center;
 `
 export const WrapperInputNumber = styled.View`
-  width: 71px;
-  height: 88px;
+  width: 40px;
+  height: 60px;
   background: rgba(255, 255, 255, 0.4);
   border-color: #0CA4A4;
   border-width: 1px;
   box-shadow: 6px 6px 35px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  border-radius: 10px;
 `
 export const InputNumber = styled.TextInput`
-  width: 70px;
-  height: 79px;
-  padding: 0 25px;
-  font-size: 30px;
+  width: 40px;
+  height: 60px;
+  padding: 0 15px;
+  font-size: 20px;
   color: #0CA4A4;
   align-items: center;
   justify-content: center;
