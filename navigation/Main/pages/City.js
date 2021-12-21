@@ -48,7 +48,7 @@ export const City = ({}) => {
     return (
         <>
             {isView && !isLoading && <LayoutImageTop
-                viewOption={true}
+                viewOption={false}
                 img={handlerGallery()[0]}
                 itemBack={<CityBackground/>}
                 count={data.excursions}

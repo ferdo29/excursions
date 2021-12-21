@@ -15,21 +15,19 @@ import userFB from "../../../../contexts/userFB";
 import {getAuth, signOut} from "firebase/auth";
 
 export default function Account({}) {
-    const {setAuth} = useContext(userFB)
+    const {logout} = useContext(userFB)
     const user = getAuth()
     const linkTo = useLinkTo();
     const dispatch = useDispatch()
     const {phoneFormat} = useValidDataUser()
     const handlerLogout = async () => {
         try{
-            await setAuth(false)
-            await signOut(user)
+            logout()
         }catch (e) {
             console.log(e)
         }
 
     }
-    console.log(user)
 
     return (
         <MainLayout animation={0}

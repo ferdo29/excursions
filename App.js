@@ -18,8 +18,8 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
-import { initializeApp } from "firebase/app"
-import {getAuth} from "firebase/auth";
+import { initializeApp, getApps} from "firebase/app"
+import {getAuth, signOut, onAuthStateChanged} from "firebase/auth";
 import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
@@ -34,14 +34,16 @@ const firebaseConfig = {
     appId: process.env.APP_ID,
     measurementId: process.env.MEASUREMENT_ID,
 };
-const app = initializeApp(firebaseConfig);
+
+
+initializeApp(firebaseConfig);
+
 export default function App() {
     const [auth, setAuth] = useState(false)
     const [lang, setLang] = useState('RU');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
     const store = setupStore()
-    const [statePreview, setStatePreview] = useState(false)
     let [fontsLoaded] = useFonts({
         Ubuntu_300Light,
         Ubuntu_300Light_Italic,
@@ -52,7 +54,7 @@ export default function App() {
         Ubuntu_700Bold,
         Ubuntu_700Bold_Italic,
     });
-
+    console.log(getApps())
     i18n.locale = lang;
     i18n.translations = {
         "en-En": require('./location/en.json'),
@@ -65,7 +67,7 @@ export default function App() {
         'Ru': require('./location/ru.json'),
         'RU': require('./location/ru.json'),
     }
-    
+
     const handlerSetExcursionsStore = (object) => {
         const data = [...excursionStore, ...[object]]
         SecureStore.setItemAsync('KeyExcursionStore', JSON.stringify(data))
@@ -87,53 +89,64 @@ export default function App() {
             })
             .catch((e) => console.log(e))
     }
+    const userAuth = (value) => {
+        SecureStore.setItemAsync('KeyUserAuth', JSON.stringify(value))
+            .then(() => {
+                setAuth(value)
+            })
+    }
+    const userAuthRemove = (value) => {
+        SecureStore.deleteItemAsync('KeyUserAuth')
+            .then(async () => {
+                setAuth(false)
+                await signOut(getAuth())
+            })
+    }
 
-    useEffect(() => {
-
-        SecureStore.getItemAsync('KeyExcursionStore').then(data => {
-            if (!!data && data !== 'undefined' && data !== 'false') {
-                const jsonData = JSON.parse(data)
+    const asyncFunc = async () => {
+        try {
+            setLoading(true)
+            const KeyUserAuth = await SecureStore.getItemAsync('KeyUserAuth')
+            const KeyExcursionStore = await SecureStore.getItemAsync('KeyExcursionStore')
+            if (KeyUserAuth){
+                setAuth(JSON.parse(KeyUserAuth))
+            }
+            if (!!KeyExcursionStore && KeyExcursionStore !== 'undefined' && KeyExcursionStore !== 'false') {
+                const jsonData = JSON.parse(KeyExcursionStore)
                 setExcursionStore(jsonData)
-            } else {
+            }
+            else {
                 SecureStore.setItemAsync('KeyExcursionStore', JSON.stringify([])).then()
                 setExcursionStore([])
             }
-
-        })
-
-        !statePreview && SecureStore.getItemAsync('KeyPreview')
-            .then((result) => {
-                if (!!result) {
-                    setStatePreview(true)
-                } else {
-                    setStatePreview(false)
-                }
-
-            })
-        setTimeout(() => {
-            const token = getAuth()?.currentUser?.stsTokenManager?.accessToken
-            if (token) {
-                setAuth(true)
-            }
             setLoading(false)
-        }, 2000)
+        }catch (e) {
+            setLoading(true)
+            console.log(e, 123)
+        }
+    }
+
+    useEffect(() => {
+        asyncFunc().then().catch()
     }, [])
 
 
-    if (loading && (!fontsLoaded || !app))
+    if (!loading && !fontsLoaded)
         return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><Loader/></View>;
 
   return (
-      <Provider store={store}>
+
           <Locale.Provider value={{lang, setLang}}>
           <FilesStore.Provider value={{excursionStore, handlerSetExcursionsStore, clearExcursionsStore, reExcursionStoreFile}}>
-              <UserFB.Provider value={{auth: auth, setAuth}}>
-              <ToastProvider>
-                      <NavigationController/>
-              </ToastProvider>
+              <UserFB.Provider value={{auth: auth, setAuth: userAuth, logout: userAuthRemove}}>
+                  <Provider store={store}>
+                      <ToastProvider>
+                          <NavigationController/>
+                      </ToastProvider>
+                  </Provider>
               </UserFB.Provider>
           </FilesStore.Provider>
           </Locale.Provider>
-      </Provider>
+
   );
 }

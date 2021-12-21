@@ -9,7 +9,7 @@ import {Dimensions, Platform, Pressable} from "react-native";
 import Svg, {Path, Circle} from "react-native-svg";
 import {useIsFocused, useNavigation, useNavigationState} from "@react-navigation/native";
 import MainLayout from "../../../../layouts/MainLayout";
-import MapView, {Callout, Marker, CalloutSubview } from 'react-native-maps';
+import MapView, {Callout, Marker, Polyline } from 'react-native-maps';
 import {useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {CardImage, WrapperCircle} from "../../../../styles/components/Cards";
@@ -38,14 +38,10 @@ export const Map = ({}) => {
     }, [isFocused])
     const numbersImg = (index) => {
         switch (index) {
-            case 0: return require(`../../../../assets/image/numbers/1.png`)
-            case 1: return require(`../../../../assets/image/numbers/2.png`)
-            case 2: return require(`../../../../assets/image/numbers/3.png`)
-            case 3: return require(`../../../../assets/image/numbers/4.png`)
-            default: return require(`../../../../assets/image/numbers/1.png`)
+            case 'stop': return require(`../../../../assets/image/Stop1.png`)
+            default: return require(`../../../../assets/image/Star1.png`)
         }
     }
-
 
     return (
         <MainLayout animation={false} >
@@ -75,6 +71,12 @@ export const Map = ({}) => {
             width: Dimensions.get('window').width,
             height: Dimensions.get('window').height * (Platform.OS === 'ios' ? 0.8 : 0.9),
                 }}>
+                {data.coordinates && data.coordinates.length > 0 &&
+                <Polyline
+                    coordinates={data.coordinates}
+                    strokeColor={'#11AEAE'}
+                    strokeWidth={2}
+                />}
                 {data?.points && data?.points.length > 0 && data?.points.map((value, index) =>
                     <Marker coordinate={{
                         latitude: value.position.coordinates[1],
@@ -82,7 +84,7 @@ export const Map = ({}) => {
                         latitudeDelta: 0.422,
                         longitudeDelta: 0.1421
                     }} title={value.name}
-                            image={numbersImg(index)}
+                            image={numbersImg(value.point_type)}
                             onCalloutPress={() => console.log(101)}
                     >
                         <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>

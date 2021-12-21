@@ -22,6 +22,7 @@ import {useEffect} from "react";
 import axios from "axios";
 import {showToastState} from "../../../store/toasts/reducer";
 import {t} from "i18n-js";
+import {fetchMyExcursions} from "../../../store/myExcursions/service";
 
 const percent = (count) => {
     if (count < 3) return 1
@@ -51,10 +52,11 @@ export default function ({}) {
 
     const PayPal = async () => {
         try {
-            const data = await axios.get(`${process.env.DB_HOST}/cart/pay-url`,
+            const {data} = await axios.get(`${process.env.DB_HOST}/cart/pay-url`,
                 {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
             if(data["message"] === 'success'){
-                onRefresh()
+                await onRefresh()
+                dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
                 dispatch(showToastState({
                     type: 'success',
                     text1: t('All.Paid up'),

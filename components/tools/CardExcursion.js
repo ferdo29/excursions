@@ -40,12 +40,13 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
                 console.error(e.response)
             })
     }
+    console.log(data)
 
     return (
         <ContainerMain style={{marginBottom: 20}}>
         <CardExcursionView onPress={() => linkTo(`/Excursion/${data.id}`)}>
 
-            <CardExcursionImage source={{uri: data.images[0].path}}/>
+            <CardExcursionImage source={{uri: data.images.length > 0 && data.images[0].path}}/>
 
             <CardExcursionContent>
                 <BoxRow style={{justifyContent: 'flex-start', paddingBottom: 10}}>

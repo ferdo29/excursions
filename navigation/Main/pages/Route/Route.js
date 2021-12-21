@@ -31,21 +31,22 @@ export default function Route({}) {
     const user = getAuth().currentUser
     const {excursionStore} = useContext(filesStore)
     const routes = useNavigationState(state => state.routes)
+    const [Link, setLink] = useState(0)
     const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
 
     const [state, setState] = useState(0)
     const ref = useRef();
     const ValidAudio = () => {
         const value = excursionStore.find(value => value.name === data.audio[0].path)
-        // if(!!value){
-        //     return (<>
-        //         <AudioSlider audioFile={value.uri}/>
-        //         <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
-        //     </>)
-        // }
+        if(!!value){
+            return (<>
+                <AudioSlider audioFile={value.uri}/>
+            </>)
+        }
         return <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
     }
-    const renderItem = ({item : { title, image, id}}) => {
+    const renderItem = ({item : { title, image, id, order}, ...props}) => {
+        (props.index === state) && setLink(order)
         return(
             <View>
                 <Image source={image} style={{width: (width  * 11/12) - 10, height: 350, }}/>
@@ -107,12 +108,9 @@ export default function Route({}) {
             <ContainerMain style={{marginTop: 43}}>
 
                 {data?.audio && data?.audio.length > 0 && <ValidAudio/>}
-            {/*{validAudio()  && <AudioSlider audioFile={data.audio[0].path}/>}*/}
-
-            {/*    {!validAudio()  && <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>}*/}
 
                 <ButtonGray activeOpacity={0.6}
-                            onPress={() => linkTo(`/Map/`+ state)}
+                            onPress={() => linkTo(`/Map/`+ Link)}
                             style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
                     <Text16Bold500
                         style={{color: '#828282'}}>Показать маршрут на карте</Text16Bold500>

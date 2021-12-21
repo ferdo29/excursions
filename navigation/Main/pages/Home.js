@@ -18,11 +18,13 @@ import {getAuth} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
+import userFB from "../../../contexts/userFB";
 
 export default function Home({}) {
     useContext(Locale)
     const dispatch = useDispatch()
     const user = getAuth().currentUser
+    const {setAuth} = useContext(userFB)
     const {data: countries, isLoading: isLoadingC} = useSelector(state => state.countries)
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const {data: excursions, isLoading} = useSelector(state => state.excursions)
@@ -35,19 +37,21 @@ export default function Home({}) {
         dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
         dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
     }
-    useEffect(() => {onRefresh()}, [user])
+    useEffect(() => {
+        onRefresh()
+    }, [user])
     return (
         <MainLayout
             Refreshing={true}
             handlerRefresh={onRefresh}
             itemBack={<HomeBackground/>}>
             <ContainerMain>
-                <View style={{marginBottom: 20,}}>
-                    <InputSearchWrapper>
-                        <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                        <InputSearch value={''} placeholder={'Страна, город, экскурсия...'}/>
-                    </InputSearchWrapper>
-                </View>
+                {/*<View style={{marginBottom: 20,}}>*/}
+                {/*    <InputSearchWrapper>*/}
+                {/*        <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>*/}
+                {/*        <InputSearch value={''} placeholder={'Страна, город, экскурсия...'}/>*/}
+                {/*    </InputSearchWrapper>*/}
+                {/*</View>*/}
             </ContainerMain>
 
             {!isLoadingC && countries.length > 0 && countries && <ScrollHorizontal buttonView={true}
@@ -67,7 +71,8 @@ export default function Home({}) {
                         <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
                     </ContainerMain>
                     {
-                        excursions.length > 0 && excursions.map((value, index) => index < 4 && <CardExcursion key={value.id} data={value} index={index}/>)
+                        excursions.length > 0 && excursions.map((value, index) => index < 4 &&
+                            <CardExcursion key={value.id} data={value} index={index}/>)
                     }
                 </>
                 : <Loader/>}

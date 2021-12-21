@@ -8,9 +8,11 @@ import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {ItemExcursion} from "./components/ItemExcursion";
 import {t} from "i18n-js";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
+import {getAuth} from "firebase/auth";
 
 export default function ({}) {
     const dispatch = useDispatch()
+    const user = getAuth().currentUser
     const [state, setState] = useState(0)
     const {data, isLoading, error} = useSelector(state => state.myExcursions)
 
