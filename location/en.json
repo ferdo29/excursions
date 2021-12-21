@@ -29,6 +29,9 @@
     "error": "Error",
     "Payment error": "Payment error "
   },
+  "message": {
+    "Success": "Success"
+  },
   "ScrollHorizontal": {
     "Show all": "Show all"
   },

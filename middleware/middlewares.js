@@ -13,7 +13,7 @@ export const validImages = (value) => {
 export const validPointsImages = (value) => {
     if(value &&  value?.points &&  value.points?.length > 0){
         return value.points.filter(item => item.point_type === 'stop').map((item, index) =>
-            ({image: {uri: item.images[0].path}, id: index, title: item.name, order: item.order}))
+            ({image: item.images.length > 0 ? {uri: item.images[0].path} : require('../assets/image/Church.png'), id: index, title: item.name, order: item.order}))
     }
     return [
         {

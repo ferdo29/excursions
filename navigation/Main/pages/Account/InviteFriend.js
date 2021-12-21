@@ -4,23 +4,42 @@ import {
     BoxColumnView,
     BoxRowView,
     ContainerMain, Text12, Text12Underline,
-    Text14,
-    Text16, Text16Bold500, Text30Bold,
-    Text47,
-    Text47Bold
+    Text16, Text16Bold500, Text30Bold, Text47Bold
 } from "../../../../styles/components/tools";
-import {Image, Pressable} from "react-native";
-import {IconBC, IconExclamations} from "../../../../components/Icons";
-import {ButtonGray, ButtonGrayWrapper, ButtonGrayWrapper2} from "../../../../styles/components/buttons";
+import {Dimensions, Image, Platform, Pressable, Share} from "react-native";
+import {IconBC} from "../../../../components/Icons";
+import {ButtonGray, ButtonGrayWrapper2} from "../../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useLinkTo} from "@react-navigation/native";
 import {MoreDetail} from "../components/MoreDetail";
 
+const {height, width} = Dimensions.get('window')
+
+const topModel = () =>{
+    if (height  < 562) return 50
+    return 332
+}
 export default function InviteFriend({}) {
+    const {ButtonMoreData, ViewMoreData} = MoreDetail({right:40, top:topModel()})
     const linkTo = useLinkTo();
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message: Platform.OS === 'android' ? process.env.LINK_SHARE_ANDR : process.env.LINK_SHARE_IOS,
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                } else {
+                }
+            } else if (result.action === Share.dismissedAction) {
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
     return (
         <MainLayout animation={0} viewBack={true}>
-            <ContainerMain style={{paddingBottom: 20, marginTop: 60}}>
+            <ContainerMain style={{paddingBottom: 20, marginTop: 60, position: 'relative'}}>
 
                 <BoxRowView style={{width: 'auto', justifyContent: 'center', alignItems: 'flex-end', position: 'relative'}}>
                     <IconBC style={{position: 'absolute', top: -60}}/>
@@ -34,13 +53,13 @@ export default function InviteFriend({}) {
                     <BoxRowView style={{justifyContent: 'center', alignItems: 'flex-end', paddingTop: 20, position: 'relative'}}>
                         <Text47Bold>- 10</Text47Bold>
                         <Text30Bold style={{color: '#11AEAE', paddingBottom: 4}}>% скидка</Text30Bold>
-                        <MoreDetail right={10} top={50}/>
+                        <ButtonMoreData/>
                     </BoxRowView>
                     <ButtonGrayWrapper2 style={{width: 'auto'}}>
                         <ButtonGray activeOpacity={0.6} style={{marginBottom: 28, width: '100%'}}
-                                    onPress={() => {}}>
+                                    onPress={onShare}>
                             <Text16Bold500 style={{color: '#828282', width: 'auto', paddingRight: 20}}>Поделиться ссылкой</Text16Bold500>
-                            <Svg width="41" height="41" style={{right: 20}} fill="none"
+                            <Svg width="41" height="41" style={{right: 0}} fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
                                 <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
@@ -63,7 +82,7 @@ export default function InviteFriend({}) {
                     </BoxRowView>
 
                 </BoxColumnView>
-
+                <ViewMoreData/>
             </ContainerMain>
 
         </MainLayout>

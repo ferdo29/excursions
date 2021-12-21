@@ -89,17 +89,16 @@ export const Map = ({}) => {
                     >
                         <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>
                             <BoxColumnView>
-                                <CardImage style={{width: 100, height: 100}} source={{uri: value.images[0].path}}/>
+                                {value.images.length > 0 && <CardImage style={{width: 100, height: 100}}
+                                            source={value.images.length > 0 ?
+                                                {uri: value.images[0].path} :
+                                                require('../../../../assets/image/Church.png')}/>}
                                 <Text12>{value.name}</Text12>
                             </BoxColumnView>
                         </Callout>
-                        {/*    <WrapperCircle style={{marginRight: 20, borderColor:  '#11AEAE', backgroundColor: '#fff'}}>*/}
-                        {/*        <Text28 style={{color: '#11AEAE'}}>{index + 1}</Text28>*/}
-                        {/*    </WrapperCircle>*/}
 
                     </Marker>
                 )}
-                {/*<Marker coordinate={mapRegion} title='Marker' />*/}
             </MapView>
 
         </MainLayout>

@@ -30,19 +30,19 @@ export const MoreDetail = ({right=0, left=0, bottom=0, top=0}) => {
         }).start()
     }, [state])
 
-    return (
-        <>
-            <Pressable onPress={() => setState(!state)}
-                       style={{
-                           position: 'absolute',
-                           right: 15,
-                           top: 8,
-                           padding: 10,
-                       }}>
-                <IconExclamations/>
-            </Pressable>
-
-        <Animated.View style={{
+    const ButtonMoreData = () => (
+        <Pressable onPress={() => setState(!state)}
+                   style={{
+                       position: 'absolute',
+                       right: 15,
+                       top: 8,
+                       padding: 10,
+                   }}>
+            <IconExclamations/>
+        </Pressable>
+    )
+    const ViewMoreData = () => (
+        <Animated.Pressable onPress={() => setState(!state)} style={{
             position: 'absolute',
             width: 257,
             height: 248,
@@ -55,23 +55,24 @@ export const MoreDetail = ({right=0, left=0, bottom=0, top=0}) => {
             transform: [{ scale }],
             right: Right,
             top: Top,
-            zIndex: 10,
+            zIndex: 100,
             justifyContent: 'space-between',
             borderRadius: 9,
         }}>
             {state &&
-                <>
-                    <Text12 style={{color: '#828282', width: 207}}>
-                        Поделись с другом ссылкой на скачивание приложения.
-                        Ваш друг должен установить приложение, а вы при этом получите дополнительную
-                        <Text12 style={{color: '#11AEAE'}}>скидку 10%</Text12> на покупку аудиоэкскурсии.
-                    </Text12>
-                    <Pressable onPress={() => setState(!state)} style={{ width: 'auto', paddingTop: 29}}>
-                        <Text16 style={{color: '#11AEAE', textAlign: 'right', lineHeight: 19}}>ПОНЯТНО</Text16>
-                    </Pressable>
-                </>
+            <>
+                <Text12 style={{color: '#828282', width: 207}}>
+                    Поделись с другом ссылкой на скачивание приложения.
+                    Ваш друг должен установить приложение, а вы при этом получите дополнительную
+                    <Text12 style={{color: '#11AEAE'}}>скидку 10%</Text12> на покупку аудиоэкскурсии.
+                </Text12>
+                <Pressable onPress={() => setState(!state)} style={{ width: 'auto', paddingTop: 29}}>
+                    <Text16 style={{color: '#11AEAE', textAlign: 'right', lineHeight: 19}}>ПОНЯТНО</Text16>
+                </Pressable>
+            </>
             }
-        </Animated.View>
-        </>
-    );
+        </Animated.Pressable>
+    )
+
+    return {ButtonMoreData, ViewMoreData}
 };

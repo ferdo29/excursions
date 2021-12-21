@@ -37,7 +37,7 @@ export const ParticipantsPopup = ({state, openClose = () => {}, func = () => {},
                     <InputSearchWrapper
                     style={{borderColor: '#E0E0E0', borderWidth: 1, alignItems: 'center', marginBottom: 27, backgroundColor: '#F5F5FA', shadowColor: 'rgba(255,255,255,0)' }}
                     >
-                        {value && <Text23 style={{
+                        {!!value && <Text23 style={{
                             color: '#000',
                             lineHeight: 23,
                             textAlign: 'center',

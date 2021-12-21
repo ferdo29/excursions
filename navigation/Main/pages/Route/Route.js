@@ -29,13 +29,19 @@ export default function Route({}) {
     const dispatch = useDispatch()
     const isFocused = useIsFocused();
     const user = getAuth().currentUser
+    const ref = useRef();
     const {excursionStore} = useContext(filesStore)
     const routes = useNavigationState(state => state.routes)
     const [Link, setLink] = useState(0)
     const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
 
     const [state, setState] = useState(0)
-    const ref = useRef();
+    const handlerRefresh = () => {
+        dispatch(fetchMyExcursion({
+            token: user.stsTokenManager.accessToken,
+            id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
+        }))
+    }
     const ValidAudio = () => {
         const value = excursionStore.find(value => value.name === data.audio[0].path)
         if(!!value){
@@ -68,11 +74,11 @@ export default function Route({}) {
             id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
         }))
     }, [isFocused])
-    if (idExcursion < 0) return <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
+    if (isLoading && (idExcursion < 0)) return <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
 
     return (
         <>
-        <MainLayout animation={false}>
+        <MainLayout Refreshing={true} handlerRefresh={handlerRefresh} animation={false}>
 
             <ContainerMain style={{marginBottom: 24}}>
                 <BoxRow style={{justifyContent: 'space-between'}}>

@@ -29,6 +29,9 @@
     "error": "Ошибка",
     "Payment error": "Ошибка при оплатите"
   },
+  "message": {
+    "Success": "Успех "
+  },
   "ScrollHorizontal": {
     "Show all": "Показать все"
   },
