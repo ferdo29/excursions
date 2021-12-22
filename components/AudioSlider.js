@@ -45,7 +45,6 @@ export default function AudioSlider({audioFile}) {
                 ref.current = data
             })
         } catch (e) {
-            console.log(e)
         }
 
     };

@@ -27,7 +27,7 @@ import * as SecureStore from "expo-secure-store";
 const firebaseConfig = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DARA_BASE_URL,
+    // databaseURL: process.env.DARA_BASE_URL,
     projectId: process.env.PROJECT_ID,
     storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: process.env.MESSAGEING_SENDER_ID,
@@ -54,7 +54,7 @@ export default function App() {
         Ubuntu_700Bold,
         Ubuntu_700Bold_Italic,
     });
-    console.log(getApps())
+
     i18n.locale = lang;
     i18n.translations = {
         "en-En": require('./location/en.json'),
@@ -128,6 +128,7 @@ export default function App() {
 
     useEffect(() => {
         asyncFunc().then().catch()
+        console.log(getApps())
     }, [])
 
 

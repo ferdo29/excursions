@@ -47,7 +47,9 @@ export const AuthEmail = ({}) => {
 
 
         signInWithEmailAndPassword(auth, email, password)
-            .then(() => {setAuth(true)})
+            .then((data) => {
+                setAuth(data)
+            })
             .catch(e=> {
                 switch (e.code) {
                     case 'auth/invalid-email': return setErrorEmail(true)

@@ -20,7 +20,7 @@ export const AuthFacebook = ({}) => {
         const permissions = ['public_profile', 'email'];
         try {
             await initializeAsync(appId)
-            const {type,token} = await logInWithReadPermissionsAsync({
+            const {type,token,...props} = await logInWithReadPermissionsAsync({
                 permissions,
                 appId
             });
@@ -28,7 +28,7 @@ export const AuthFacebook = ({}) => {
                 case 'success': {
                     const credential = FacebookAuthProvider.credential(token);
                     await signInWithCredential(auth, credential)
-                    return setAuth(true)
+                    return setAuth({type,token,...props})
                 }
                 case 'cancel': {
                     return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))

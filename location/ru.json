@@ -27,7 +27,8 @@
     "auth/weak-password": "Слабый пароль",
     "auth/email-already-in-use": "Электронная почта уже используется",
     "error": "Ошибка",
-    "Payment error": "Ошибка при оплатите"
+    "Payment error": "Ошибка при оплатите",
+    "Cart is empty": "Корзина пустая"
   },
   "message": {
     "Success": "Успех "

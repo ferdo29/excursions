@@ -6,6 +6,7 @@ export const fetchCart = ({token= ''}) => async (dispatch) => {
         dispatch(cartFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cart`,
             {headers: {Authorization: `Bearer ${token}`}})
+        console.log(data)
         dispatch(cartFetchingSuccess(data))
     }catch (e) {
         dispatch(cartFetchingError(e.response.message))
@@ -20,6 +21,5 @@ export const fetchCartChange = ({token, id, quantity}) => async (dispatch) => {
             {headers: {Authorization: `Bearer ${token}`}})
         dispatch(setChangeCart({value: quant, id}))
     }catch (e) {
-        console.log(e)
     }
 }

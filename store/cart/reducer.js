@@ -19,21 +19,8 @@ const counterSlice = createSlice({
             state.isLoading = false
             state.isView = true
             state.error = ''
-            let names = []
-            let data = []
 
-            action?.payload?.data && action.payload.data.forEach(value => {
-                if(!names.includes(value.name)){
-                    names.push(value.name)
-                    data.push(value)
-                }
-                else{
-                    const index = data.findIndex(item => item.name === value.name)
-                    data[index].quantity = data[index].quantity + value.quantity
-                }
-            })
-
-            state.data = data
+            state.data = action.payload.data
         },
         cartFetchingError(state, action) {
             state.isLoading = false

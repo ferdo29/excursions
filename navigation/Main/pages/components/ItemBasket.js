@@ -9,12 +9,26 @@ import {setDeleteCartById} from "../../../../store/cart/reducer";
 import {getAuth} from "firebase/auth";
 import {fetchCartChange} from "../../../../store/cart/service";
 import {validImg} from "../../../../middleware/middlewares";
+import axios from "axios";
+import {showToastState} from "../../../../store/toasts/reducer";
+import {t} from "i18n-js";
 
 export default function ItemBasket({name, price, id, quantity, percent, ...props}) {
 
     const dispatch = useDispatch()
     const user = getAuth().currentUser
-    const handlerRemoveBasket = () => dispatch(setDeleteCartById(id))
+    const handlerRemoveBasket = async () => {
+        try {
+           await axios.delete(`${process.env.DB_HOST}/cart/${id}`,
+                {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+            dispatch(setDeleteCartById(id))
+        }catch (e) {
+            dispatch(showToastState({
+                type: 'error',
+                text1: t('error.Error'),
+            }))
+        }
+    }
     const handlerChangeCount = (data) => {
         dispatch(fetchCartChange({id, quantity: data, token: user.stsTokenManager.accessToken}))
     }

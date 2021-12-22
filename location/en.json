@@ -27,7 +27,8 @@
     "auth/weak-password": "Weak password",
     "auth/email-already-in-use": "Email already in use",
     "error": "Error",
-    "Payment error": "Payment error "
+    "Payment error": "Payment error ",
+    "Cart is empty": "Cart is empty"
   },
   "message": {
     "Success": "Success"

@@ -30,13 +30,11 @@ export const DownloadFile = ({path, id, date}) => {
             }
             const File = FileSystem.createDownloadResumable(urilink, fileUri, options, callback)
             const data = await File.downloadAsync()
-            console.log(data)
             // dispatch(setMyExcursionPath(data.uri))
             // handlerSetExcursionsStore({uri: data.uri, name: path, date, id, uid: user.uid})
             setBits(0)
             setDisabled(false)
         }catch (e) {
-            console.error(e);
             setDisabled(false)
         }
 

@@ -27,7 +27,6 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
             {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
             .then(() => {callBack()})
             .catch((e) => {
-                console.log(e.response)
             })
     }
     const handlerBasket = () => {
@@ -40,7 +39,6 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
                 console.error(e.response)
             })
     }
-    console.log(data)
 
     return (
         <ContainerMain style={{marginBottom: 20}}>

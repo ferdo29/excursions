@@ -12,7 +12,7 @@ import {
 import {ButtonGray, ButtonGrayWrapper} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useIsFocused, useLinkTo} from "@react-navigation/native";
-import {Image} from "react-native";
+import {Image, Linking} from "react-native";
 import {useDispatch, useSelector} from "react-redux";
 import ItemBasket from "./components/ItemBasket";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
@@ -45,28 +45,33 @@ export default function ({}) {
     const user = getAuth().currentUser
     const {data: cart, error} = useSelector(state => state.cart);
 
-    const onRefresh = () => dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+    const onRefresh = (toost = false) => {
+        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        toost && dispatch(showToastState({
+            type: 'success',
+            text1: t('All.Paid up'),
+        }))
+    }
     useEffect(() => {
-        isFocused && onRefresh()
+        if (isFocused) {
+            onRefresh()
+            dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
+        }
     }, [isFocused])
 
     const PayPal = async () => {
         try {
-            const {data} = await axios.get(`${process.env.DB_HOST}/cart/pay-url`,
+            const {data} = await axios.get(
+                `${process.env.DB_HOST}/cart/pay-url/robokassa`,
                 {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
-            if(data["message"] === 'success'){
-                await onRefresh()
-                dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
-                dispatch(showToastState({
-                    type: 'success',
-                    text1: t('All.Paid up'),
-                }))
-            }
+            await Linking.canOpenURL(data);
+            await Linking.openURL(data);
+            setTimeout(() => onRefresh(true), 60000)
 
         }catch (e) {
             dispatch(showToastState({
-                type: 'success',
-                text1: t('error.Payment error'),
+                type: 'error',
+                text1: t('error.Cart is empty'),
             }))
         }
 

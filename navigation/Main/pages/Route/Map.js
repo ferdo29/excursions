@@ -85,7 +85,7 @@ export const Map = ({}) => {
                         longitudeDelta: 0.1421
                     }} title={value.name}
                             image={numbersImg(value.point_type)}
-                            onCalloutPress={() => console.log(101)}
+                            onCalloutPress={() => {}}
                     >
                         <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>
                             <BoxColumnView>

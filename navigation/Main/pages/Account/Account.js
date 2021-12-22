@@ -24,7 +24,6 @@ export default function Account({}) {
         try{
             logout()
         }catch (e) {
-            console.log(e)
         }
 
     }

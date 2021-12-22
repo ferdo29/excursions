@@ -21,7 +21,6 @@ export const fetchMyExcursionsShareCode = ({token= '', code, login}) => async (d
 
         dispatch(myExcursionsFetchingSuccess(data))
     }catch (e) {
-        console.log(e.response)
         dispatch(myExcursionsFetchingError(e.response.message))
     }
 }

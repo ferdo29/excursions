@@ -24,7 +24,7 @@ export default function Participants({}) {
     const navigation = useNavigation();
     const dispatch = useDispatch()
     const user = getAuth().currentUser
-    const [added, setAdded] = useState('kbbyfl91@gmail.com');
+    const [added, setAdded] = useState('');
     const [statePop, setStatePop] = useState(false);
     const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
 
@@ -60,7 +60,6 @@ export default function Participants({}) {
             <Loader/>
         </MainLayout>
     )
-    // console.log(data.access_codes)
 
     return (
         <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>} >

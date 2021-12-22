@@ -21,7 +21,10 @@
       "icon": "./assets/appIcons/playstore.png",
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "googleMapsApiKey": "AIzaSyBPrJo-rkFS4pcSBoflnmVjN05aeYinzSY"
+        "googleMapsApiKey": "AIzaSyBPrJo-rkFS4pcSBoflnmVjN05aeYinzSY",
+        "googleSignIn": {
+          "reservedClientId": "697525752458-315sj9diudnpin2ub4i0hdh0aar8si3u.apps.googleusercontent.com"
+        }
       }
     },
     "android": {
