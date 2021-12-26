@@ -12,17 +12,9 @@ import {getAuth, signInWithPhoneNumber, PhoneAuthProvider, signInWithCredential,
 import userFB from "../../../contexts/userFB";
 import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
 import {PopupsCheckSMS} from "./popups";
+import { firebaseApp } from "../../../firebase"
+import {checkActionCode} from "firebase/auth";
 
-const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DARA_BASE_URL,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID,
-};
 
 export const AuthPhone = ({}) => {
     useContext(Locale)
@@ -31,18 +23,17 @@ export const AuthPhone = ({}) => {
     const [verificationId, setVerificationId] = useState(null);
     const [phone, setPhone] = useState('')
     const [zip, setZip] = useState('+44')
-    const [confirm, setConfirm] = useState(null);
     const [pop, setPop] = useState(false);
 
     const verif = async () => {
         const auth = getAuth();
         try {
             const phoneProvider = new PhoneAuthProvider(auth);
-            await phoneProvider.verifyPhoneNumber(zip + phone.match(/[0-9]/g).join(''), recaptchaVerifier.current);
-
-
+            const verificationId = await phoneProvider.verifyPhoneNumber(zip + phone.match(/[0-9]/g).join(''),
+                recaptchaVerifier.current);
+            setVerificationId(verificationId);
+            setPop(true)
         } catch (e) {
-            console.log(e)
             setPop(true)
         }
     }
@@ -54,22 +45,23 @@ export const AuthPhone = ({}) => {
         //     verificationId,
         //     code
         // );
-        const credential = PhoneAuthProvider.credential(
-            verificationId,
-            code
-        )
-
-        signInWithCredential(auth, credential)
-            .then((result) => {
-                console.error(result);
-            });
-        // signInWithPhoneNumber(auth, zip + phone.match(/[0-9]/g), data)
+        // const credential = PhoneAuthProvider.credential(
+        //     verificationId,
+        //     code
+        // )
+        //
+        // signInWithCredential(auth, credential)
+        //     .then((result) => {
+        //         console.error(result);
+        //     });
+        const sdf = await checkActionCode(recaptchaVerifier.current, code)
+        console.log(sdf)
+        // signInWithPhoneNumber(auth, zip + phone.match(/[0-9]/g), recaptchaVerifier.current)
         //     .then((res) => {
         //         console.log(res)
         //     })
-        //     .catch(e => console.error(e))
+        //     .catch(e => console.error(e, 123))
     }
-
     return (
         <>
             <BoxRowView style={{paddingBottom: 32}}>
@@ -103,7 +95,7 @@ export const AuthPhone = ({}) => {
                 handlerConfirmation={() => setPop(!pop)}/>
             <FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
-                firebaseConfig={firebaseConfig}
+                firebaseConfig={firebaseApp.options}
                 attemptInvisibleVerification={true}
             />
         </>

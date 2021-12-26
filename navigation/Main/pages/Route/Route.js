@@ -11,7 +11,7 @@ import {
 import Svg, {Circle, Path} from "react-native-svg";
 import {Pressable, Image, View, Dimensions} from "react-native";
 import {WrapperCircle} from "../../../../styles/components/Cards";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import Carousel from 'react-native-snap-carousel';
 import {ButtonGray} from "../../../../styles/components/buttons";
 import AudioSlider from "../../../../components/AudioSlider";
@@ -21,6 +21,8 @@ import {Loader} from "../../../../components/Loader";
 import {validPointsImages} from "../../../../middleware/middlewares";
 import {DownloadFile} from "./components/DownloadFile";
 import filesStore from "../../../../contexts/filesStore";
+import {showToastState} from "../../../../store/toasts/reducer";
+import {t} from "i18n-js";
 
 const {height, width} = Dimensions.get('window')
 
@@ -46,7 +48,8 @@ export default function Route({}) {
         const value = excursionStore.find(value => value.name === data.audio[0].path)
         if(!!value){
             return (<>
-                <AudioSlider audioFile={value.uri}/>
+                <AudioSlider audioFile={value}/>
+                <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
             </>)
         }
         return <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
@@ -68,12 +71,17 @@ export default function Route({}) {
             </View>
         )
     }
+
     useEffect(() => {
         (isFocused) && dispatch(fetchMyExcursion({
             token: user.stsTokenManager.accessToken,
             id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
         }))
     }, [isFocused])
+    useMemo(() => {
+        error && dispatch(showToastState({ type: 'error', top: true, text1: t(`error.Error on server`)}))
+    }, [error])
+
     if (isLoading && (idExcursion < 0)) return <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
 
     return (
@@ -81,21 +89,27 @@ export default function Route({}) {
         <MainLayout Refreshing={true} handlerRefresh={handlerRefresh} animation={false}>
 
             <ContainerMain style={{marginBottom: 24}}>
-                <BoxRow style={{justifyContent: 'space-between'}}>
+                {data.users && <BoxRow style={{justifyContent: 'space-between'}}>
                     <Text20 style={{width: '80%'}}>{data.name}</Text20>
                     <Pressable onPress={() => linkTo('/Participants')}>
                         <Svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <Circle r="20.5" transform="matrix(-1 0 0 1 20.5 21.4714)" fill="#11AEAE"/>
-                            <Path d="M17 15.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <Path d="M17 21.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <Path d="M17 27.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <Path d="M12 15.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <Path d="M12 21.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            <Path d="M12 27.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <Path d="M17 15.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                            <Path d="M17 21.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                            <Path d="M17 27.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                            <Path d="M12 15.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                            <Path d="M12 21.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
+                            <Path d="M12 27.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </Svg>
 
                     </Pressable>
-                </BoxRow>
+                </BoxRow>}
             </ContainerMain>
 
             {data?.points && <Carousel
@@ -115,9 +129,9 @@ export default function Route({}) {
 
                 {data?.audio && data?.audio.length > 0 && <ValidAudio/>}
 
-                <ButtonGray activeOpacity={0.6}
-                            onPress={() => linkTo(`/Map/`+ Link)}
-                            style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
+                {data.coordinates && data.coordinates.length > 0 && <ButtonGray activeOpacity={0.6}
+                             onPress={() => linkTo(`/Map/` + Link)}
+                             style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
                     <Text16Bold500
                         style={{color: '#828282'}}>Показать маршрут на карте</Text16Bold500>
                     <Svg width="41" height="41" style={{}} fill="none"
@@ -126,7 +140,7 @@ export default function Route({}) {
                         <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
                               strokeLinejoin="round"/>
                     </Svg>
-                </ButtonGray>
+                </ButtonGray>}
             </ContainerMain>
 
         </MainLayout>

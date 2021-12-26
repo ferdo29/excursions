@@ -9,6 +9,7 @@ import {useContext} from "react";
 import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
+import { firebaseApp, auth } from "../../../firebase"
 
 export const AuthFacebook = ({}) => {
     const dispatch = useDispatch()
@@ -28,15 +29,17 @@ export const AuthFacebook = ({}) => {
                 case 'success': {
                     const credential = FacebookAuthProvider.credential(token);
                     await signInWithCredential(auth, credential)
+                    setAuth({type,token,...props})
                     return setAuth({type,token,...props})
                 }
                 case 'cancel': {
-                    return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
+                    console.log({type,token,...props})
+                    return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
                 }
             }
         }catch (e) {
             console.log(e)
-            dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
+            dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
         }
 
     }

@@ -18,28 +18,27 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
-import { initializeApp, getApps} from "firebase/app"
-import {getAuth, signOut, onAuthStateChanged} from "firebase/auth";
 import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
 
-const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    // databaseURL: process.env.DARA_BASE_URL,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID,
-};
-
-
-initializeApp(firebaseConfig);
+// const firebaseConfig = {
+//     apiKey: process.env.API_KEY,
+//     authDomain: process.env.AUTH_DOMAIN,
+//     // databaseURL: process.env.DARA_BASE_URL,
+//     projectId: process.env.PROJECT_ID,
+//     storageBucket: process.env.STORAGE_BUCKET,
+//     messagingSenderId: process.env.MESSAGEING_SENDER_ID,
+//     appId: process.env.APP_ID,
+//     measurementId: process.env.MEASUREMENT_ID,
+// };
+//
+//
+// initializeApp(firebaseConfig);
+import { firebaseApp, auth } from "./firebase"
 
 export default function App() {
-    const [auth, setAuth] = useState(false)
+    const [Auth, setAuth] = useState(false)
     const [lang, setLang] = useState('RU');
     const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
@@ -92,15 +91,16 @@ export default function App() {
     const userAuth = (value) => {
         SecureStore.setItemAsync('KeyUserAuth', JSON.stringify(value))
             .then(() => {
-                setAuth(value)
+                setAuth(true)
             })
     }
     const userAuthRemove = (value) => {
         SecureStore.deleteItemAsync('KeyUserAuth')
             .then(async () => {
-                setAuth(false)
-                await signOut(getAuth())
+                // await auth.signOut()
+                setAuth(null)
             })
+            .catch(e => console.log(e))
     }
 
     const asyncFunc = async () => {
@@ -109,7 +109,7 @@ export default function App() {
             const KeyUserAuth = await SecureStore.getItemAsync('KeyUserAuth')
             const KeyExcursionStore = await SecureStore.getItemAsync('KeyExcursionStore')
             if (KeyUserAuth){
-                setAuth(JSON.parse(KeyUserAuth))
+                // setAuth(JSON.parse(KeyUserAuth))
             }
             if (!!KeyExcursionStore && KeyExcursionStore !== 'undefined' && KeyExcursionStore !== 'false') {
                 const jsonData = JSON.parse(KeyExcursionStore)
@@ -128,7 +128,7 @@ export default function App() {
 
     useEffect(() => {
         asyncFunc().then().catch()
-        console.log(getApps())
+        // console.log(getApps())
     }, [])
 
 
@@ -139,7 +139,7 @@ export default function App() {
 
           <Locale.Provider value={{lang, setLang}}>
           <FilesStore.Provider value={{excursionStore, handlerSetExcursionsStore, clearExcursionsStore, reExcursionStoreFile}}>
-              <UserFB.Provider value={{auth: auth, setAuth: userAuth, logout: userAuthRemove}}>
+              <UserFB.Provider value={{auth: Auth, setAuth: userAuth, logout: userAuthRemove}}>
                   <Provider store={store}>
                       <ToastProvider>
                           <NavigationController/>
@@ -151,3 +151,16 @@ export default function App() {
 
   );
 }
+
+
+// import React, {useEffect, useState} from 'react';
+// import {View, Text} from "react-native";
+// import { firebaseApp, auth } from "./firebase"
+// export default function App() {
+//     console.log(auth)
+//     return(
+//         <View style={{margin: 100,}}>
+//             <Text>sdhdfg</Text>
+//         </View>
+//     )
+// }

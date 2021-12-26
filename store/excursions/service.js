@@ -7,6 +7,7 @@ export const fetchExcursions = ({token= ''}) => async (dispatch) => {
         dispatch(excursionsFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions`,
             {headers: {Authorization: `Bearer ${token}`}})
+        console.log()
         dispatch(excursionsFetchingSuccess(data))
     }catch (e) {
         dispatch(excursionsFetchingError(e.response.message))

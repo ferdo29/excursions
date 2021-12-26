@@ -21,8 +21,8 @@ export const DownloadFile = ({path, id, date}) => {
     const downloadFile = async () => {
         try {
             setDisabled(true)
-            // const urilink = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
-            const urilink = `https://muzofond.fm/zvuk_transfer?q=ZG93bmxvYWRfMA==`
+            const urilink = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
+            // const urilink = `https://muzofond.fm/zvuk_transfer?q=ZG93bmxvYWRfMA==`
             const options = {headers: {'Authorization': `Bearer ${user.stsTokenManager.accessToken}`}}
             const fileUri = FileSystem.documentDirectory + `${randomName()}.mp3`.split('-').join('')
             const callback = ({totalBytesWritten}) => {
@@ -32,7 +32,7 @@ export const DownloadFile = ({path, id, date}) => {
             const data = await File.downloadAsync()
             // dispatch(setMyExcursionPath(data.uri))
             // handlerSetExcursionsStore({uri: data.uri, name: path, date, id, uid: user.uid})
-            setBits(0)
+            // setBits(0)
             setDisabled(false)
         }catch (e) {
             setDisabled(false)

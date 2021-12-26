@@ -8,6 +8,7 @@ export const fetchMyExcursions = ({token= ''}) => async (dispatch) => {
         dispatch(myExcursionsFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions/my`,
             {headers: {Authorization: `Bearer ${token}`}})
+        console.log()
         dispatch(myExcursionsFetchingSuccess(data))
     }catch (e) {
         dispatch(myExcursionsFetchingError(e.response.message))
@@ -18,7 +19,7 @@ export const fetchMyExcursionsShareCode = ({token= '', code, login}) => async (d
         dispatch(myExcursionsFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions/my`,
             {headers: {Authorization: `Bearer ${token}`}})
-
+        console.log()
         dispatch(myExcursionsFetchingSuccess(data))
     }catch (e) {
         dispatch(myExcursionsFetchingError(e.response.message))

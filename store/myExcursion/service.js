@@ -10,6 +10,6 @@ export const fetchMyExcursion = ({token= '', id = 1}) => async (dispatch) => {
             {headers: {Authorization: `Bearer ${token}`}})
         dispatch(myExcursionFetchingSuccess(data))
     }catch (e) {
-        dispatch(myExcursionFetchingError(e.response.message))
+        dispatch(myExcursionFetchingError(e.response.message || 'Error'))
     }
 }

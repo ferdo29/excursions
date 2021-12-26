@@ -8,17 +8,19 @@ import * as Google from "expo-google-app-auth";
 import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
+import { firebaseApp, auth } from "../../../firebase"
 
 export const AuthGoogle = ({}) => {
     const dispatch = useDispatch()
     const {setAuth} = useContext(userFB)
 
     const handlerGoogle = () => {
-        const auth = getAuth();
         const config = {
             iosClientId: '697525752458-315sj9diudnpin2ub4i0hdh0aar8si3u.apps.googleusercontent.com',
+            androidClientId: '697525752458-en0qvqm48128u1c793ar9ou0nlq2udts.apps.googleusercontent.com',
             scopes: ['profile', 'email'],
         }
+        // auth().
         Google.logInAsync(config)
             .then((result) => {
                 const {type, user} = result
@@ -28,9 +30,10 @@ export const AuthGoogle = ({}) => {
                         idToken,
                         accessToken
                     );
-                    return signInWithCredential(auth, credential).then(data => {
-                        setAuth(true)
-                    })
+                    return auth.signInWithCredential(credential).then(data => {
+                        console.log(data)
+                            setAuth(true)
+                        })
                 }else{
                    dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }

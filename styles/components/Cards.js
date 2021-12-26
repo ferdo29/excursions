@@ -20,6 +20,21 @@ export const CardImage = styled.ImageBackground`
   shadow-radius: 10px;
   elevation: 4;
 `
+export const CardImages = styled.Image`
+  width: ${width > 370 ? 160 : 150}px;
+  height: ${width > 370 ? 250 : 230}px;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #919191;
+  border-radius: 15px;
+  padding: 20px 12px;
+  margin-bottom: 20px;
+  shadow-color: rgba(0, 0, 0, 0.33);
+  shadow-offset: 3px;
+  shadow-opacity: 0.3;
+  shadow-radius: 10px;
+  elevation: 4;
+`
 export const WrapperImagePressable = styled.Pressable`
   margin-right: 10px;
 `

@@ -23,20 +23,20 @@ import PrivacyPolicy from "./Main/pages/Account/PrivacyPolicy";
 import {Faq} from "./Main/pages/Account/FAQ";
 import {Support} from "./Main/pages/Account/Support";
 import Home from "./Main/pages/Home";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import userFB from "../contexts/userFB";
 import {NavigationContainer} from "@react-navigation/native";
-
+import { firebaseApp, auth } from "../firebase"
 const Stack = createStackNavigator();
 
 export const NavigationController = ({}) => {
-    const {auth} = useContext(userFB)
-    const user = getAuth().currentUser
+    const {auth:Auth} = useContext(userFB)
+    const user = getAuth()
 
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
-                {(auth && !!user) ?
+                {(Auth && !!user.currentUser) ?
                     <>
                         <Stack.Screen name="Home" component={Home}/>
 
@@ -70,6 +70,8 @@ export const NavigationController = ({}) => {
                         <Stack.Screen name="Language" component={Language}/>
                     </>
                 }
+                {/*<Stack.Screen name="AuthHome" component={HomeAuth}/>*/}
+                {/*<Stack.Screen name="Language" component={Language}/>*/}
             </Stack.Navigator>
         </NavigationContainer>
     );

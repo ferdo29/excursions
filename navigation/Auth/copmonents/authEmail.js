@@ -13,6 +13,7 @@ import {PopupAgreement, PopupRegForm} from "./popups";
 import LayoutPop from "../../../layouts/popups/LayoutPop";
 import {showToastState} from "../../../store/toasts/reducer";
 import {useDispatch} from "react-redux";
+import { firebaseApp, auth } from "../../../firebase"
 
 const {height, width} = Dimensions.get('window')
 

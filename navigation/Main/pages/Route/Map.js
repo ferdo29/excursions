@@ -42,7 +42,6 @@ export const Map = ({}) => {
             default: return require(`../../../../assets/image/Star1.png`)
         }
     }
-
     return (
         <MainLayout animation={false} >
 
@@ -76,6 +75,7 @@ export const Map = ({}) => {
                     coordinates={data.coordinates}
                     strokeColor={'#11AEAE'}
                     strokeWidth={2}
+                    lineDashPattern={[1]}
                 />}
                 {data?.points && data?.points.length > 0 && data?.points.map((value, index) =>
                     <Marker coordinate={{
@@ -83,13 +83,15 @@ export const Map = ({}) => {
                         longitude: value.position.coordinates[0],
                         latitudeDelta: 0.422,
                         longitudeDelta: 0.1421
-                    }} title={value.name}
+                    }} title={value.name} isPreselected={screen === index}
+                            key={index}
                             image={numbersImg(value.point_type)}
                             onCalloutPress={() => {}}
                     >
                         <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>
                             <BoxColumnView>
-                                {value.images.length > 0 && <CardImage style={{width: 100, height: 100}}
+                                {value.images.length > 0 &&
+                                <CardImage style={{width: 100, height: 100}}
                                             source={value.images.length > 0 ?
                                                 {uri: value.images[0].path} :
                                                 require('../../../../assets/image/Church.png')}/>}

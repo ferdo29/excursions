@@ -38,7 +38,7 @@ export default function AudioSlider({audioFile}) {
         try {
             const getAudioPerm = await Audio.requestPermissionsAsync();
             SetAudioPermission(getAudioPerm.granted);
-            AudioPlayer.current.loadAsync(require('../assets/audio/DjAristocrat.mp3'), {}, true)
+            AudioPlayer.current.loadAsync(audioFile.uri, {}, true)
                 .then((data) => AudioPlayer.current.getStatusAsync().then())
 
             AudioPlayer.current.getStatusAsync().then((data) => {

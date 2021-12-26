@@ -28,7 +28,8 @@
     "auth/email-already-in-use": "Электронная почта уже используется",
     "error": "Ошибка",
     "Payment error": "Ошибка при оплатите",
-    "Cart is empty": "Корзина пустая"
+    "Cart is empty": "Корзина пустая",
+    "Error on server": "Ошибка на сервере"
   },
   "message": {
     "Success": "Успех "
