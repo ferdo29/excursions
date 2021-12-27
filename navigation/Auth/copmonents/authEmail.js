@@ -25,8 +25,8 @@ export const AuthEmail = ({}) => {
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const {setAuth} = useContext(userFB)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('vitya22-99@list.ru')
+    const [password, setPassword] = useState('Coca1995cola')
 
     const handlerEmail = (data) => {
 

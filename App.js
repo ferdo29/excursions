@@ -138,29 +138,22 @@ export default function App() {
   return (
 
           <Locale.Provider value={{lang, setLang}}>
-          <FilesStore.Provider value={{excursionStore, handlerSetExcursionsStore, clearExcursionsStore, reExcursionStoreFile}}>
+
               <UserFB.Provider value={{auth: Auth, setAuth: userAuth, logout: userAuthRemove}}>
                   <Provider store={store}>
                       <ToastProvider>
-                          <NavigationController/>
+                          <FilesStore.Provider value={{
+                              excursionStore,
+                              handlerSetExcursionsStore,
+                              clearExcursionsStore,
+                              reExcursionStoreFile
+                          }}>
+                              <NavigationController/>
+                          </FilesStore.Provider>
                       </ToastProvider>
                   </Provider>
               </UserFB.Provider>
-          </FilesStore.Provider>
           </Locale.Provider>
 
   );
 }
-
-
-// import React, {useEffect, useState} from 'react';
-// import {View, Text} from "react-native";
-// import { firebaseApp, auth } from "./firebase"
-// export default function App() {
-//     console.log(auth)
-//     return(
-//         <View style={{margin: 100,}}>
-//             <Text>sdhdfg</Text>
-//         </View>
-//     )
-// }

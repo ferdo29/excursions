@@ -24,7 +24,6 @@ const counterSlice = createSlice({
             state.isLoading = false
             state.isView = true
             state.error = ''
-            console.log(action.payload)
             state.data = action.payload.data
         },
         myExcursionsFetchingError(state, action) {

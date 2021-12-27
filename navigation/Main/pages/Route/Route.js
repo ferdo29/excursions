@@ -26,6 +26,12 @@ import {t} from "i18n-js";
 
 const {height, width} = Dimensions.get('window')
 
+const asd = (value, count) => {
+    const item = value.find(value => value.id === count)
+    if (!!item) return item
+    return value[0]
+}
+
 export default function Route({}) {
     const linkTo = useLinkTo();
     const dispatch = useDispatch()
@@ -35,21 +41,18 @@ export default function Route({}) {
     const {excursionStore} = useContext(filesStore)
     const routes = useNavigationState(state => state.routes)
     const [Link, setLink] = useState(0)
-    const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
+    const {data: files} = useSelector(state => state.files)
+    const {idExcursion} = useSelector(state =>  state.myExcursion)
+    const data = useSelector(state =>  state.myExcursions.data.find(value => value.id === idExcursion))
 
     const [state, setState] = useState(0)
-    const handlerRefresh = () => {
-        dispatch(fetchMyExcursion({
-            token: user.stsTokenManager.accessToken,
-            id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
-        }))
-    }
+    console.log(files)
     const ValidAudio = () => {
-        const value = excursionStore.find(value => value.name === data.audio[0].path)
+        const {coordinates, ...props} = data
+        const value = files.find(value => value.id === parseInt(routes[routes.length - 1]?.params?.screen))
         if(!!value){
             return (<>
                 <AudioSlider audioFile={value}/>
-                <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
             </>)
         }
         return <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
@@ -72,24 +75,12 @@ export default function Route({}) {
         )
     }
 
-    useEffect(() => {
-        (isFocused) && dispatch(fetchMyExcursion({
-            token: user.stsTokenManager.accessToken,
-            id: routes.length > 1 && routes[routes.length - 1]?.params?.screen
-        }))
-    }, [isFocused])
-    useMemo(() => {
-        error && dispatch(showToastState({ type: 'error', top: true, text1: t(`error.Error on server`)}))
-    }, [error])
-
-    if (isLoading && (idExcursion < 0)) return <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
-
     return (
         <>
-        <MainLayout Refreshing={true} handlerRefresh={handlerRefresh} animation={false}>
+        <MainLayout animation={false}>
 
             <ContainerMain style={{marginBottom: 24}}>
-                {data.users && <BoxRow style={{justifyContent: 'space-between'}}>
+                {!!data.users && <BoxRow style={{justifyContent: 'space-between'}}>
                     <Text20 style={{width: '80%'}}>{data.name}</Text20>
                     <Pressable onPress={() => linkTo('/Participants')}>
                         <Svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +98,6 @@ export default function Route({}) {
                             <Path d="M12 27.9714H12.01" stroke="white" strokeWidth="2" strokeLinecap="round"
                                   strokeLinejoin="round"/>
                         </Svg>
-
                     </Pressable>
                 </BoxRow>}
             </ContainerMain>

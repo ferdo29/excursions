@@ -11,20 +11,24 @@ import filesStore from "../../../../../contexts/filesStore";
 import {randomName} from "../../../../../middleware/middlewares";
 import {ActivityIndicator} from "react-native";
 import {t} from "i18n-js";
+import {useFiles} from "../../../../../hooks/useFiles";
 
 export const DownloadFile = ({path, id, date}) => {
     const dispatch = useDispatch()
     const [disabled, setDisabled] = useState(false)
     const [bits, setBits] = useState(0)
-    const {excursionStore, handlerSetExcursionsStore, clearExcursionsStore} = useContext(filesStore)
+    const {handlerSetFileStore} = useFiles()
     const user = getAuth().currentUser
 
     const downloadFile = async () => {
         try {
             setDisabled(true)
-            const urilink = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
-            // const urilink = `https://muzofond.fm/zvuk_transfer?q=ZG93bmxvYWRfMA==`
-            const options = {headers: {'Authorization': `Bearer ${user.stsTokenManager.accessToken}`}}
+
+            // const urilink = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
+            // const options = {headers: {'Authorization': `Bearer ${user.stsTokenManager.accessToken}`}}
+            const urilink = `https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3`
+            const options = {}
+
             const fileUri = FileSystem.documentDirectory + `${randomName()}.mp3`.split('-').join('')
             const callback = ({totalBytesWritten}) => {
                 setTimeout(() => setBits((totalBytesWritten / 1024 / 1024).toFixed(2)), 500)
@@ -32,8 +36,8 @@ export const DownloadFile = ({path, id, date}) => {
             const File = FileSystem.createDownloadResumable(urilink, fileUri, options, callback)
             const data = await File.downloadAsync()
             // dispatch(setMyExcursionPath(data.uri))
-            // handlerSetExcursionsStore({uri: data.uri, name: path, date, id, uid: user.uid})
-            // setBits(0)
+            handlerSetFileStore({uri: data.uri, name: path, date, id, uid: user.uid}).then()
+            setBits(0)
             setDisabled(false)
         }catch (e) {
             setDisabled(false)

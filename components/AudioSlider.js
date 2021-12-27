@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import {View, TouchableOpacity, Dimensions, Animated} from "react-native";
+import {View, TouchableOpacity, Dimensions, Animated, Button} from "react-native";
 import { Audio } from "expo-av";
 import moment from 'moment'
 import {BoxRow, ColumnCenterView, Text12} from "../styles/components/tools";
-import Svg, {Path} from "react-native-svg";
+import Svg, {Path, Rect} from "react-native-svg";
 import {getAuth} from "firebase/auth";
 import {Slider} from '@miblanchard/react-native-slider';
+import {useFiles} from "../hooks/useFiles";
 
 const {height, width} = Dimensions.get('window')
 let timer = 0
@@ -14,8 +15,8 @@ export default function AudioSlider({audioFile}) {
     let intervalHandle = null;
     const AudioPlayer = useRef(new Audio.Sound());
     const ref = useRef({})
-    const user = getAuth().currentUser
     const milliSec = useRef(0)
+    const {handlerDeleteFileStore} = useFiles()
     const [AudioPermission, SetAudioPermission] = useState(false);
     const [position, setPosition] = useState({value: 0})
     const [timeView, setTimeView] = useState(moment.utc(0).format('HH:mm:ss'))
@@ -38,7 +39,7 @@ export default function AudioSlider({audioFile}) {
         try {
             const getAudioPerm = await Audio.requestPermissionsAsync();
             SetAudioPermission(getAudioPerm.granted);
-            AudioPlayer.current.loadAsync(audioFile.uri, {}, true)
+            AudioPlayer.current.loadAsync({uri:audioFile.uri}, {}, true)
                 .then((data) => AudioPlayer.current.getStatusAsync().then())
 
             AudioPlayer.current.getStatusAsync().then((data) => {
@@ -109,13 +110,24 @@ export default function AudioSlider({audioFile}) {
 
 
     return (
+        <>
         <BoxRow style={{justifyContent: 'flex-start', marginBottom: 40}}>
 
             <TouchableOpacity onPress={IsPLaying ? StopPlaying : PlayRecordedAudio} style={{marginRight: 20}}>
-                <Svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <Path d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33Z" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <Path d="M15 12L24 18L15 24V12Z" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </Svg>
+                {!IsPLaying && <Svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path
+                        d="M18 33C26.2843 33 33 26.2843 33 18C33 9.71573 26.2843 3 18 3C9.71573 3 3 9.71573 3 18C3 26.2843 9.71573 33 18 33Z"
+                        stroke="#11AEAE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <Path d="M15 12L24 18L15 24V12Z" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
+                </Svg>}
+                {IsPLaying && <Svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Path
+                        d="M18 33c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C9.716 3 3 9.716 3 18c0 8.284 6.716 15 15 15Z"
+                        stroke="#11AEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <Rect x="19.414" y="11.151" width="1.986" height="13.698" rx=".993" fill="#11AEAE"/>
+                    <Rect x="14.601" y="11.151" width="1.986" height="13.698" rx=".993" fill="#11AEAE"/>
+                </Svg>}
             </TouchableOpacity>
 
 
@@ -144,7 +156,9 @@ export default function AudioSlider({audioFile}) {
                 </BoxRow>
             </ColumnCenterView>
 
-
         </BoxRow>
+
+            <Button title={'handlerDeleteFileStore'} onPress={() => handlerDeleteFileStore(14)}/>
+        </>
     );
 }

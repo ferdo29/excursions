@@ -21,8 +21,9 @@ export const Map = ({}) => {
     const navigation = useNavigation();
     const routes = useNavigationState(state => state.routes)
     const [screen, setScreen] = useState(null);
+    const {idExcursion} = useSelector(state =>  state.myExcursion)
     const [points, setPoints] = useState({latitude: 55.820262,longitude: 38.983882});
-    const {data, isLoading, isView, error} = useSelector(state => state.myExcursion)
+    const data = useSelector(state => state.myExcursions.data.find(value => value.id === idExcursion))
 
     useEffect(() => {
         if (isFocused) {
@@ -43,6 +44,7 @@ export const Map = ({}) => {
             default: return require(`../../../../assets/image/Star1.png`)
         }
     }
+
     return (
         <MainLayout animation={false} >
 

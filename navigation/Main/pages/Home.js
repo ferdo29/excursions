@@ -20,12 +20,14 @@ import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import userFB from "../../../contexts/userFB";
 import {t} from "i18n-js";
+import {useFiles} from "../../../hooks/useFiles";
 
 export default function Home({}) {
     useContext(Locale)
     const dispatch = useDispatch()
     const user = getAuth().currentUser
     const {setAuth} = useContext(userFB)
+    const {handlerInitFiles} = useFiles()
     const {data: countries, isLoading: isLoadingC} = useSelector(state => state.countries)
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const {data: excursions, isLoading} = useSelector(state => state.excursions)
@@ -41,6 +43,9 @@ export default function Home({}) {
     useEffect(() => {
         onRefresh()
     }, [user])
+    useEffect(() => {
+        handlerInitFiles().then()
+    }, [])
     return (
         <MainLayout
             Refreshing={true}

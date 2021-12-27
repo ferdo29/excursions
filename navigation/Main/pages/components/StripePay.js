@@ -7,6 +7,7 @@ import {Input} from "../../../../styles/components/inputs";
 import {Dimensions} from "react-native";
 import LayoutPop from "../../../../layouts/popups/LayoutPop";
 import {Text16Bold500} from "../../../../styles/components/tools";
+import {useSelector} from "react-redux";
 
 const {height, width} = Dimensions.get('window')
 const styleCard = {
@@ -29,10 +30,14 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
     const [cardDetails, setCardDetails] = useState();
     const [Height, setHeight] = useState(height * 0.50);
     const {confirmPayment, loading} = useConfirmPayment()
+    const {data: cart, error} = useSelector(state => state.cart);
 
     const fetchPaymentIntentClientSecret = async () => {
         const response = await fetch(`${API_URL}/create-payment-intent`, {
             method: "POST",
+            body: {
+                cart
+            },
             headers: {
                 "Content-Type": "application/json",
             },
