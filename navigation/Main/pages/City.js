@@ -15,6 +15,7 @@ import {fetchPopularPlaces, fetchPopularPlacesExcursions} from "../../../store/p
 import {Loader} from "../../../components/Loader";
 import img from "../../../assets/image/Shiadu.png";
 import {getAuth} from "firebase/auth";
+import {t} from "i18n-js";
 
 export const City = ({}) => {
     const user = getAuth().currentUser
@@ -57,15 +58,14 @@ export const City = ({}) => {
                     <View style={{marginBottom: 20, marginTop: 20}}>
                         <InputSearchWrapper>
                             <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                            <InputSearch placeholder={'Страна, город, экскурсия...'}/>
+                            <InputSearch placeholder={t('City.Country, city, excursion')}/>
                         </InputSearchWrapper>
                     </View>
                 </ContainerMain>
 
-                <ScrollHorizontal title={'Экскурсии по странам'} model={countries}/>
-                {/*<ScrollHorizontal title={'Популярные места'} model={popularPlaces}/>*/}
+                <ScrollHorizontal title={t('City.Country Tours')} model={countries}/>
                 <ContainerMain>
-                    <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
+                    <Text23Bold style={{marginBottom: 10}}>{t('City.Interesting excursions')}</Text23Bold>
                 </ContainerMain>
                 {excursion && excursion.length > 0 && excursion.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
 

@@ -19,6 +19,7 @@ import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import userFB from "../../../contexts/userFB";
+import {t} from "i18n-js";
 
 export default function Home({}) {
     useContext(Locale)
@@ -57,18 +58,18 @@ export default function Home({}) {
             {!isLoadingC && countries.length > 0 && countries && <ScrollHorizontal buttonView={true}
                                                   toLink={'Country'}
                                                    toLinkTwo={'Countries'}
-                                                  title={'Экскурсии по странам'}
+                                                  title={t('Home.Country Tours')}
                                                   model={ countries}/>}
             {!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}
                                                          toLink={'City'}
                                                          toLinkTwo={'Cities'}
-                                                         title={'Популярные места'}
+                                                         title={t('Home.Popular places')}
                                                          model={popularPlaces}/>}
 
             {!isLoading ?
                 <>
                     <ContainerMain>
-                        <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
+                        <Text23Bold style={{marginBottom: 10}}>{t('Home.Interesting excursions')}</Text23Bold>
                     </ContainerMain>
                     {
                         excursions.length > 0 && excursions.map((value, index) => index < 4 &&

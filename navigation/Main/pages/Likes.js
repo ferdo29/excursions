@@ -10,6 +10,7 @@ import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {getAuth} from "firebase/auth";
+import {t} from "i18n-js";
 
 export default function ({}) {
     const dispatch = useDispatch()
@@ -23,18 +24,18 @@ export default function ({}) {
     return (
         <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={favourite.length > 2} itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
-                <Text23Bold style={{textAlign: 'center'}}>Избранное</Text23Bold>
+                <Text23Bold style={{textAlign: 'center'}}>{t('Favorites.Favorites')}</Text23Bold>
                 <Text12 style={{textAlign: 'center', marginTop: favourite.length <= 0 ? 15 : 0}}>
                     {favourite.length > 0 ?
-                            `У вас в избранном ${favourite.length} экскурсий` :
-                            'У вас в избранном нет добавленных экскурсий'}
+                            `${t('Favorites.In your favorites')} ${favourite.length} ${t('Favorites.excursions')}` :
+                            t('Favorites.You have no excursions added to your favorites')}
                 </Text12>
                 {favourite.length <= 0 &&
                 <>
                     <Text12 style={{textAlign: 'center', color: '#828282', paddingTop: 50}}>
-                        Добавляй экскурсии в избранное, нажимая
+                        {t('Favorites.Add excursions to your favorites by clicking')}
                     </Text12>
-                    <Text12 style={{textAlign: 'center', color: '#828282'}}>на сердечко</Text12>
+                    <Text12 style={{textAlign: 'center', color: '#828282'}}>{t('Favorites.on the heart')}</Text12>
                     <BoxRow style={{paddingTop: 20}}>
                         <ButtonCircle disabled style={{marginRight: 10}}>
                             <IconHeart fill={'#11AEAE'}/>

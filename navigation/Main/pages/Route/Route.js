@@ -133,7 +133,7 @@ export default function Route({}) {
                              onPress={() => linkTo(`/Map/` + Link)}
                              style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
                     <Text16Bold500
-                        style={{color: '#828282'}}>Показать маршрут на карте</Text16Bold500>
+                        style={{color: '#828282'}}>{t('Route.Show route on map')}</Text16Bold500>
                     <Svg width="41" height="41" style={{}} fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>

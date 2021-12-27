@@ -10,6 +10,7 @@ import {useContext, useRef, useState} from "react";
 import filesStore from "../../../../../contexts/filesStore";
 import {randomName} from "../../../../../middleware/middlewares";
 import {ActivityIndicator} from "react-native";
+import {t} from "i18n-js";
 
 export const DownloadFile = ({path, id, date}) => {
     const dispatch = useDispatch()
@@ -47,7 +48,7 @@ export const DownloadFile = ({path, id, date}) => {
                     style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
             {!disabled && <>
                 <Text16Bold500
-                    style={{color: '#828282'}}>Скачать audio</Text16Bold500>
+                    style={{color: '#828282'}}>{t('Route.Download')}</Text16Bold500>
                 <Svg width="41" height="41" style={{}} fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>

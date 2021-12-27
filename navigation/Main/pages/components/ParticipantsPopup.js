@@ -4,6 +4,7 @@ import {Text16, Text16Bold500, Text20Bold, Text23, WrapperPopUp} from "../../../
 import {InputSearchWrapper} from "../../../../styles/components/inputs";
 import {ButtonGray, ButtonGrayWrapper} from "../../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
+import {t} from "i18n-js";
 
 export const ParticipantsPopup = ({state, openClose = () => {}, func = () => {}, value }) => {
 
@@ -33,7 +34,7 @@ export const ParticipantsPopup = ({state, openClose = () => {}, func = () => {},
                     justifyContent: 'center'
                 }}>
                 <WrapperPopUp>
-                    <Text20Bold style={{color: '#828282', lineHeight: 28, marginBottom: 20, textAlign: 'center', width: 257}}>Вы хотите добавить участника</Text20Bold>
+                    <Text20Bold style={{color: '#828282', lineHeight: 28, marginBottom: 20, textAlign: 'center', width: 257}}>{t('Route.Do you want to add a member')}</Text20Bold>
                     <InputSearchWrapper
                     style={{borderColor: '#E0E0E0', borderWidth: 1, alignItems: 'center', marginBottom: 27, backgroundColor: '#F5F5FA', shadowColor: 'rgba(255,255,255,0)' }}
                     >
@@ -48,7 +49,7 @@ export const ParticipantsPopup = ({state, openClose = () => {}, func = () => {},
                         <ButtonGray activeOpacity={0.6} style={{marginBottom: 28, width: '90%'}}
                                     onPress={handlerFun}>
                             <Text16Bold500
-                                style={{color: '#828282', width: '65%'}}>Подтвердить</Text16Bold500>
+                                style={{color: '#828282', width: '65%'}}>{t('Route.Confirm')}</Text16Bold500>
                             <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -59,7 +60,7 @@ export const ParticipantsPopup = ({state, openClose = () => {}, func = () => {},
                     </ButtonGrayWrapper>
 
                     <TouchableOpacity onPress={openClose}>
-                        <Text16 style={{color: '#11AEAE'}}>Отмена</Text16>
+                        <Text16 style={{color: '#11AEAE'}}>{t('Route.Cancellation')}</Text16>
                     </TouchableOpacity>
 
                 </WrapperPopUp>

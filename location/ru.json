@@ -82,5 +82,111 @@
       "More than 9000 excursions":"Более 9000 экскурсий",
       "waiting for you": "ждут вас!"
     }
+  },
+  "Account": {
+    "We are happy to see you!": "Мы рады видеть вас!",
+    "Invite a friend": "Пригласи друга",
+    "and get a discount":"и получи скидку",
+    "About the app": "О приложении",
+    "Terms of use":"Пользовательское соглашение",
+    "Privacy Policy": "Политика конфиденциальности",
+    "Questions and Answers":"Вопросы-ответы",
+    "Contact technical support": "Написать в техподдержку",
+    "Log off":"Выйти"
+  },
+  "Privacy Policy": {
+    "Privacy Policy": "Политика конфиденциальности"
+  },
+  "Terms of use": {
+    "Terms of use": "Пользовательское соглашение"
+  },
+  "Favorites": {
+    "Favorites": "Избранное",
+    "In your favorites": "У вас в избранном",
+    "excursions":"экскурсий",
+    "You have no excursions added to your favorites": "У вас в избранном нет добавленных экскурсий",
+    "Add excursions to your favorites by clicking":"Добавляй экскурсии в избранное, нажимая",
+    "on the heart": "на сердечко"
+  },
+  "Route": {
+    "Show route on map": "Показать маршрут на карте",
+    "Download": "Скачать",
+    "Route": "Маршрут",
+    "Do you want to add a member": "Вы хотите добавить участника",
+    "Confirm": "Подтвердить",
+    "Cancellation": "Отмена",
+    "Excursion participants": "Участники экскурсии"
+  },
+  "FAQ": {
+    "Questions that may help you": "Вопросы, которые вам могут помочь"
+  },
+  "AboutApp": {
+    "About the app": "О приложении",
+    "Text": "Наше мобильное приложение дает возможность проходить экскурсии по всему миру, различных маршрутов, а также квестов. Вы можете проходить экскурсию самостоятельно, а также с компанией или семьей. Вас ждут незабываемые приключения!"
+  },
+  "Agreement": {
+    "Agreement":"Соглашение",
+    "By using the app you agree":"Используя приложение вы соглашаетесь",
+    "User agreement":"Пользовательским соглашением",
+    "Privacy Policy":"Политикой конфиденциальности.",
+    "Yes, I agree":"Да, согласен",
+    "No, go out":"Нет, выйти",
+    "with":"c",
+    "and":"и"
+  },
+  "InviteFriend": {
+    "We give you an additional discount for participating in the Invite a friend program" : "Дарим вам дополнительную скидку за участие в программе «Пригласи друга»",
+    "discount": "скидка",
+    "Share link": "Поделиться ссылкой",
+    "Read the program rules": "Ознакомьтесь с правилами программы",
+    "Invite a friend": "«Пригласи друга»",
+    "here": "здесь"
+  },
+  "Cities": {
+    "Country": "Страны",
+    "excursions":"экскурсий"
+  },
+  "City": {
+    "Country, city, excursion": "Страна, город, экскурсия...",
+    "Country Tours":"Экскурсии по странам",
+    "Interesting excursions":"Интересные экскурсии"
+  },
+  "Countries": {
+      "Countries": "Страны",
+      "excursions":"экскурсий"
+  },
+  "Country": {
+    "Country, city, excursion": "Страна, город, экскурсия...",
+    "excursions":"экскурсий",
+    "Country Tours":"Экскурсии по странам",
+    "Popular places":"Популярные места",
+    "Interesting excursions":"Интересные экскурсии"
+  },
+  "Excursion": {
+    "evaluations": "оценок",
+    "Audio tour price":"Цена аудиоэкскурсии",
+    "Buy": "Купить",
+    "Route":"Маршрут",
+    "Audio tour times": "Время аудиоэкскурсии",
+    "min":"мин",
+    "The excursion price does not include the cost of entrance tickets to attractions": "В цену экскурсии не включены стоимость входных билетов в достопримечательности.",
+    "Description":"Описание",
+    "Order now": "Заказать сейчас",
+    "Reviews":"Отзывы",
+    "View more": "Посмотреть еще",
+    "reviews":"отзывов",
+    "There is no data": "Нет данных",
+    "Server data error":"Ошибка с данными на сервере",
+    "No reviews":"Нет отзывов"
+  },
+  "Home": {
+    "Country Tours": "Экскурсии по странам",
+    "Popular places":"Популярные места",
+    "Interesting excursions": "Интересные экскурсии"
+  },
+  "Participants": {
+    "minutes": "минут",
+    "objects":"объектов",
+    "Audio tour price": "Цена аудиоэкскурсии"
   }
 }

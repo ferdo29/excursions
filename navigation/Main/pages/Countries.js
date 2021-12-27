@@ -6,6 +6,7 @@ import MainLayout from "../../../layouts/MainLayout";
 import {ContainerMain, MainBoxWrap, Text12, Text16Bold, Text23Bold} from "../../../styles/components/tools";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import {CardImage} from "../../../styles/components/Cards";
+import {t} from "i18n-js";
 
 export const Countries = ({}) => {
     const linkTo = useLinkTo();
@@ -14,8 +15,8 @@ export const Countries = ({}) => {
     return (
         <MainLayout animation={countries.length > 6} viewBack={true}>
             <ContainerMain style={{paddingBottom: 20}}>
-                <Text23Bold style={{textAlign: 'center'}}>Страны</Text23Bold>
-                <Text12 style={{textAlign: 'center'}}>15 стран, 156 городов, 615 экскурсий</Text12>
+                <Text23Bold style={{textAlign: 'center'}}>{t('Countries.Countries')}</Text23Bold>
+                {/*<Text12 style={{textAlign: 'center'}}>15 стран, 156 городов, 615 экскурсий</Text12>*/}
             </ContainerMain>
 
             <MainBoxWrap>
@@ -28,7 +29,7 @@ export const Countries = ({}) => {
                             imageStyle={{borderRadius: 15}}
                             source={{uri: value.images[0].path}}>
                             <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
-                            <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } экскурсий</Text12>
+                            <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } {t('Countries.excursions')}</Text12>
                         </CardImage>
                     </Pressable>
                 )}

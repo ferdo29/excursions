@@ -6,12 +6,13 @@ import {
     ContainerMain, Text12, Text12Underline,
     Text16, Text16Bold500, Text30Bold, Text47Bold
 } from "../../../../styles/components/tools";
-import {Dimensions, Image, Platform, Pressable, Share} from "react-native";
-import {IconBC} from "../../../../components/Icons";
+import {Animated, Dimensions, Image, Platform, Pressable, Share} from "react-native";
+import {IconBC, IconExclamations} from "../../../../components/Icons";
 import {ButtonGray, ButtonGrayWrapper2} from "../../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useLinkTo} from "@react-navigation/native";
 import {MoreDetail} from "../components/MoreDetail";
+import {t} from "i18n-js";
 
 const {height, width} = Dimensions.get('window')
 
@@ -48,17 +49,17 @@ export default function InviteFriend({}) {
 
                 <BoxColumnView style={{paddingBottom: 33}}>
                     <Text16 style={{width: 257, color: '#4F4F4F', textAlign: 'center', lineHeight: 26}}>
-                        Дарим вам дополнительную скидку за участие в программе «Пригласи друга»
+                        {t('InviteFriend.We give you an additional discount for participating in the Invite a friend program')}
                     </Text16>
                     <BoxRowView style={{justifyContent: 'center', alignItems: 'flex-end', paddingTop: 20, position: 'relative'}}>
                         <Text47Bold>- 10</Text47Bold>
-                        <Text30Bold style={{color: '#11AEAE', paddingBottom: 4}}>% скидка</Text30Bold>
-                        <ButtonMoreData/>
+                        <Text30Bold style={{color: '#11AEAE', paddingBottom: 4}}>% {t('InviteFriend.discount')}</Text30Bold>
+                        {/*<ButtonMoreData/>*/}
                     </BoxRowView>
                     <ButtonGrayWrapper2 style={{width: 'auto'}}>
                         <ButtonGray activeOpacity={0.6} style={{marginBottom: 28, width: '100%'}}
                                     onPress={onShare}>
-                            <Text16Bold500 style={{color: '#828282', width: 'auto', paddingRight: 20}}>Поделиться ссылкой</Text16Bold500>
+                            <Text16Bold500 style={{color: '#828282', width: 'auto', paddingRight: 20}}>{t('InviteFriend.Share link')}</Text16Bold500>
                             <Svg width="41" height="41" style={{right: 0}} fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -72,17 +73,17 @@ export default function InviteFriend({}) {
 
 
                 <BoxColumnView>
-                    <Text12 style={{color: '#4F4F4F'}}>Ознакомьтесь с правилами программы </Text12>
+                    <Text12 style={{color: '#4F4F4F'}}>{t('InviteFriend.Read the program rules')} </Text12>
                     <BoxRowView style={{justifyContent: 'center'}}>
-                        <Text12 style={{color: '#4F4F4F'}}>«Пригласи друга» </Text12>
+                        <Text12 style={{color: '#4F4F4F'}}>{t('InviteFriend.Invite a friend')}</Text12>
                         <Pressable onPress={() => linkTo(`/Faq`)}>
-                            <Text12Underline style={{color: '#11AEAE', paddingTop: 3}}>здесь</Text12Underline>
+                            <Text12Underline style={{color: '#11AEAE', paddingTop: 3}}>{t('InviteFriend.here')}</Text12Underline>
                         </Pressable>
 
                     </BoxRowView>
 
                 </BoxColumnView>
-                <ViewMoreData/>
+                {/*<ViewMoreData/>*/}
             </ContainerMain>
 
         </MainLayout>

@@ -7,6 +7,7 @@ import {BottomNav} from "../navigation/Main/pages/components/BottomNav";
 import {useLinkTo, useNavigation} from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Gallery from 'react-native-image-gallery';
+import {t} from "i18n-js";
 
 const {height, width} = Dimensions.get('window')
 
@@ -113,7 +114,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                     paddingBottom: 17,
                     paddingRight:21,}}>
                 <Text23 style={{color: '#fff', lineHeight: 38}}>{title}</Text23>
-                {count && <Text12 style={{color: '#fff'}}>{count} экскурсий</Text12>}
+                {count && <Text12 style={{color: '#fff'}}>{count} {t('Cities.excursions')}</Text12>}
                 {gallery && gallery.length > 0 &&
                 <View style={{
                     paddingLeft: 20,

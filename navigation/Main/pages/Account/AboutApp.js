@@ -4,6 +4,7 @@ import {BoxRowView, ContainerMain, Text14, Text23Bold} from "../../../../styles/
 import {IconBC, IconFacebookColor, IconInstagramColor, IconVKColor} from "../../../../components/Icons";
 import {Image} from "react-native";
 import {FirstBackground} from "../../../../components/backgrounds/FirstBackground";
+import {t} from "i18n-js";
 
 export default function AboutApp({}) {
     return (
@@ -11,10 +12,10 @@ export default function AboutApp({}) {
             <ContainerMain style={{paddingBottom: 20, marginTop: 40}}>
 
                 <BoxRowView style={{width: 'auto', justifyContent: 'center', alignItems: 'flex-end', marginBottom: 50}}>
-                    <Text23Bold style={{marginBottom: 16, textAlign: 'center', lineHeight: 30}}>О приложении</Text23Bold>
+                    <Text23Bold style={{marginBottom: 16, textAlign: 'center', lineHeight: 30}}>{t('AboutApp.About the app')}</Text23Bold>
                     <Image style={{width: 244, height: 244}} source={require('../../../../assets/image/Globe.png')}/>
                     <Text14 style={{textAlign: 'center', color: '#4F4F4F', width:288, lineHeight:  24}}>
-                        Наше мобильное приложение дает возможность проходить экскурсии по всему миру, различных маршрутов, а также квестов. Вы можете проходить экскурсию самостоятельно, а также с компанией или семьей. Вас ждут незабываемые приключения!
+                        {t('AboutApp.Text')}
                     </Text14>
                 </BoxRowView>
                 <BoxRowView style={{justifyContent:'space-evenly', marginBottom: 27}}>

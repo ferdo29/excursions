@@ -15,6 +15,7 @@ import {setBasket, setLike} from "../../store/excursions/reducer";
 import {useLinkTo} from "@react-navigation/native";
 import axios from "axios";
 import {getAuth} from "firebase/auth";
+import {t} from "i18n-js";
 
 export const CardExcursion = ({data, index, callBack = () => {}}) => {
     const user = getAuth().currentUser
@@ -50,11 +51,11 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
                 <BoxRow style={{justifyContent: 'flex-start', paddingBottom: 10}}>
                     <BoxRow style={{marginRight: 18}}>
                         <IconWatch style={{marginRight: 8}}/>
-                        <Text10>{data.minutes} минут</Text10>
+                        <Text10>{data.minutes} {t('Participants.minutes')}</Text10>
                     </BoxRow>
                     <BoxRow>
                         <IconRoad style={{marginRight: 8}}/>
-                        <Text10>{data.object} объектов</Text10>
+                        <Text10>{data.object} {t('Participants.objects')}</Text10>
                     </BoxRow>
                 </BoxRow>
                 <Text18 style={{lineHeight: 18, paddingBottom: 10, color: '#4F4F4F'}}>{data.name}</Text18>
@@ -66,7 +67,7 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
                              <IconHeadPhone style={{marginRight: 12}}/>
                              <Text18 style={{lineHeight: 18, color: '#11AEAE'}}>{data.price} €</Text18>
                         </BoxRow>
-                        <Text10 style={{lineHeight: 18,color: '#BDBDBD'}}>Цена аудиоэкскурсии</Text10>
+                        <Text10 style={{lineHeight: 18,color: '#BDBDBD'}}>{t('Participants.Audio tour price')}</Text10>
                     </BoxColumnView>
                     </ButtonGrayWrapper>
                     <BoxRow>

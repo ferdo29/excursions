@@ -81,7 +81,110 @@
       "waiting for you": "waiting for you!"
     }
   },
-  "Language": {
-
+  "Route": {
+    "Show route on map": "Show route on map",
+    "Download": "Download",
+    "Route": "Route",
+    "Do you want to add a member": "Do you want to add a member",
+    "Confirm": "Confirm",
+    "Cancellation": "Cancellation",
+    "Excursion participants": "Excursion participants"
+  },
+  "Privacy Policy": {
+    "Privacy Policy": "Privacy Policy"
+  },
+  "Terms of use": {
+    "Terms of use": "Terms of use"
+  },
+  "FAQ": {
+    "Questions that may help you": "Questions that may help you"
+  },
+  "Favorites": {
+    "Favorites": "Favorites",
+    "In your favorites": "In your favorites",
+    "excursions":"excursions",
+    "You have no excursions added to your favorites": "You have no excursions added to your favorites.",
+    "Add excursions to your favorites by clicking":"Add excursions to your favorites by clicking",
+    "on the heart": "on the heart"
+  },
+  "Account": {
+    "We are happy to see you!": "We are happy to see you!",
+    "Invite a friend": "Invite a friend",
+    "and get a discount":"and get a discount",
+    "About the app": "About the app",
+    "Terms of use":"Terms of use",
+    "Privacy Policy": "Privacy Policy",
+    "Questions and Answers":"Questions and Answers",
+    "Contact technical support": "Contact technical support",
+    "Log off":"Log off"
+  },
+  "AboutApp": {
+    "About the app": "About the app",
+    "Text": "Our mobile application makes it possible to take excursions around the world, various routes, as well as quests. You can take the excursion on your own, as well as with a company or family. An unforgettable adventure awaits you!"
+  },
+  "Agreement": {
+    "Agreement":"Agreement",
+    "By using the app you agree":"By using the app you agree",
+    "User agreement":"User agreement",
+    "Privacy Policy":"Privacy Policy.",
+    "Yes, I agree":"Yes, I agree",
+    "No, go out":"No, go out",
+    "with":"with",
+    "and":"and"
+  },
+  "InviteFriend": {
+    "We give you an additional discount for participating in the Invite a friend program" : "We give you an additional discount for participating in the \"Invite a friend\" program",
+    "discount": "discount",
+    "Share link": "Share link",
+    "Read the program rules": "Read the program rules",
+    "Invite a friend": "\"Invite a friend\"",
+    "here": "here"
+  },
+  "Cities": {
+    "Country": "Country",
+    "excursions":"excursions"
+  },
+  "City": {
+    "Country, city, excursion": "Country, city, excursion...",
+    "Country Tours":"Country Tours",
+    "Interesting excursions":"Interesting excursions"
+  },
+  "Countries": {
+    "Countries": "Countries",
+    "excursions":"excursions"
+  },
+  "Country": {
+    "Country, city, excursion": "Country, city, excursion...",
+    "excursions":"экскурсий",
+    "Country Tours":"Country Tours",
+    "Popular places":"Popular places",
+    "Interesting excursions":"Interesting excursions"
+  },
+  "Excursion": {
+    "evaluations": "evaluations",
+    "Audio tour price":"Audio tour price",
+    "Buy": "Buy",
+    "Route":"Route",
+    "Audio tour times": "Audio tour times",
+    "min":"min",
+    "The excursion price does not include the cost of entrance tickets to attractions": "The excursion price does not include the cost of entrance tickets to attractions.",
+    "Description":"Description",
+    "Order now": "Order now",
+    "Reviews":"Reviews",
+    "View more": "View more",
+    "reviews":"reviews",
+    "There is no data": "There is no data",
+    "Server data error":"Server data error",
+    "No reviews":"No reviews"
+  },
+  "Home": {
+    "Country Tours": "Country Tours",
+    "Popular places":"Popular places",
+    "Interesting excursions": "Interesting excursions"
+  },
+  "Participants": {
+    "minutes": "minutes",
+    "objects":"objects",
+    "Audio tour price": "Audio tour price"
   }
 }

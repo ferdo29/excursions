@@ -18,11 +18,13 @@ import ItemBasket from "./components/ItemBasket";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {fetchCart} from "../../../store/cart/service";
 import {getAuth} from "firebase/auth";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {showToastState} from "../../../store/toasts/reducer";
 import {t} from "i18n-js";
+import {StripeProvider} from "@stripe/stripe-react-native";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
+import {StripePay} from "./components/StripePay";
 
 const percent = (count) => {
     if (count < 3) return 1
@@ -44,6 +46,7 @@ export default function ({}) {
     const dispatch = useDispatch()
     const user = getAuth().currentUser
     const {data: cart, error} = useSelector(state => state.cart);
+    const [popupPay, setPopupPay] = useState(false);
 
     const onRefresh = (toost = false) => {
         dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
@@ -78,6 +81,7 @@ export default function ({}) {
     }
 
     return (
+        <StripeProvider publishableKey={'pk_test_51KB35SCovcxLQ3JZcbT4gECEK7PAeZ2hHbspw3xqhuRWTR14fdTQQggB8uoP5BENuCvdinwz8Ef0W2MAgGQMjAEk00yJV1hhWg'}>
         <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={0}  itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>{t('All.Cart')}</Text23Bold>
@@ -87,8 +91,10 @@ export default function ({}) {
                         t('Basket.Sorry, but your cart is empty')
                     }
                 </Text12>
-                {cart.length <= 0 && <ButtonGrayWrapper style={{width: 'auto'}}>
-                    <ButtonGray onPress={() => linkTo(`/Home`)}
+                {cart.length <= 0 &&
+                <ButtonGrayWrapper style={{width: 'auto'}}>
+                    <ButtonGray
+                                onPress={() => linkTo(`/Home`)}
                                 activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
                             style={{color: '#828282', width: '65%'}}>{t('Basket.View excursions')}</Text16Bold500>
@@ -110,7 +116,10 @@ export default function ({}) {
                     <Text18Bold style={{marginBottom: 40}}>{t('Basket.Total payable')} {reducer(cart)} €</Text18Bold>
                 </BoxColumnView>}
                 {cart.length > 0 && <ButtonGrayWrapper style={{width: '100%'}}>
-                    <ButtonGray onPress={PayPal} activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
+                    <ButtonGray
+                        // onPress={PayPal}
+                        onPress={() => setPopupPay(!popupPay)}
+                        activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}>
                         <Text16Bold500
                             style={{color: '#828282'}}>{t('All.Pay')}</Text16Bold500>
                         <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
@@ -125,5 +134,7 @@ export default function ({}) {
             </ContainerMain>
             {cart.length <= 0 && <Image source={require('../../../assets/image/Woman.png')}/>}
         </MainLayout>
+            <StripePay state={popupPay} openClose={() => setPopupPay(!popupPay)}/>
+        </StripeProvider>
     );
 };

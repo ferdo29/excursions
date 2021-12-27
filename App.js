@@ -39,7 +39,7 @@ import { firebaseApp, auth } from "./firebase"
 
 export default function App() {
     const [Auth, setAuth] = useState(false)
-    const [lang, setLang] = useState('RU');
+    const [lang, setLang] = useState('EN');
     const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
     const store = setupStore()

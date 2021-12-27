@@ -65,7 +65,7 @@ export default function Participants({}) {
         <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>} >
             <ContainerMain>
 
-                <Text23Bold style={{color: '#fff', lineHeight: 28, marginBottom: 36}}>Участники экскурсии</Text23Bold>
+                <Text23Bold style={{color: '#fff', lineHeight: 28, marginBottom: 36}}>{t('Route.Excursion participants')}</Text23Bold>
 
                 {data.users.map((value, index) =>
                     <WrapperParticipant key={index} style={index === 0 ? {borderTopWidth: 1, borderTopColor: '#70CECE'} : {}}>
@@ -78,7 +78,7 @@ export default function Participants({}) {
                     </WrapperParticipant>
                 )}
 
-                <Text23Bold style={{marginTop: 70, color: '#fff', lineHeight: 28, marginBottom: 36}}>Участники экскурсии</Text23Bold>
+                <Text23Bold style={{marginTop: 70, color: '#fff', lineHeight: 28, marginBottom: 36}}>{t('Route.Excursion participants')}</Text23Bold>
 
                 <View style={{paddingBottom: 100}}>
                     <InputSearchWrapper style={{backgroundColor: 'rgba(255,255,255,0.21)', height: 54}}>

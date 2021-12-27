@@ -14,6 +14,7 @@ import {useEffect} from "react";
 import {fetchCounter, fetchCounterCity, fetchCounterExcursion} from "../../../store/country/service";
 import {countryDelete, countryDeleteCity, countryDeleteExcursion} from "../../../store/country/reducer";
 import {Loader} from "../../../components/Loader";
+import {t} from "i18n-js";
 
 export const Country = ({}) => {
     const dispatch = useDispatch()
@@ -47,15 +48,15 @@ export const Country = ({}) => {
                     <View style={{marginBottom: 20, marginTop: 20}}>
                         <InputSearchWrapper>
                             <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                            <InputSearch placeholder={'Страна, город, экскурсия...'}/>
+                            <InputSearch placeholder={t('Country.Country, city, excursion')}/>
                         </InputSearchWrapper>
                     </View>
                 </ContainerMain>
 
-                <ScrollHorizontal title={'Экскурсии по странам'} model={countries}/>
-                {city.data && <ScrollHorizontal title={'Популярные места'} model={city.data}/>}
+                <ScrollHorizontal title={t('Country.Country Tours')} model={countries}/>
+                {city.data && <ScrollHorizontal title={t('Country.Popular places')} model={city.data}/>}
                 <ContainerMain>
-                    <Text23Bold style={{marginBottom: 10}}>Интересные экскурсии</Text23Bold>
+                    <Text23Bold style={{marginBottom: 10}}>{t('Country.Interesting excursions')}</Text23Bold>
                 </ContainerMain>
                 {isView && excursion?.data.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
 

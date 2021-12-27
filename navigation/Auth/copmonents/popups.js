@@ -142,20 +142,20 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
 export const PopupAgreement = ({handlerAgreement = () => {}, handlerConfirmation = () => {}}) => {
     return(
         <BoxColumnView style={{justifyContent: 'center'}}>
-            <Text28 style={{paddingBottom: 28}}>Соглашение</Text28>
+            <Text28 style={{paddingBottom: 28}}>{t('Agreement.Agreement')}</Text28>
 
             <BoxColumnView style={{paddingBottom: 40}}>
-                <Text16 style={{color: '#828282'}}>Используя приложение вы соглашаетесь</Text16>
+                <Text16 style={{color: '#828282'}}>{t('Agreement.By using the app you agree')}</Text16>
                 <URLText style={{flexDirection: 'row', paddingBottom: 5}}>
-                    <Text16 style={{color: '#828282'}}>с </Text16>
+                    <Text16 style={{color: '#828282'}}>{t('Agreement.with')} </Text16>
                     <Text16>
-                        <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Пользовательским соглашением</Text16>
+                        <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>{t('Agreement.User agreement')}</Text16>
                     </Text16>
-                    <Text16 style={{color: '#828282'}}> и</Text16>
+                    <Text16 style={{color: '#828282'}}> {t('Agreement.and')}</Text16>
                 </URLText>
 
                 <URLText style={{paddingBottom: 10}}>
-                    <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>Политикой конфиденциальности.</Text16>
+                    <Text16 style={{color: '#11AEAE', textDecorationLine: 'underline'}}>{t('Agreement.Privacy Policy')}</Text16>
                 </URLText>
             </BoxColumnView>
 
@@ -163,7 +163,7 @@ export const PopupAgreement = ({handlerAgreement = () => {}, handlerConfirmation
                 handlerAgreement()
                 handlerConfirmation()
             }}>
-                <Text16 style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>Да, согласен</Text16>
+                <Text16 style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>{t('Agreement.Yes, I agree')}</Text16>
                 <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
                     <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
@@ -172,7 +172,7 @@ export const PopupAgreement = ({handlerAgreement = () => {}, handlerConfirmation
             </ButtonGreenOpacity>
 
             <ButtonWhite onPress={handlerAgreement} activeOpacity={0.6} style={{backgroundColor: '#F5F5FA', borderWidth: 0}}>
-                <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20}}>Нет, выйти</Text16>
+                <Text16 style={{color: '#828282', textAlign: 'center', width: '100%', paddingRight: 20}}>{t('Agreement.No, go out')}</Text16>
             </ButtonWhite>
 
         </BoxColumnView>

@@ -16,11 +16,12 @@ export default function ({children, state, openClose = () => {}, start = 50,
     const [Height, setHeight] = useState(height)
 
     const SwipeWindow = ({nativeEvent}) => {
-        if(responseSize){
+
             if(!stateDraggable && nativeEvent.pageY >= (height - 200)) {
                 handlerClose()
                 return
             }
+            if(responseSize){
             nativeEvent?.pageY && setHeight(height - nativeEvent.pageY)
             setStateDraggable(true)
         }

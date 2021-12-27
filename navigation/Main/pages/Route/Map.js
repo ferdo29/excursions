@@ -13,6 +13,7 @@ import MapView, {Callout, Marker, Polyline } from 'react-native-maps';
 import {useEffect, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {CardImage, WrapperCircle} from "../../../../styles/components/Cards";
+import {t} from "i18n-js";
 
 export const Map = ({}) => {
     const ref = useRef()
@@ -55,7 +56,7 @@ export const Map = ({}) => {
                                   strokeLinejoin="round"/>
                         </Svg>
                     </Pressable>
-                    <Text23Bold style={{flexGrow: 14, textAlign:'center', marginRight: 40}}>Маршрут</Text23Bold>
+                    <Text23Bold style={{flexGrow: 14, textAlign:'center', marginRight: 40}}>{t('Route.Route')}</Text23Bold>
                 </BoxRow>
             </ContainerMain>
             <MapView
