@@ -31,6 +31,9 @@
     "Cart is empty": "Cart is empty",
     "Error on server": "Error on server"
   },
+  "success": {
+    "Paid up": "Paid up"
+  },
   "message": {
     "Success": "Success"
   },

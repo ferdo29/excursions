@@ -36,6 +36,7 @@ import * as SecureStore from "expo-secure-store";
 //
 // initializeApp(firebaseConfig);
 import { firebaseApp, auth } from "./firebase"
+import {LayoutAudio} from "./layouts/LayoutAudio";
 
 export default function App() {
     const [Auth, setAuth] = useState(false)
@@ -148,7 +149,9 @@ export default function App() {
                               clearExcursionsStore,
                               reExcursionStoreFile
                           }}>
-                              <NavigationController/>
+                              <LayoutAudio>
+                                  <NavigationController/>
+                              </LayoutAudio>
                           </FilesStore.Provider>
                       </ToastProvider>
                   </Provider>

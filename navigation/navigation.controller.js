@@ -23,117 +23,19 @@ import PrivacyPolicy from "./Main/pages/Account/PrivacyPolicy";
 import {Faq} from "./Main/pages/Account/FAQ";
 import {Support} from "./Main/pages/Account/Support";
 import Home from "./Main/pages/Home";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext} from "react";
 import userFB from "../contexts/userFB";
 import {NavigationContainer} from "@react-navigation/native";
-import { firebaseApp, auth } from "../firebase"
-import Audio from "../contexts/audio";
-import moment from "moment";
-import {useFiles} from "../hooks/useFiles";
-import {useSelector} from "react-redux";
 const Stack = createStackNavigator();
 
-let timer = 0
 
 export const NavigationController = ({}) => {
     const {auth:Auth} = useContext(userFB)
     const user = getAuth()
-    // const AudioPlayer = useRef(new Audio.Sound());
-    // const ref = useRef({})
-    // const milliSec = useRef(0)
-    // const [AudioPermission, SetAudioPermission] = useState(false);
-    // const [position, setPosition] = useState({value: 0})
-    // const [timeView, setTimeView] = useState(moment.utc(0).format('HH:mm:ss'))
-    // const [IsPLaying, SetIsPLaying] = useState(false);
-    // const {playAudio, data} = useSelector(state => state.files)
-    //
-    // const stopoiweu = () => {
-    //     clearInterval(timer)
-    //     if (ref.current.durationMillis > milliSec.current) {
-    //         timer = setInterval(() => {
-    //             milliSec.current += 113
-    //             setPosition({value: milliSec.current / ref.current.durationMillis})
-    //             setTimeView(moment.utc(milliSec.current).format('HH:mm:ss'))
-    //         }, 100)
-    //     }else{
-    //         setPosition({value: 1})
-    //         setTimeView(moment.utc(ref.current.durationMillis).format('HH:mm:ss'))
-    //     }
-    // }
-    // const GetPermission = async () => {
-    //     try {
-    //         const getAudioPerm = await Audio.requestPermissionsAsync();
-    //         SetAudioPermission(getAudioPerm.granted);
-    //         AudioPlayer.current.loadAsync({uri:data.find(playAudio).uri}, {}, true)
-    //             .then((data) => AudioPlayer.current.getStatusAsync().then())
-    //
-    //         AudioPlayer.current.getStatusAsync().then((data) => {
-    //             ref.current = data
-    //         })
-    //     } catch (e) {
-    //     }
-    //
-    // };
-    // const PlayRecordedAudio = async () => {
-    //     try {
-    //         const playerStatus = await AudioPlayer.current.getStatusAsync();
-    //
-    //         ref.current = playerStatus
-    //         if (playerStatus.isLoaded) {
-    //             if (playerStatus.isPlaying === false) {
-    //                 if(ref.current.durationMillis === ref.current.positionMillis){
-    //                     stopoiweu()
-    //                     await AudioPlayer.current.setPositionAsync(0)
-    //                     setPosition({value: 0})
-    //                     milliSec.current = ref.current.positionMillis
-    //                     await AudioPlayer.current.playAsync();
-    //                 }else{
-    //                     stopoiweu()
-    //                     milliSec.current = ref.current.positionMillis
-    //                     await AudioPlayer.current.playAsync();
-    //                 }
-    //                 SetIsPLaying(true);
-    //             }
-    //         }
-    //     } catch (error) {}
-    // };
-    // const StopPlaying = async () => {
-    //     milliSec.current = ref.current.positionMillis
-    //     clearInterval(timer)
-    //     try {
-    //         const playerStatus = await AudioPlayer.current.getStatusAsync();
-    //         ref.current = playerStatus
-    //         if (playerStatus.isLoaded) {
-    //             await AudioPlayer.current.pauseAsync();
-    //             setPosition({value: ref.current.positionMillis / ref.current.durationMillis})
-    //             SetIsPLaying(false);
-    //         }
-    //     } catch (error) {
-    //     }
-    // };
-    // const handlerValueChangeSlider = async (value) => {
-    //     setPosition({value})
-    //     clearInterval(timer)
-    //     try {
-    //         const playerStatus = await AudioPlayer.current.getStatusAsync();
-    //         ref.current = playerStatus
-    //         if (playerStatus.isLoaded) {
-    //             await AudioPlayer.current.setPositionAsync(ref.current.durationMillis * value[0])
-    //             milliSec.current = ref.current.positionMillis
-    //             stopoiweu()
-    //             await PlayRecordedAudio()
-    //         }
-    //     }catch (e) {
-    //
-    //     }
-    // }
-    //
-    // useEffect(() => {
-    //     playAudio && GetPermission();
-    // }, [playAudio]);
+
 
     return (
-        <Audio.Provider >
+
         <NavigationContainer>
             <Stack.Navigator screenOptions={{headerShown: false}}>
                 {(Auth && !!user.currentUser) ?
@@ -170,10 +72,7 @@ export const NavigationController = ({}) => {
                         <Stack.Screen name="Language" component={Language}/>
                     </>
                 }
-                {/*<Stack.Screen name="AuthHome" component={HomeAuth}/>*/}
-                {/*<Stack.Screen name="Language" component={Language}/>*/}
             </Stack.Navigator>
         </NavigationContainer>
-        </Audio.Provider>
     );
 };

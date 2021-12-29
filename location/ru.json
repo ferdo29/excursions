@@ -31,6 +31,9 @@
     "Cart is empty": "Корзина пустая",
     "Error on server": "Ошибка на сервере"
   },
+  "success": {
+    "Paid up": "Оплачено"
+  },
   "message": {
     "Success": "Успех "
   },

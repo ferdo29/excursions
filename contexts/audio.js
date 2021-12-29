@@ -1,5 +1,5 @@
 import React from "react";
 
-const Audio = React.createContext()
+const AudioPlayer = React.createContext()
 
-export default Audio
+export default AudioPlayer
