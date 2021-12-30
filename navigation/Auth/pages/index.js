@@ -8,10 +8,9 @@ import {
     Text18,
     Text33,
 } from "../../../styles/components/tools";
-import {Input,  WrapperInput} from "../../../styles/components/inputs";
-import {ButtonWhite, ButtonWhiteOpacity} from "../../../styles/components/buttons";
-import {SelectorsLang, SelectorsZipCountry} from "../../../components/Selectors";
-import Svg, {Circle, Path} from "react-native-svg";
+import {ButtonWhiteOpacity} from "../../../styles/components/buttons";
+import {SelectorsLang} from "../../../components/Selectors";
+import Svg, {Path} from "react-native-svg";
 import {CirclesAb} from "../../../layouts/CirclesAb";
 import Locale from "../../../contexts/locale";
 import {useContext, useState} from "react";
@@ -19,11 +18,8 @@ import {t} from "i18n-js";
 import {TouchableOpacity} from "react-native";
 import LayoutPop from '../../../layouts/popups/LayoutPop'
 import {PopupAgreement, PopupsCheckSMS} from "../copmonents/popups";
-import {clearState, setEmailSMS, setPhoneSMS} from "../../../store/sms/reducer";
+import {clearState} from "../../../store/sms/reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {TextInputMask} from "react-native-masked-text";
-import * as SecureStore from "expo-secure-store";
-import {setStatePreview} from "../../../store/previewPagination/reducer";
 import {showToastState} from "../../../store/toasts/reducer";
 import MainLayout from "../../../layouts/MainLayout";
 import {AuthGoogle} from "../copmonents/authGoogle";
@@ -44,8 +40,6 @@ export default function ({navigation}) {
     const handlerStateLogin = () => {
         setStateLogin(stateLogin === 'Phone' ? 'Email' : 'Phone')
     }
-    const setPhone = (data) => dispatch(setPhoneSMS(data))
-    const setEmail = (data) => dispatch(setEmailSMS(data))
     const handlerAgreement = () => {
 
         if(!phone || (phone.match(/[0-9]/gm).length < 10)){
@@ -60,11 +54,6 @@ export default function ({navigation}) {
     const handlerConfirmation = () => {
         setConfirmation(!confirmation)
         dispatch(clearState())
-    }
-    const handlerRemove = () => {
-        SecureStore.deleteItemAsync('KeyPreview').then(() => {
-            dispatch(setStatePreview(false))
-        })
     }
 
 

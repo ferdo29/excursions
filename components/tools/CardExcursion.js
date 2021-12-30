@@ -16,6 +16,9 @@ import {useLinkTo} from "@react-navigation/native";
 import axios from "axios";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
+import {Dimensions} from "react-native";
+
+const {height, width} = Dimensions.get('window')
 
 export const CardExcursion = ({data, index, callBack = () => {}}) => {
     const user = getAuth().currentUser
@@ -42,7 +45,7 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
     }
 
     return (
-        <ContainerMain style={{marginBottom: 20}}>
+        <ContainerMain style={{marginBottom: 20, width: width <= 428 ? '100%': '50%'}}>
         <CardExcursionView onPress={() => linkTo(`/Excursion/${data.id}`)}>
 
             <CardExcursionImage source={{uri: data.images.length > 0 && data.images[0].path}}/>

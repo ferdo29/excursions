@@ -52,10 +52,10 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
             </SafeAreaView>
             {buttonView && <ContainerMain style={{alignItems: 'center'}}>
                 <ButtonGrayWrapper style={{width: 'auto'}}>
-                    <ButtonGray activeOpacity={0.6} style={{marginBottom: 40, width: '100%'}}
+                    <ButtonGray activeOpacity={0.6} style={{marginBottom: 40}}
                                 onPress={() => linkTo(`/${toLinkTwo}`)}>
                         <Text16Bold500
-                            style={{color: '#828282', width: '65%'}}>{t('ScrollHorizontal.Show all')}</Text16Bold500>
+                            style={{color: '#828282',}}>{t('ScrollHorizontal.Show all')}</Text16Bold500>
                         <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>

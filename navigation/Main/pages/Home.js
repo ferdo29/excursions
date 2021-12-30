@@ -21,6 +21,7 @@ import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import userFB from "../../../contexts/userFB";
 import {t} from "i18n-js";
 import {useFiles} from "../../../hooks/useFiles";
+import {CardExcursionsWrapper} from "../../../styles/components/Cards";
 
 export default function Home({}) {
     useContext(Locale)
@@ -76,10 +77,10 @@ export default function Home({}) {
                     <ContainerMain>
                         <Text23Bold style={{marginBottom: 10}}>{t('Home.Interesting excursions')}</Text23Bold>
                     </ContainerMain>
-                    {
-                        excursions.length > 0 && excursions.map((value, index) => index < 4 &&
-                            <CardExcursion key={value.id} data={value} index={index}/>)
-                    }
+                    <CardExcursionsWrapper>
+                    {excursions.length > 0 && excursions.map((value, index) => index < 4 &&
+                            <CardExcursion key={value.id} data={value} index={index}/>)}
+                    </CardExcursionsWrapper>
                 </>
                 : <Loader/>}
 

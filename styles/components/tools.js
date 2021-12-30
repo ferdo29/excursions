@@ -210,13 +210,9 @@ export const Dot = styled.View`
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.25);
 `
 export const WrapperBottomNav = styled.View`
-  position: absolute;
-  bottom: ${Platform.OS === 'ios' ? 30 : 10}px;
-  width: ${width - 20}px;
+  width: 375px;
   flex-direction: row;
   align-items: center;
-  right: 10px;
-  left: 10px;
   justify-content: space-between;
   padding: 10px 27px 10px 27px;
   background: #F5F5FA;

@@ -76,10 +76,12 @@ export default function ({
         Animated.timing(titleAbsolute, {
             toValue: stateScroll ? 0 : 20,
             duration: stateScroll ? 500 : 250,
+            useNativeDriver: false
         }) .start()
         Animated.timing(paddingAbsolute, {
             toValue: stateScroll ? 120 : 60,
             duration: stateScroll ? 500 : 250,
+            useNativeDriver: false
         }) .start()
     }, [stateScroll])
 
@@ -123,13 +125,8 @@ export default function ({
                         onScroll={(data) => {
                             animation && handlerScroll(data)
                             animation && Animated.event(
-                                [{
-                                    nativeEvent: {
-                                        contentOffset: {
-                                            y: scrolling,
-                                        },
-                                    },
-                                }]
+                                [{nativeEvent:{contentOffset: {y: scrolling}}}],
+                                {useNativeDriver: true}
                             )
                         }}
                         style={{height: '100%'}}

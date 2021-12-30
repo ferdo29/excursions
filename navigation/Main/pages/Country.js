@@ -12,7 +12,6 @@ import {CityBackground} from "../../../components/backgrounds/CityBackground";
 import img from '../../../assets/image/Portug.jpg'
 import {useEffect} from "react";
 import {fetchCounter, fetchCounterCity, fetchCounterExcursion} from "../../../store/country/service";
-import {countryDelete, countryDeleteCity, countryDeleteExcursion} from "../../../store/country/reducer";
 import {Loader} from "../../../components/Loader";
 import {t} from "i18n-js";
 

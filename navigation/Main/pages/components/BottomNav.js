@@ -3,6 +3,7 @@ import {WrapperBottomNav} from "../../../../styles/components/tools";
 import {ButtonCircle} from "../../../../styles/components/buttons";
 import {IconBasket, IconHeart, IconHome, IconMan, IconStack} from "../../../../components/Icons";
 import {useLinkTo, useRoute} from "@react-navigation/native";
+import {Platform, View} from "react-native";
 
 export const BottomNav = ({}) => {
     const {name} = useRoute()
@@ -43,22 +44,31 @@ export const BottomNav = ({}) => {
     }
 
     return (
-        <WrapperBottomNav>
-            <ButtonCircle onPress={() => linkTo(`/Home`)}>
-                <IconHome fill={RouterHome()}/>
-            </ButtonCircle>
-            <ButtonCircle onPress={() => linkTo(`/MyExcursions`)}>
-                <IconStack fill={RouterName()}/>
-            </ButtonCircle>
-            <ButtonCircle onPress={() => linkTo(`/Likes`)}>
-                <IconHeart fill={name === 'Likes' ? '#11AEAE' :'#BDBDBD'}/>
-            </ButtonCircle>
-            <ButtonCircle  onPress={() => linkTo(`/Account`)}>
-                <IconMan fill={RouterAccount()}/>
-            </ButtonCircle>
-            <ButtonCircle onPress={() => linkTo(`/Basket`)}>
-                <IconBasket fill={name === 'Basket' ? '#11AEAE' :'#BDBDBD'}/>
-            </ButtonCircle>
-        </WrapperBottomNav>
+        <View style={{
+            position: 'absolute',
+            bottom: Platform.OS === 'ios' ? 30 : 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            left: 0,
+            right: 0,
+        }}>
+            <WrapperBottomNav>
+                <ButtonCircle onPress={() => linkTo(`/Home`)}>
+                    <IconHome fill={RouterHome()}/>
+                </ButtonCircle>
+                <ButtonCircle onPress={() => linkTo(`/MyExcursions`)}>
+                    <IconStack fill={RouterName()}/>
+                </ButtonCircle>
+                <ButtonCircle onPress={() => linkTo(`/Likes`)}>
+                    <IconHeart fill={name === 'Likes' ? '#11AEAE' :'#BDBDBD'}/>
+                </ButtonCircle>
+                <ButtonCircle  onPress={() => linkTo(`/Account`)}>
+                    <IconMan fill={RouterAccount()}/>
+                </ButtonCircle>
+                <ButtonCircle onPress={() => linkTo(`/Basket`)}>
+                    <IconBasket fill={name === 'Basket' ? '#11AEAE' :'#BDBDBD'}/>
+                </ButtonCircle>
+            </WrapperBottomNav>
+        </View>
     );
 };

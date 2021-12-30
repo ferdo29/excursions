@@ -13,7 +13,7 @@ export const ButtonWhite = styled.TouchableOpacity`
   justify-content: space-between;
 `
 export const ButtonGray = styled.TouchableOpacity`
-  width: 100%;
+  width: 334px;
   height: 54px;
   padding: 11px 20px 12px 20px;
   flex-direction: row;

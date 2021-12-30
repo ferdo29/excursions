@@ -17,8 +17,8 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
     const [stateScroll, setStateScroll] = useState(false)
     const [alignItems, setAlignItems] = useState('flex-start')
     const [galleryItems, setGalleryItems] = useState('30%')
-    const transform = useRef(new Animated.Value(270)).current
-    const transformItemAbsolute = useRef(new Animated.Value(250)).current
+    const transform = useRef(new Animated.Value(width <= 428 ? 270 : 400)).current
+    const transformItemAbsolute = useRef(new Animated.Value(width <= 428 ? 250 : 500)).current
     const [page, setPage] = useState(0)
 
     const handlerScroll = (event) => {
@@ -27,19 +27,40 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
     }
 
     useEffect(() => {
-        Animated.timing(transform, {
-            toValue: stateScroll ? 120 : 270,
-            duration: stateScroll ? 500 : 250,
-        })
-            .start(() => {
-                setAlignItems(stateScroll ? viewOption ? 'center' : 'flex-end' :  'flex-start')
-                gallery ? setGalleryItems(stateScroll ? '60%' : '20%') : setGalleryItems(stateScroll ? '60%' : '40%')
+        if(width <= 428){
+            Animated.timing(transform, {
+                toValue: stateScroll ? 120 : 270,
+                duration: stateScroll ? 500 : 250,
+                useNativeDriver: false
             })
-        Animated.timing(transformItemAbsolute, {
-            toValue: stateScroll ? 100 : 250,
-            duration: stateScroll ? 500 : 250,
-        })
-            .start()
+                .start(() => {
+                    setAlignItems(stateScroll ? viewOption ? 'center' : 'flex-end' :  'flex-start')
+                    gallery ? setGalleryItems(stateScroll ? '60%' : '20%') : setGalleryItems(stateScroll ? '60%' : '40%')
+                })
+            Animated.timing(transformItemAbsolute, {
+                toValue: stateScroll ? 100 : 250,
+                duration: stateScroll ? 500 : 250,
+                useNativeDriver: false
+            })
+                .start()
+        }else{
+            Animated.timing(transform, {
+                toValue: stateScroll ? 270 : 400,
+                duration: stateScroll ? 500 : 250,
+                useNativeDriver: false
+            })
+                .start(() => {
+                    setAlignItems(stateScroll ? viewOption ? 'center' : 'flex-end' :  'flex-start')
+                    gallery ? setGalleryItems(stateScroll ? '60%' : '20%') : setGalleryItems(stateScroll ? '60%' : '40%')
+                })
+            Animated.timing(transformItemAbsolute, {
+                toValue: stateScroll ? 250 : 500,
+                duration: stateScroll ? 500 : 250,
+                useNativeDriver: false
+            })
+                .start()
+        }
+
     }, [stateScroll])
 
     return (
@@ -140,7 +161,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                 >
                     <View style={{paddingBottom: 10}}/>
                     {children}
-                    <View style={{paddingBottom: 200}}/>
+                    <View style={{paddingBottom: 500}}/>
                 </ScrollView>
             </SafeAreaView>
             <BottomNav/>

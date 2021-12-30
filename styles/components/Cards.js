@@ -48,6 +48,10 @@ export const CardExcursionView = styled.Pressable`
   shadow-radius: 5px;
   elevation: 10;
 `
+export const CardExcursionsWrapper = styled.View`
+  flex-wrap: wrap;
+  flex-direction: row;
+`
 export const CardExcursionImage = styled.Image`
   height: 160px;  
   width: 100%;
