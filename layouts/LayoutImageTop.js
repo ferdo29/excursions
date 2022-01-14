@@ -161,7 +161,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                 >
                     <View style={{paddingBottom: 10}}/>
                     {children}
-                    <View style={{paddingBottom: 500}}/>
+                    <View style={{paddingBottom: width <= 428 ? 200 : 500}}/>
                 </ScrollView>
             </SafeAreaView>
             <BottomNav/>

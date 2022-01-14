@@ -59,7 +59,7 @@ export default function ({navigation}) {
 
     return (
         <MainLayout backgroundColor={'#11AEAE'} viewBottomNav={false} itemBack={<CirclesAb/>}>
-            <ContainerMain>
+            <ContainerMain style={{alignItems: 'center'}}>
 
             <BoxRowView style={{paddingBottom: 37}}>
                 <BoxColumnView style={{alignItems: 'flex-start'}}>
@@ -86,6 +86,7 @@ export default function ({navigation}) {
 
 
 
+
             <BoxRowView style={{marginBottom: 26}}>
                 <View style={{height:1, minWidth: '40%', backgroundColor: '#fff'}}/>
                 <Text16 style={{color: '#fff'}}>{t('Login by phone.or')}</Text16>
@@ -93,7 +94,7 @@ export default function ({navigation}) {
             </BoxRowView>
 
 
-            {stateLogin === 'Email' && <ButtonWhiteOpacity onPress={handlerStateLogin} activeOpacity={0.6}>
+            {stateLogin === 'Email' && <ButtonWhiteOpacity style={{width: 375}} onPress={handlerStateLogin} activeOpacity={0.6}>
                 <Svg style={{marginRight: 48}} width="16" height="28" viewBox="0 0 16 28" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Path
@@ -101,9 +102,9 @@ export default function ({navigation}) {
                         fill="#3E5063"/>
                 </Svg>
                 <Text14
-                    style={{color: '#fff'}}>{t('Login by phone.Continue through')} {t('Login by phone.Phone')}</Text14>
+                    style={{color: '#fff', marginLeft: 40}}>{t('Login by phone.Continue through')} {t('Login by phone.Phone')}</Text14>
             </ButtonWhiteOpacity>}
-            {stateLogin === 'Phone' && <ButtonWhiteOpacity onPress={handlerStateLogin} activeOpacity={0.6}>
+            {stateLogin === 'Phone' && <ButtonWhiteOpacity style={{width: 375}} onPress={handlerStateLogin} activeOpacity={0.6}>
                 <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 -3 24 24'} fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Path
@@ -113,11 +114,10 @@ export default function ({navigation}) {
                         d="M19.917 1.072v13.105a.568.568 0 0 1-.567.566H.65a.568.568 0 0 1-.567-.566V1.072l.425.425 5.908 5.908.24.24-5.624 5.625a.432.432 0 0 0 .297.737.408.408 0 0 0 .298-.128l5.625-5.624.935.935c.495.496 1.147.75 1.799.75.651 0 1.303-.24 1.799-.75l.935-.935 5.624 5.624a.408.408 0 0 0 .595 0c.17-.17.17-.439 0-.609l-5.624-5.624.24-.241 5.937-5.908.425-.425Z"
                         fill="#4B687F"/>
                 </Svg>
-                <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue through')} Email</Text14>
+                <Text14 style={{color: '#fff', marginLeft: 40}}>{t('Login by phone.Continue through')} Email</Text14>
             </ButtonWhiteOpacity>}
                 <AuthGoogle/>
                 <AuthFacebook/>
-
 
             <LayoutPop state={agreement} openClose={handlerAgreement} start={height * 0.43} mountainTop={true} reSizeOnSwipe={false}>
                 <PopupAgreement handlerAgreement={handlerAgreement}

@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "ExcursionsApp",
-    "slug": "ExcursionsApp",
-    "version": "1.0.1",
+    "name": "WalksTalks",
+    "slug": "WalksTalks",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/appIcons/playstore.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/image/loader.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,14 +18,23 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/appIcons/playstore.png",
+      "icon": "./assets/appIcons/ios/iTunesArtwork@1x.png",
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "googleMapsApiKey": "AIzaSyBPrJo-rkFS4pcSBoflnmVjN05aeYinzSY",
-        "googleSignIn": {
-          "reservedClientId": "697525752458-315sj9diudnpin2ub4i0hdh0aar8si3u.apps.googleusercontent.com"
-        }
-      }
+        "googleMapsApiKey": "AIzaSyBPrJo-rkFS4pcSBoflnmVjN05aeYinzSY"
+      },
+      "infoPlist": {
+        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          }
+        ]
+      },
+      "bundleIdentifier": "walksandtalksapp.tilda.ws"
     },
     "android": {
       "config": {
@@ -39,7 +48,7 @@
         "foregroundImage": "./assets/appIcons/android/mipmap-xxxhdpi/ic_launcher.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.ferdo28.excursions"
+      "package": "com.excursions.and"
     },
     "web": {
       "favicon": "./assets/favicon.png"

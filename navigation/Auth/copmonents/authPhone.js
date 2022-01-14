@@ -64,7 +64,7 @@ export const AuthPhone = ({}) => {
     }
     return (
         <>
-            <BoxRowView style={{paddingBottom: 32}}>
+            <BoxRowView style={{paddingBottom: 32, alignItems: 'center', width: 375}}>
                 <SelectorsZipCountry callBack={setZip}/>
                 <WrapperInput  disabled={true} style={{borderColor: '#fff', flexGrow: 2, marginLeft: 13}}>
                     <TextInputMask
@@ -80,8 +80,8 @@ export const AuthPhone = ({}) => {
                 </WrapperInput>
             </BoxRowView>
 
-            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26}} onPress={verif}>
-                <Text14 style={{color: '#11AEAE'}}>{t('Login by phone.Confirm and send the code')}</Text14>
+            <ButtonWhite activeOpacity={0.6} style={{marginBottom: 26, width: 375}} onPress={verif}>
+                <Text14 style={{color: '#11AEAE', marginLeft: 40}}>{t('Login by phone.Confirm and send the code')}</Text14>
                 <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle opacity=".3" cx="20.5" cy="20.5" r="20.5" fill="#70CECE"/>
                     <Path d="M13 21h14M20 14l7 7-7 7" stroke="#11AEAE" strokeWidth="2" strokeLinecap="round"

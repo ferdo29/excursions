@@ -10,7 +10,9 @@ import {useContext} from "react";
 import Locale from "../../../../contexts/locale";
 import {myExcursionLinks} from "../../../../store/myExcursion/reducer";
 import {useDispatch} from "react-redux";
+import {Dimensions} from "react-native";
 
+const {width} = Dimensions.get('window')
 
 export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, ...props}) => {
     const dispatch = useDispatch()
@@ -31,7 +33,8 @@ export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, .
             paddingLeft: 20,
             borderBottomWidth: 1,
             borderBottomColor: '#E0E0E0',
-            marginBottom: 20
+            marginBottom: 20,
+            marginRight:  width <= 480 ? 0 : 20
         }}>
             <CardBasketImage source={validImg(props)} style={{flexGrow: 1, marginRight: 20}}/>
 

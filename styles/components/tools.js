@@ -210,7 +210,7 @@ export const Dot = styled.View`
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.25);
 `
 export const WrapperBottomNav = styled.View`
-  width: 375px;
+  width: ${width <= 480 ? '95%' : '375px'};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;

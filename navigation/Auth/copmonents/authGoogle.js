@@ -45,7 +45,7 @@ export const AuthGoogle = ({}) => {
     }
 
     return (
-        <ButtonWhiteOpacity onPress={handlerGoogle} activeOpacity={0.6}>
+        <ButtonWhiteOpacity onPress={handlerGoogle} style={{width: 375}} activeOpacity={0.6}>
             <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 0 24 24'} fill="none" xmlns="http://www.w3.org/2000/svg">
                 <Path d="M1.988 6.84A11.262 11.262 0 0 1 5.034 2.98C6.788 1.533 8.798.661 11.054.394 13.701.08 16.19.58 18.491 1.959a13.13 13.13 0 0 1 1.617 1.154c.127.103.113.164.005.267-1.045 1.04-2.09 2.08-3.127 3.13-.121.123-.187.113-.318.015-3.038-2.34-7.467-1.706-9.731 1.388A6.833 6.833 0 0 0 5.99 9.68c-.02.056-.057.108-.085.164-.604-.46-1.214-.919-1.814-1.383-.703-.54-1.406-1.078-2.104-1.622Z"
                       fill="#E94335"/>
@@ -56,7 +56,7 @@ export const AuthGoogle = ({}) => {
                 <Path d="M5.906 14.24c-.806.615-1.612 1.224-2.419 1.838-.501.38-1.003.764-1.504 1.149-.39-.722-.643-1.486-.849-2.274C.74 13.43.68 11.883.895 10.331c.169-1.218.52-2.39 1.088-3.487.703.539 1.401 1.083 2.104 1.622.605.464 1.21.923 1.814 1.382-.103.502-.248.994-.295 1.51a7.274 7.274 0 0 0 .272 2.751c.019.038.023.085.028.132Z"
                       fill="#FABB06"/>
             </Svg>
-            <Text14 style={{color: '#fff'}}>{t('Login by phone.Continue with')} Google</Text14>
+            <Text14 style={{color: '#fff', marginLeft: 40}}>{t('Login by phone.Continue with')} Google</Text14>
         </ButtonWhiteOpacity>
     );
 };

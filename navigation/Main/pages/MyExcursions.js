@@ -9,6 +9,7 @@ import {ItemExcursion} from "./components/ItemExcursion";
 import {t} from "i18n-js";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {getAuth} from "firebase/auth";
+import {CardExcursionsWrapper} from "../../../styles/components/Cards";
 
 export default function ({}) {
     const dispatch = useDispatch()
@@ -35,12 +36,12 @@ export default function ({}) {
     return (
         <MainLayout Refreshing={true} handlerRefresh={onRefresh}
             animation={data.length > 6} itemBack={<FirstBackground/>} title={t('myExcursions.My excursions')} itemTitle={<ItemTitle/>}>
-            <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
 
-                {data
-                    .filter(value => state === 0 ? !value.expired : value.expired)
+            <ContainerMain style={{paddingBottom: 20,marginTop: 20,}}>
+                <CardExcursionsWrapper>
+                {data.filter(value => state === 0 ? !value.expired : value.expired)
                     .map(value => <ItemExcursion {...value} key={value.id}/>)}
-
+                </CardExcursionsWrapper>
             </ContainerMain>
         </MainLayout>
     );
