@@ -24,22 +24,24 @@ export const DownloadFile = ({path, id, date}) => {
         try {
             setDisabled(true)
 
-            // const urilink = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
+            const uri = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
             // const options = {headers: {'Authorization': `Bearer ${user.stsTokenManager.accessToken}`}}
-            const urilink = `https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3`
+            // const urilink = `https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3`
             const options = {}
 
             const fileUri = FileSystem.documentDirectory + `${randomName()}.mp3`.split('-').join('')
             const callback = ({totalBytesWritten}) => {
                 setTimeout(() => setBits((totalBytesWritten / 1024 / 1024).toFixed(2)), 500)
             }
-            const File = FileSystem.createDownloadResumable(urilink, fileUri, options, callback)
+
+            const File = FileSystem.createDownloadResumable(uri, fileUri, options, callback)
             const data = await File.downloadAsync()
-            // dispatch(setMyExcursionPath(data.uri))
+
             handlerSetFileStore({uri: data.uri, name: path, date, id, uid: user.uid}).then()
             setBits(0)
             setDisabled(false)
         }catch (e) {
+            console.log(e)
             setDisabled(false)
         }
 

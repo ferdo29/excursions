@@ -10,6 +10,7 @@ import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
 import { firebaseApp, auth } from "../../../firebase"
+import {Platform} from "react-native";
 
 export const AuthFacebook = ({}) => {
     const dispatch = useDispatch()
@@ -45,7 +46,7 @@ export const AuthFacebook = ({}) => {
     }
 
     return (
-        <ButtonWhiteOpacity onPress={logIn} style={{width: 375}} activeOpacity={0.6}>
+        <ButtonWhiteOpacity onPress={logIn} style={{width: Platform.OS === "ios" ? 375 : '100%'}} activeOpacity={0.6}>
             <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 0 24 24'} fill="none" xmlns="http://www.w3.org/2000/svg">
                 <Path d="M12 23.636c6.427 0 11.636-5.21 11.636-11.636C23.636 5.573 18.426.364 12 .364 5.573.364.364 5.574.364 12c0 6.427 5.21 11.636 11.636 11.636Z"
                       fill="#3F65A6"/>

@@ -2,13 +2,13 @@
   "expo": {
     "name": "WalksTalks",
     "slug": "WalksTalks",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/appIcons/playstore.png",
     "splash": {
       "image": "./assets/image/loader.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#11AEAE"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,6 +25,7 @@
       },
       "infoPlist": {
         "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+        "UIBackgroundModes": ["audio"],
         "SKAdNetworkItems": [
           {
             "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
@@ -37,6 +38,7 @@
       "bundleIdentifier": "walksandtalksapp.tilda.ws"
     },
     "android": {
+      "versionCode": 3,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDh3e1fXDRVpMf0PcN7JOT3qwqmiuCK5bk"

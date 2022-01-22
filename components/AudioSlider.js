@@ -33,9 +33,10 @@ export default function AudioSlider({audioFile, id}) {
     useEffect(() => {
         playAudio && dispatch(setPlayAudio(id))
     }, [playAudio])
-
+    // console.log(id.id === state.id)
     return (
         <>
+
         <BoxRow style={{justifyContent: 'flex-start', marginBottom: 40}}>
 
             <TouchableOpacity onPress={onPlayStop} style={{marginRight: 20}}>
@@ -64,7 +65,7 @@ export default function AudioSlider({audioFile, id}) {
                     justifyContent: 'center',
                     width: (width * .8) - 20
                 }}>
-                    {id === state ?
+                    {!!state && (id.id === state.id) ?
                         <Slider
                             style={{backgroundColor: 'red', width: (width * .8) - 20}}
                             value={position.value}
@@ -77,7 +78,7 @@ export default function AudioSlider({audioFile, id}) {
                         />:
                         <Slider
                             style={{backgroundColor: 'red', width: (width * .8) - 20}}
-                            value={position.value}
+                            value={0}
                             maximumTrackTintColor={'#BDBDBD'}
                             minimumTrackTintColor={'#11AEAE'}
                             thumbTintColor={'#11AEAE'}

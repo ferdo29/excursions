@@ -26,8 +26,9 @@ export default function Participants({}) {
     const user = getAuth().currentUser
     const [added, setAdded] = useState('');
     const [statePop, setStatePop] = useState(false);
-    const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
-
+    // const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
+    const {idExcursion} = useSelector(state =>  state.myExcursion)
+    const {points, coordinates, description, ...data} = useSelector(state =>  state.myExcursions.data.find(value => value.id === idExcursion))
     const handlerArrUser = async () => {
         try {
             await axios.post(`${process.env.DB_HOST}/excursions/add-user`, {
@@ -55,12 +56,12 @@ export default function Participants({}) {
         </BoxRowView>
     )
 
-    if (idExcursion < 0) return (
-        <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>}>
-            <Loader/>
-        </MainLayout>
-    )
-
+    // if (idExcursion < 0) return (
+    //     <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>}>
+    //         <Loader/>
+    //     </MainLayout>
+    // )
+    console.log(data.access_codes)
     return (
         <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>} >
             <ContainerMain>
@@ -77,23 +78,25 @@ export default function Participants({}) {
 
                     </WrapperParticipant>
                 )}
+                {data.access_codes.length > 0 && <>
+                    <Text23Bold style={{marginTop: 70, color: '#fff', lineHeight: 28, marginBottom: 36}}>{t('Route.Excursion participants')}</Text23Bold>
 
-                <Text23Bold style={{marginTop: 70, color: '#fff', lineHeight: 28, marginBottom: 36}}>{t('Route.Excursion participants')}</Text23Bold>
+                    <View style={{paddingBottom: 100}}>
+                        <InputSearchWrapper style={{backgroundColor: 'rgba(255,255,255,0.21)', height: 54}}>
+                            <InputSearch value={added}
+                                         onChangeText={setAdded}
+                                         style={{paddingLeft: 24, color: '#fff',  width: 'auto', flexGrow: 10}}
+                                         placeholderTextColor={'rgba(255,255,255,0.6)'} placeholder={'login / телефон'}/>
+                            <TouchableOpacity
+                                disabled={added === ''}
+                                onPress={() => setStatePop(!statePop)}
+                                style={{flexGrow: 1, paddingTop: 5, paddingRight: 15}} >
+                                <IconNext width={41} height={41} style={{}}/>
+                            </TouchableOpacity>
+                        </InputSearchWrapper>
+                    </View>
+                </>}
 
-                <View style={{paddingBottom: 100}}>
-                    <InputSearchWrapper style={{backgroundColor: 'rgba(255,255,255,0.21)', height: 54}}>
-                        <InputSearch value={added}
-                                     onChangeText={setAdded}
-                                     style={{paddingLeft: 24, color: '#fff',  width: 'auto', flexGrow: 10}}
-                                     placeholderTextColor={'rgba(255,255,255,0.6)'} placeholder={'login / телефон'}/>
-                        <TouchableOpacity
-                            disabled={added === ''}
-                            onPress={() => setStatePop(!statePop)}
-                            style={{flexGrow: 1, paddingTop: 5, paddingRight: 15}} >
-                            <IconNext width={41} height={41} style={{}}/>
-                        </TouchableOpacity>
-                    </InputSearchWrapper>
-                </View>
 
 
             </ContainerMain>

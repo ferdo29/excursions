@@ -9,6 +9,7 @@ import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
 import { firebaseApp, auth } from "../../../firebase"
+import {Platform} from "react-native";
 
 export const AuthGoogle = ({}) => {
     const dispatch = useDispatch()
@@ -45,7 +46,7 @@ export const AuthGoogle = ({}) => {
     }
 
     return (
-        <ButtonWhiteOpacity onPress={handlerGoogle} style={{width: 375}} activeOpacity={0.6}>
+        <ButtonWhiteOpacity onPress={handlerGoogle} style={{width: Platform.OS === "ios" ? 375 : '100%'}} activeOpacity={0.6}>
             <Svg style={{marginRight: 48}} width="24" height="24" viewBox={'0 0 24 24'} fill="none" xmlns="http://www.w3.org/2000/svg">
                 <Path d="M1.988 6.84A11.262 11.262 0 0 1 5.034 2.98C6.788 1.533 8.798.661 11.054.394 13.701.08 16.19.58 18.491 1.959a13.13 13.13 0 0 1 1.617 1.154c.127.103.113.164.005.267-1.045 1.04-2.09 2.08-3.127 3.13-.121.123-.187.113-.318.015-3.038-2.34-7.467-1.706-9.731 1.388A6.833 6.833 0 0 0 5.99 9.68c-.02.056-.057.108-.085.164-.604-.46-1.214-.919-1.814-1.383-.703-.54-1.406-1.078-2.104-1.622Z"
                       fill="#E94335"/>

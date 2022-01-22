@@ -29,12 +29,12 @@ export const AuthPhone = ({}) => {
         const auth = getAuth();
         try {
             const phoneProvider = new PhoneAuthProvider(auth);
-            const verificationId = await phoneProvider.verifyPhoneNumber(zip + phone.match(/[0-9]/g).join(''),
+            const verificationId = await phoneProvider.verifyPhoneNumber(zip+ phone.match(/[0-9]/g).join(''),
                 recaptchaVerifier.current);
             setVerificationId(verificationId);
             setPop(true)
         } catch (e) {
-            setPop(true)
+            setPop(false)
         }
     }
     const Login = async (code) => {
@@ -54,13 +54,25 @@ export const AuthPhone = ({}) => {
         //     .then((result) => {
         //         console.error(result);
         //     });
-        const sdf = await checkActionCode(recaptchaVerifier.current, code)
-        console.log(sdf)
+        try {
+            const sdf = await checkActionCode(recaptchaVerifier.current, code)
+            console.log(sdf)
+        }catch (e) {
+            console.log(e)
+        }
+
         // signInWithPhoneNumber(auth, zip + phone.match(/[0-9]/g), recaptchaVerifier.current)
         //     .then((res) => {
         //         console.log(res)
         //     })
         //     .catch(e => console.error(e, 123))
+    //     console.log(recaptchaVerifier.current)
+    //     signInWithPhoneNumber(auth, zip + phone.match(/[0-9]/g), recaptchaVerifier.current)
+    // .then(r => {
+    //         console.log("Hej!")
+    //     }).catch(err=>{
+    //         console.log(err)
+    //     })
     }
     return (
         <>

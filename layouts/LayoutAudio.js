@@ -53,6 +53,13 @@ export const LayoutAudio = ({children}) => {
         }else{
         try {
             const getAudioPerm = await Audio.requestPermissionsAsync();
+            await Audio.setAudioModeAsync({
+                allowsRecordingIOS: true,
+                playsInSilentModeIOS: true,
+                staysActiveInBackground: true,
+                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX
+            })
             SetAudioPermission(getAudioPerm.granted);
             await AudioPlayer.current.unloadAsync()
             AudioPlayer.current.loadAsync({uri}, {}, true)
