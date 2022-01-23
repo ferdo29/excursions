@@ -13,7 +13,6 @@ import {PopupAgreement, PopupRegForm} from "./popups";
 import LayoutPop from "../../../layouts/popups/LayoutPop";
 import {showToastState} from "../../../store/toasts/reducer";
 import {useDispatch} from "react-redux";
-import { firebaseApp, auth } from "../../../firebase"
 
 const {height, width} = Dimensions.get('window')
 
@@ -50,6 +49,7 @@ export const AuthEmail = ({}) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((data) => {
                 setAuth(data)
+                console.log(data)
             })
             .catch(e=> {
                 switch (e.code) {
@@ -87,7 +87,7 @@ export const AuthEmail = ({}) => {
             <TouchableOpacity onPress={() => setAgreement(!agreement)} style={{paddingTop: 15, paddingRight: 10}}>
                 <Text16 style={{color: '#fff', textAlign: 'left'}}>{t('Login by phone.Register')}</Text16>
             </TouchableOpacity>
-            <LayoutPop state={agreement} openClose={() => setAgreement(!agreement)} start={height * 0.43} responseSize={false} mountainTop={true} reSizeOnSwipe={true}>
+            <LayoutPop state={agreement} openClose={() => setAgreement(!agreement)} start={height > 700 ? height * 0.43 : height * 0.35} responseSize={false} mountainTop={true} reSizeOnSwipe={true}>
                 <PopupAgreement handlerAgreement={() => setAgreement(!agreement)}
                                 handlerConfirmation={() => setRegForm(!regForm)}/>
             </LayoutPop>

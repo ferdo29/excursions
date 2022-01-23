@@ -43,6 +43,8 @@
   "Login by phone": {
     "Language selection": "Выбор языка",
     "Number selection": "Выбор номер",
+    "Number confirmation": "Подтверждение номера",
+    "Enter the 6 digit code we sent to your phone number": "Введите 6-значный код, который мы отправили на указанный вами номер телефона ",
 
     "Have an order number?":  "Есть номер заказа?",
     "Enter here":  "Введи здесь",

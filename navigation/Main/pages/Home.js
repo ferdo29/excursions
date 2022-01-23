@@ -1,13 +1,10 @@
 import * as React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import MainLayout from "../../../layouts/MainLayout";
-import {InputSearch, InputSearchWrapper} from "../../../styles/components/inputs";
-import {IconSearch} from "../../../components/Icons";
-import {View} from "react-native";
 import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
-import {ContainerMain, Text16, Text23Bold} from "../../../styles/components/tools";
+import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
-import {useContext, useEffect, useLayoutEffect} from "react";
+import {useContext, useEffect} from "react";
 import Locale from "../../../contexts/locale";
 import {HomeBackground} from "../../../components/backgrounds/HomeBackground";
 import {fetchCounter} from "../../../store/countries/service";
@@ -18,7 +15,6 @@ import {getAuth} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
-import userFB from "../../../contexts/userFB";
 import {t} from "i18n-js";
 import {useFiles} from "../../../hooks/useFiles";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
@@ -27,7 +23,6 @@ export default function Home({}) {
     useContext(Locale)
     const dispatch = useDispatch()
     const user = getAuth().currentUser
-    const {setAuth} = useContext(userFB)
     const {handlerInitFiles} = useFiles()
     const {data: countries, isLoading: isLoadingC} = useSelector(state => state.countries)
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)

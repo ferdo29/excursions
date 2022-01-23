@@ -3,7 +3,6 @@ import {Provider} from "react-redux";
 import setupStore from "./store/store";
 import i18n from "i18n-js";
 import Locale from './contexts/locale'
-import UserFB from './contexts/userFB'
 import FilesStore from './contexts/filesStore'
 import {NavigationController} from "./navigation/navigation.controller";
 import {
@@ -21,25 +20,11 @@ import { ToastProvider } from 'react-native-toast-notifications'
 import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
+import UserFB from './contexts/userFB'
 
-// const firebaseConfig = {
-//     apiKey: process.env.API_KEY,
-//     authDomain: process.env.AUTH_DOMAIN,
-//     // databaseURL: process.env.DARA_BASE_URL,
-//     projectId: process.env.PROJECT_ID,
-//     storageBucket: process.env.STORAGE_BUCKET,
-//     messagingSenderId: process.env.MESSAGEING_SENDER_ID,
-//     appId: process.env.APP_ID,
-//     measurementId: process.env.MEASUREMENT_ID,
-// };
-//
-//
-// initializeApp(firebaseConfig);
-import { firebaseApp, auth } from "./firebase"
 import {LayoutAudio} from "./layouts/LayoutAudio";
 
 export default function App() {
-    const [Auth, setAuth] = useState(false)
     const [lang, setLang] = useState('EN');
     const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
@@ -89,19 +74,13 @@ export default function App() {
             })
             .catch((e) => console.log(e))
     }
+    const [Auth, setAuth] = useState(false)
+
     const userAuth = (value) => {
-        SecureStore.setItemAsync('KeyUserAuth', JSON.stringify(value))
-            .then(() => {
-                setAuth(true)
-            })
+        setAuth(true)
     }
     const userAuthRemove = (value) => {
-        SecureStore.deleteItemAsync('KeyUserAuth')
-            .then(async () => {
-                // await auth.signOut()
-                setAuth(null)
-            })
-            .catch(e => console.log(e))
+        setAuth(false)
     }
 
     const asyncFunc = async () => {
@@ -123,13 +102,11 @@ export default function App() {
             setLoading(false)
         }catch (e) {
             setLoading(true)
-            console.log(e, 123)
         }
     }
 
     useEffect(() => {
         asyncFunc().then().catch()
-        // console.log(getApps())
     }, [])
 
 
@@ -139,7 +116,6 @@ export default function App() {
   return (
 
           <Locale.Provider value={{lang, setLang}}>
-
               <UserFB.Provider value={{auth: Auth, setAuth: userAuth, logout: userAuthRemove}}>
                   <Provider store={store}>
                       <ToastProvider>
@@ -155,7 +131,7 @@ export default function App() {
                           </FilesStore.Provider>
                       </ToastProvider>
                   </Provider>
-              </UserFB.Provider>
+                  </UserFB.Provider>
           </Locale.Provider>
 
   );

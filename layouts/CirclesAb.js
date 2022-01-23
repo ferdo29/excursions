@@ -22,7 +22,7 @@ export const CirclesAb = ({}) => {
                 <Circle cx="100.99" cy="100.99" r="35.9776" fill="#15C0C0"/>
             </Svg>
 
-            {width < 400 && <Svg style={{position: 'absolute', bottom: -30, zIndex: -2}} width={width}
+            {width < 400 && <Svg style={{position: 'absolute', bottom: -50, zIndex: -2}} width={width}
                   height={height > 755 ? "167" : "147"} viewBox={`0 0 ${width} ${height > 755 ? "167" : "147"}`}
                   fill="none" xmlns="http://www.w3.org/2000/svg">
                 <Path d="M-19 0C126.5 56.5742 349 42.3836 433 0V254H-19V0Z" fill="#F5F5FA"/>

@@ -43,6 +43,10 @@
   "Login by phone": {
     "Language selection": "Language selection",
     "Number selection": "Number selection",
+
+    "Number confirmation": "Number confirmation",
+    "Enter the 6 digit code we sent to your phone number": "Enter the 6 digit code we sent to your phone number ",
+
     "Have an order number?": "Have you order?",
     "Enter here": "Enter here",
     "And so, let's go": "And so, let's go ...",

@@ -20,7 +20,7 @@ const {height, width} = Dimensions.get('window')
 export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfirmation = () => {}, Phone = '+7 (913) 041-99-99'}) => {
     useContext(Locale)
     const dispatch = useDispatch()
-    const {data, timerView, timer, phone, zipPhone} = useSelector(state => state.SMS)
+    const {data} = useSelector(state => state.SMS)
     const [stateHeight, setStateHeight] = useState(height * 0.4)
     const ref_input0 = useRef();
     const ref_input1 = useRef();
@@ -41,7 +41,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
         if (data[0] !== '' && data[1] !== '' && data[2] !== '' && data[3] !== '' && data[4] !== '' && (num === 5 && value !== '')){
             dispatch(clearState())
             openClose(data.join('') + value)
-            handlerConfirmation()
+            handleBlur()
         }
     }
     const handleFocus = () => setStateHeight(height * 0.1)
@@ -50,10 +50,10 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
     return (
         <LayoutPop state={confirmation} openClose={handlerConfirmation} start={stateHeight} mountainTop={true} reSizeOnSwipe={false}>
             <BoxColumnView style={{justifyContent: 'center'}}>
-                <Text26 style={{paddingBottom: 28}}>Подтверждение номера</Text26>
+                <Text26 style={{paddingBottom: 28}}>{t('Login by phone.Number confirmation')}</Text26>
 
                 <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
-                    Введите 6-значный код, который мы отправили на указанный вами номер телефона {Phone}
+                    {t('Login by phone.Enter the 6 digit code we sent to your phone number')}{Phone}
                 </Text16>
                 <BoxRowView style={{paddingBottom:22}}>
                     <WrapperInputNumber>
@@ -122,16 +122,16 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                             value={data[5]}/>
                     </WrapperInputNumber>
                 </BoxRowView>
-                {timerView ?
-                    <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>
-                        Отправить СМС еще раз {timer}
-                    </Text16>:
-                    <ButtonWrapper>
-                        <Text16 style={{color: '#11AEAE', textAlign: 'center', paddingBottom: 40, textDecorationLine: 'underline'}}>
-                            Отправить СМС еще раз
-                        </Text16>
-                    </ButtonWrapper>
-                }
+                {/*{timerView ?*/}
+                {/*    <Text16 style={{color: '#828282', textAlign: 'center', paddingBottom: 40}}>*/}
+                {/*        Отправить СМС еще раз {timer}*/}
+                {/*    </Text16>:*/}
+                {/*    <ButtonWrapper>*/}
+                {/*        <Text16 style={{color: '#11AEAE', textAlign: 'center', paddingBottom: 40, textDecorationLine: 'underline'}}>*/}
+                {/*            Отправить СМС еще раз*/}
+                {/*        </Text16>*/}
+                {/*    </ButtonWrapper>*/}
+                {/*}*/}
 
 
             </BoxColumnView>
