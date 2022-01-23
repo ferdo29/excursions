@@ -25,9 +25,9 @@ const styleCard = {
     borderRadius: 20,
     marginBottom: 20,
     fontSize: 16,
+    textColor: '#828282',
     color: '#828282',
 }
-const API_URL = "http://localhost:3000";
 
 export const StripePay = ({state = false, openClose = () => {}}) => {
     const user = getAuth().currentUser
@@ -51,7 +51,6 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
             },
         });
         const { clientSecret, error } = await response.json();
-        console.log(response)
         return { clientSecret, error };
     };
 
@@ -87,7 +86,7 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
         //3.Confirm the payment with the card details
     };
 
-    const handlerFocus = () => setHeight(height * 0.28)
+    const handlerFocus = () => setHeight(height * 0.2)
     const handlerBlur = () => setHeight(height * 0.5)
     const handlerClose = () => {
         openClose()
@@ -110,7 +109,7 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
                 onFocus={handlerFocus}
                 onBlur={handlerBlur}
                 onCardChange={setCardDetails}
-                style={[styleCard]} cardStyle={styleCard}
+                style={[styleCard, {textColor: '#828282'}]} cardStyle={styleCard}
                 postalCodeEnabled={true}
                 placeholder={'0000 0000 0000 0000'}
             />

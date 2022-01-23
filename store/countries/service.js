@@ -9,7 +9,6 @@ export const fetchCounter = ({token= ''}) => async (dispatch) => {
         dispatch(countriesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/countries/`,
             {headers: {Authorization: `Bearer ${token}`}})
-        console.log()
         dispatch(countriesFetchingSuccess(data))
         dispatch(setInfo(data.info))
     }catch (e) {

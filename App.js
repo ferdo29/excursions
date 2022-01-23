@@ -21,11 +21,13 @@ import {View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
 import UserFB from './contexts/userFB'
-
+import Preview from './contexts/preview'
 import {LayoutAudio} from "./layouts/LayoutAudio";
 
 export default function App() {
     const [lang, setLang] = useState('EN');
+    const [Auth, setAuth] = useState(false)
+    const [preview, setPreview] = useState(false)
     const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
     const store = setupStore()
@@ -60,7 +62,6 @@ export default function App() {
                 setExcursionStore(data)
             })
             .catch((e) => {
-                console.log(e)
             })
     }
     const reExcursionStoreFile = (id) => {
@@ -72,9 +73,9 @@ export default function App() {
 
                 setExcursionStore([])
             })
-            .catch((e) => console.log(e))
+            .catch((e) => {
+            })
     }
-    const [Auth, setAuth] = useState(false)
 
     const userAuth = (value) => {
         setAuth(true)
@@ -88,12 +89,16 @@ export default function App() {
             setLoading(true)
             const KeyUserAuth = await SecureStore.getItemAsync('KeyUserAuth')
             const KeyExcursionStore = await SecureStore.getItemAsync('KeyExcursionStore')
+            const KeyPreview = await SecureStore.getItemAsync('KeyPreview')
             if (KeyUserAuth){
                 // setAuth(JSON.parse(KeyUserAuth))
             }
             if (!!KeyExcursionStore && KeyExcursionStore !== 'undefined' && KeyExcursionStore !== 'false') {
                 const jsonData = JSON.parse(KeyExcursionStore)
                 setExcursionStore(jsonData)
+            }
+            if(!!KeyPreview && KeyPreview !== 'undefined' && KeyPreview !== 'false') {
+                setPreview(true)
             }
             else {
                 SecureStore.setItemAsync('KeyExcursionStore', JSON.stringify([])).then()
@@ -103,6 +108,10 @@ export default function App() {
         }catch (e) {
             setLoading(true)
         }
+    }
+    const handlerPreview = () => {
+        SecureStore.setItemAsync('KeyPreview', 'true')
+            .then(() => setPreview(true))
     }
 
     useEffect(() => {
@@ -115,7 +124,8 @@ export default function App() {
 
   return (
 
-          <Locale.Provider value={{lang, setLang}}>
+      <Locale.Provider value={{lang, setLang}}>
+          <Preview.Provider value={{preview, handlerPreview}}>
               <UserFB.Provider value={{auth: Auth, setAuth: userAuth, logout: userAuthRemove}}>
                   <Provider store={store}>
                       <ToastProvider>
@@ -131,8 +141,9 @@ export default function App() {
                           </FilesStore.Provider>
                       </ToastProvider>
                   </Provider>
-                  </UserFB.Provider>
-          </Locale.Provider>
+              </UserFB.Provider>
+          </Preview.Provider>
+      </Locale.Provider>
 
   );
 }

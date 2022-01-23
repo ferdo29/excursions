@@ -22,56 +22,75 @@ import PrivacyPolicy from "./Main/pages/Account/PrivacyPolicy";
 import {Faq} from "./Main/pages/Account/FAQ";
 import {Support} from "./Main/pages/Account/Support";
 import Home from "./Main/pages/Home";
-import {useState} from "react";
+import Preview from "./Preview/pages/index";
+import {useContext, useState} from "react";
 import {NavigationContainer} from "@react-navigation/native";
+import userFB from "../contexts/userFB";
+import PreviewContext from '../contexts/preview'
+import {First} from "./Preview/pages/First";
+import {Second} from "./Preview/pages/Second";
+import {Third} from "./Preview/pages/Third";
+
 const Stack = createStackNavigator();
 
 
 export const NavigationController = ({}) => {
+    const {auth: Auth} = useContext(userFB)
+    const {preview} = useContext(PreviewContext);
 
     return (
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{headerShown: false}}>
-                    <Stack.Screen name="AuthHome" component={HomeAuth}/>
-                    <Stack.Screen name="Language" component={Language}/>
-                    {/*<Stack.Screen name="Home" component={Home}/>*/}
-            {/*{*/}
-            {/*    !Auth ?*/}
 
-            {/*            <>*/}
-            {/*                <Stack.Screen name="AuthHome" component={HomeAuth}/>*/}
-            {/*                <Stack.Screen name="Language" component={Language}/>*/}
-            {/*            </>*/}
-            {/*        :*/}
-            {/*        <>*/}
-            {/*            <Stack.Screen name="Home" component={Home}/>*/}
-            {/*            <Stack.Screen name="Countries" component={Countries}/>*/}
-            {/*            <Stack.Screen name="Country" component={Country}/>*/}
+                    {!preview ?
+                    <>
+                        <Stack.Screen name="First" component={First}/>
+                        <Stack.Screen name="Second" component={Second}/>
+                        <Stack.Screen name="Third" component={Third}/>
+                        <Stack.Screen name="Language" component={Language}/>
+                    </> :
+                    <>
+                        {
+                            !Auth ?
+                                <>
+                                    <Stack.Screen name="AuthHome" component={HomeAuth}/>
+                                    <Stack.Screen name="Language" component={Language}/>
+                                </>
+                                :
+                                <>
+                                    <Stack.Screen name="Home" component={Home}/>
+                                    <Stack.Screen name="Countries" component={Countries}/>
+                                    <Stack.Screen name="Country" component={Country}/>
 
-            {/*            <Stack.Screen name="City" component={City}/>*/}
-            {/*            <Stack.Screen name="Cities" component={Cities}/>*/}
-            {/*            <Stack.Screen name="Filters" component={Filters}/>*/}
+                                    <Stack.Screen name="City" component={City}/>
+                                    <Stack.Screen name="Cities" component={Cities}/>
+                                    <Stack.Screen name="Filters" component={Filters}/>
 
-            {/*            <Stack.Screen name="Excursion" component={Excursion}/>*/}
-            {/*            <Stack.Screen name="MyExcursions" component={MyExcursions}/>*/}
+                                    <Stack.Screen name="Excursion" component={Excursion}/>
+                                    <Stack.Screen name="MyExcursions" component={MyExcursions}/>
 
-            {/*            <Stack.Screen name="Likes" component={Likes}/>*/}
-            {/*            <Stack.Screen name="Basket" component={Basket}/>*/}
+                                    <Stack.Screen name="Likes" component={Likes}/>
+                                    <Stack.Screen name="Basket" component={Basket}/>
 
-            {/*            <Stack.Screen name="Map" component={Map}/>*/}
-            {/*            <Stack.Screen name="Route" component={Route}/>*/}
-            {/*            <Stack.Screen name="Participants" component={Participants}/>*/}
+                                    <Stack.Screen name="Map" component={Map}/>
+                                    <Stack.Screen name="Route" component={Route}/>
+                                    <Stack.Screen name="Participants" component={Participants}/>
 
-            {/*            <Stack.Screen name="Account" component={Account}/>*/}
-            {/*            <Stack.Screen name="InviteFriend" component={InviteFriend}/>*/}
-            {/*            <Stack.Screen name="AboutApp" component={AboutApp}/>*/}
-            {/*            <Stack.Screen name="TermsUse" component={TermsUse}/>*/}
-            {/*            <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy}/>*/}
-            {/*            <Stack.Screen name="Faq" component={Faq}/>*/}
-            {/*            <Stack.Screen name="Support" component={Support}/>*/}
-            {/*        </>*/}
+                                    <Stack.Screen name="Account" component={Account}/>
+                                    <Stack.Screen name="InviteFriend" component={InviteFriend}/>
+                                    <Stack.Screen name="AboutApp" component={AboutApp}/>
+                                    <Stack.Screen name="TermsUse" component={TermsUse}/>
+                                    <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy}/>
+                                    <Stack.Screen name="Faq" component={Faq}/>
+                                    <Stack.Screen name="Support" component={Support}/>
+                                    <Stack.Screen name="Language" component={Language}/>
+                                </>
+                        }
+                    </>
+                    }
 
-            {/*}*/}
+
+
                 </Stack.Navigator>
             </NavigationContainer>
     );

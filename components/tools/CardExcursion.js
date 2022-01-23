@@ -37,7 +37,6 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
         axios.post(`${process.env.DB_HOST}/cart/${data.id}`, {"quantity": 1},
             {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
             .then((data) => {
-                console.log(data)
             })
             .catch((e) => {
                 console.error(e.response)

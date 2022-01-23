@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ContainerMain, Text14, Text16, Text16Bold500, Text23} from "../../../../styles/components/tools";
 import MainLayout from "../../../../layouts/MainLayout";
 import {useDispatch, useSelector} from "react-redux";
-import {View} from "react-native";
+import {Dimensions, View} from "react-native";
 import {WrapperParticipantButton} from "../../../../styles/components/Cards";
 import {ButtonGray, ButtonGrayWrapper} from "../../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
@@ -12,8 +12,9 @@ import {useLinkTo} from "@react-navigation/native";
 import {AccountBackground} from "../../../../components/backgrounds/AccountBackground";
 import {useContext} from "react";
 import userFB from "../../../../contexts/userFB";
-import {getAuth, signOut} from "firebase/auth";
+import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
+const {height} = Dimensions.get('window')
 
 export default function Account({}) {
     const {logout} = useContext(userFB)
@@ -28,7 +29,6 @@ export default function Account({}) {
         }
 
     }
-
     return (
         <MainLayout animation={0}
                     itemBack={<AccountBackground/>}
@@ -93,6 +93,7 @@ export default function Account({}) {
                 </ButtonGrayWrapper>
 
             </ContainerMain>
+            {height < 700 && <View style={{height: 100, width: '100%'}}/>}
         </MainLayout>
     );
 };

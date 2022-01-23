@@ -6,7 +6,6 @@ export const fetchFavourite = ({token= ''}) => async (dispatch) => {
         dispatch(favouriteFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/excursions/favourite`,
             {headers: {Authorization: `Bearer ${token}`}})
-        console.log()
         dispatch(favouriteFetchingSuccess(data))
     }catch (e) {
         dispatch(favouriteFetchingError(e.response.message))

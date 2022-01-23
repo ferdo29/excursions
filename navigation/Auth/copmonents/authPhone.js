@@ -82,7 +82,7 @@ export const AuthPhone = ({}) => {
             <FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
                 firebaseConfig={firebaseApp.options}
-                attemptInvisibleVerification={true}
+                // attemptInvisibleVerification={true}
             />
         </>
     );

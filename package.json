@@ -3,9 +3,9 @@
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web",
     "eject": "expo eject",
     "build:android": "expo build:android -t apk",
+    "build:android_aab": "expo build:android -t app-bundle",
     "build:ios": "expo build:ios -t archive",
     "env": "expo-env --env=development",
     "env:prod": "expo-env --env=prod"

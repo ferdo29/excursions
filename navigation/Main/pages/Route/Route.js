@@ -46,7 +46,7 @@ export default function Route({}) {
     const data = useSelector(state =>  state.myExcursions.data.find(value => value.id === idExcursion))
 
     const [state, setState] = useState(0)
-    data.access_codes && console.log(data.access_codes)
+
     const ValidAudio = () => {
         const {coordinates, ...props} = data
         const value = files.find(value => value.id === parseInt(routes[routes.length - 1]?.params?.screen))

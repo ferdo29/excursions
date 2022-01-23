@@ -4,14 +4,15 @@ import {Dimensions, Image, View} from "react-native";
 import {SelectorsLang} from "../../../components/Selectors";
 import Svg, {Circle, G, Path} from "react-native-svg";
 import {IconPhotoPhone} from "../../../components/Icons";
+import {useLinkTo} from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window')
 
 export const SecondSide = ({children, image, styleImg={}, resizeMode = 'cover'}) => {
+    const linkTo = useLinkTo();
     return (
         <>
             <MainBox style={{paddingRight: 0, paddingLeft: 0}}>
-                {/*<IconPhotoPhone style={{position: 'absolute',top: -10}} width={width} height={height * 0.65}/>*/}
                 <View style={{
                     backgroundColor: 'rgba(77,77,77,0.51)',
                     position: 'absolute',
@@ -23,8 +24,8 @@ export const SecondSide = ({children, image, styleImg={}, resizeMode = 'cover'})
                     <Image resizeMode={resizeMode} style={styleImg} source={image}/>
                 </View>
                 <BoxRowView style={{paddingBottom: 37, justifyContent: 'flex-end'}}>
-                    <View style={{marginRight: 15}}><SelectorsLang/></View>
-                    <View style={{paddingTop: '80%'}}>
+                    <View style={{marginRight: 15}}><SelectorsLang moveAction={() => linkTo('/Language')}/></View>
+                    <View style={{paddingTop:  height > 700 ? '80%' : '50%'}}>
 
                         <Svg width={width} height="69" viewBox="0 -10 453 69" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
@@ -49,17 +50,6 @@ export const SecondSide = ({children, image, styleImg={}, resizeMode = 'cover'})
                     <Circle cx="-10.5002" cy="83.5" r="29.7469" fill="white"/>
                 </G>
             </Svg>
-
-            {/*<View style={{*/}
-            {/*    position: 'absolute',*/}
-            {/*    top: 0,*/}
-            {/*    width: width,*/}
-            {/*    alignItems: 'center',*/}
-            {/*    justifyContent: 'center',*/}
-            {/*    zIndex: 0*/}
-            {/*}}>*/}
-            {/*    <Image style={{width: width, height: height * 0.8}} source={require('../../../assets/image/Phone.jpg')}/>*/}
-            {/*</View>*/}
 
             <Svg style={{position: 'absolute', top: '45%', right: -10}} width="104" height="182" viewBox="-20 0 124 202"
                  fill="none" xmlns="http://www.w3.org/2000/svg">

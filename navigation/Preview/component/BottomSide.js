@@ -2,27 +2,16 @@ import * as React from 'react';
 import {ButtonGreenOpacity, ButtonWhite} from "../../../styles/components/buttons";
 import {BoxRow, Dot, Text16} from "../../../styles/components/tools";
 import Svg, {Circle, Path} from "react-native-svg";
-import {useDispatch, useSelector} from "react-redux";
-import {nextPage, setStatePreview} from "../../../store/previewPagination/reducer";
-import * as SecureStore from "expo-secure-store";
+import {useSelector} from "react-redux";
 import {t} from "i18n-js";
 
-export const BottomSide = ({}) => {
-    const dispatch = useDispatch()
-    const {page, arrayPage} = useSelector(state => state.previewPagination)
+export const BottomSide = ({funMove = () => {}, page = 0}) => {
+    const {arrayPage} = useSelector(state => state.previewPagination)
 
-    const handlerState = () => {
-        page < 3 ?
-            dispatch(nextPage()) :
-            SecureStore.setItemAsync('KeyPreview', 'true')
-                .then(() => dispatch(setStatePreview(true)))
-                .catch(e => {})
-
-    }
 
     return (
         <>
-            <ButtonGreenOpacity activeOpacity={0.6} onPress={handlerState}>
+            <ButtonGreenOpacity activeOpacity={0.6} onPress={funMove}>
                 <Text16
                     style={{color: '#fff', textAlign: 'center', width: '80%', paddingLeft: 40}}>{t('Preview.Proceed')}</Text16>
                 <Svg width="41" height="41" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +29,7 @@ export const BottomSide = ({}) => {
 
             <BoxRow>
                 {arrayPage.map((value, index) =>
-                    <Dot key={index} style={value ? {width: 12, height: 12} : {}}/>)}
+                    <Dot key={index} style={page === index ? {width: 12, height: 12} : {}}/>)}
             </BoxRow>
         </>
     );

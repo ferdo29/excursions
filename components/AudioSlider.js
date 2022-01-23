@@ -33,7 +33,6 @@ export default function AudioSlider({audioFile, id}) {
     useEffect(() => {
         playAudio && dispatch(setPlayAudio(id))
     }, [playAudio])
-    // console.log(id.id === state.id)
     return (
         <>
 

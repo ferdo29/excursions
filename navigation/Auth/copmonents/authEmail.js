@@ -49,7 +49,6 @@ export const AuthEmail = ({}) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((data) => {
                 setAuth(data)
-                console.log(data)
             })
             .catch(e=> {
                 switch (e.code) {

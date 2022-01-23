@@ -47,7 +47,6 @@ export const useFiles = () => {
     }
 
     useEffect(() => {
-        console.log(123)
     }, []);
 
     return {handlerSetFileStore, handlerDeleteFileStore, handlerInitFiles}

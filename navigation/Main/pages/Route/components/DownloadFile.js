@@ -41,7 +41,6 @@ export const DownloadFile = ({path, id, date}) => {
             setBits(0)
             setDisabled(false)
         }catch (e) {
-            console.log(e)
             setDisabled(false)
         }
 

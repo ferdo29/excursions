@@ -13,8 +13,7 @@ import {TouchableOpacity} from "react-native-gesture-handler";
 import {ParticipantsPopup} from "../components/ParticipantsPopup";
 import {SecondBackground} from "../../../../components/backgrounds/SecondBackground";
 import {useDispatch, useSelector} from "react-redux";
-import {Loader} from "../../../../components/Loader";
-import {fetchMyExcursions, fetchMyExcursionsShareCode} from "../../../../store/myExcursions/service";
+import {fetchMyExcursions} from "../../../../store/myExcursions/service";
 import {getAuth} from "firebase/auth";
 import axios from "axios";
 import {showToastState} from "../../../../store/toasts/reducer";
@@ -26,9 +25,9 @@ export default function Participants({}) {
     const user = getAuth().currentUser
     const [added, setAdded] = useState('');
     const [statePop, setStatePop] = useState(false);
-    // const {data, isLoading, isView, error, idExcursion} = useSelector(state => state.myExcursion)
     const {idExcursion} = useSelector(state =>  state.myExcursion)
     const {points, coordinates, description, ...data} = useSelector(state =>  state.myExcursions.data.find(value => value.id === idExcursion))
+
     const handlerArrUser = async () => {
         try {
             await axios.post(`${process.env.DB_HOST}/excursions/add-user`, {
@@ -56,12 +55,7 @@ export default function Participants({}) {
         </BoxRowView>
     )
 
-    // if (idExcursion < 0) return (
-    //     <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>}>
-    //         <Loader/>
-    //     </MainLayout>
-    // )
-    console.log(data.access_codes)
+
     return (
         <MainLayout backgroundColor={'#11AEAE'} itemTitle={<RItem/>} itemBack={<SecondBackground/>} >
             <ContainerMain>
@@ -78,7 +72,7 @@ export default function Participants({}) {
 
                     </WrapperParticipant>
                 )}
-                {data.access_codes.length > 0 && <>
+                {data && data?.access_codes && data.access_codes.length > 0 && <>
                     <Text23Bold style={{marginTop: 70, color: '#fff', lineHeight: 28, marginBottom: 36}}>{t('Route.Excursion participants')}</Text23Bold>
 
                     <View style={{paddingBottom: 100}}>

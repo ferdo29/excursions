@@ -10,6 +10,7 @@ import {t} from "i18n-js";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {getAuth} from "firebase/auth";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
+import {View} from "react-native";
 
 export default function ({}) {
     const dispatch = useDispatch()
@@ -20,7 +21,6 @@ export default function ({}) {
     const onRefresh = () => {
         dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
     }
-
     const ItemTitle = () => (
         <BoxRow style={{justifyContent: 'flex-start', paddingBottom: 10}}>
             <ButtonTab onPress={() => setState(0)}
@@ -40,9 +40,10 @@ export default function ({}) {
             <ContainerMain style={{paddingBottom: 20,marginTop: 20,}}>
                 <CardExcursionsWrapper>
                 {data.filter(value => state === 0 ? !value.expired : value.expired)
-                    .map(value => <ItemExcursion {...value} key={value.id}/>)}
+                    .map(value => <ItemExcursion {...value} expired={value.expired} key={value.id}/>)}
                 </CardExcursionsWrapper>
             </ContainerMain>
+            <View style={{height: 150, width: '100%'}}/>
         </MainLayout>
     );
 };

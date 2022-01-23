@@ -23,7 +23,6 @@ export const fetchPopularPlacesData = ({id= 1, token= ''}) => async (dispatch) =
         dispatch(popularPlacesFetching())
         const {data} = await axios.get(`${process.env.DB_HOST}/cities?country=1`,
             {headers: {Authorization: `Bearer ${token}`}})
-        console.log()
         dispatch(popularPlacesFetchingSuccessData(data.data))
     }catch (e) {
         dispatch(popularPlacesFetchingErrorData(e.response.message))

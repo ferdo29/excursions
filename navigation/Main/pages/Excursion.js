@@ -44,7 +44,6 @@ export const Excursion = ({}) => {
             })
 
     }
-    // console.log(Excursion)
     const handlerMaxReviews = () => setMaxReviews(Reviews?.data.length)
     const handlerGallery = () => {
         if (!isLoading && Excursion?.data?.images && Excursion?.data?.images.length > 0){

@@ -4,16 +4,19 @@ import {Dimensions, Image, View} from "react-native";
 import {BoxRow, BoxRowView, BoxWhite, MainBox, Text16, Text16Bold, Text35} from "../../../styles/components/tools";
 import {SelectorsLang} from "../../../components/Selectors";
 import {t} from "i18n-js";
+import {useLinkTo} from "@react-navigation/native";
 
 const {height, width} = Dimensions.get('window')
 
 export const FirstSlid = ({children}) => {
+    const linkTo = useLinkTo();
+
     return (
         <MainBox style={{paddingRight: 0, paddingLeft: 0, backgroundColor: '#11AEAE'}}>
             <BoxRowView style={{paddingBottom: 37, justifyContent: 'flex-end'}}>
-                <View style={{marginRight: 15}}><SelectorsLang/></View>
+                <View style={{marginRight: 15}}><SelectorsLang moveAction={() => linkTo('/Language')}/></View>
 
-                <View style={{paddingTop: '45%'}}>
+                <View style={{paddingTop: height > 700 ? '45%' : '15%'}}>
                     <Svg width={width + 2} height="109" viewBox="0 -12 454 109" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <Path fillRule="evenodd" clipRule="evenodd"
@@ -21,26 +24,26 @@ export const FirstSlid = ({children}) => {
                               fill="#F5F5FA"/>
                     </Svg>
                     <BoxWhite style={{paddingTop: 90, paddingRight: 15, paddingLeft: 22}}>
-                        <Text35>{t('Preview.First.Travel')}</Text35>
-                        <Text35>{t('Preview.First.in a new way')}</Text35>
+                        <Text35>{t('Preview.Travel')}</Text35>
+                        <Text35>{t('Preview.in a new way')}</Text35>
 
                         <Text16 style={{color: '#828282'}}>
-                            <Text16Bold style={{color: '#11AEAE'}}>{t('Preview.First.UNUSUAL')} </Text16Bold>
-                            {t('Preview.First.audio guided tours around the world')}
+                            <Text16Bold style={{color: '#11AEAE'}}>{t('Preview.UNUSUAL')} </Text16Bold>
+                            {t('Preview.audio guided tours around the world')}
                         </Text16>
 
                         <BoxRow style={{justifyContent: 'space-around', paddingTop: 18, paddingBottom: 22}}>
                             <BoxRow>
                                 <Text16Bold style={{color: '#11AEAE'}}>92 </Text16Bold>
-                                <Text16>{t('Preview.First.country')}</Text16>
+                                <Text16>{t('Preview.country')}</Text16>
                             </BoxRow>
                             <BoxRow>
                                 <Text16Bold style={{color: '#11AEAE'}}>630+ </Text16Bold>
-                                <Text16>{t('Preview.First.cities')}</Text16>
+                                <Text16>{t('Preview.cities')}</Text16>
                             </BoxRow>
                             <BoxRow>
                                 <Text16Bold style={{color: '#11AEAE', fontSize: 18}}>∞ </Text16Bold>
-                                <Text16>{t('Preview.First.emotions')}</Text16>
+                                <Text16>{t('Preview.emotions')}</Text16>
                             </BoxRow>
                         </BoxRow>
 
@@ -62,12 +65,12 @@ export const FirstSlid = ({children}) => {
 
             <View style={{
                 position: 'absolute',
-                top: '20%',
+                top: height > 700 ? '20%' : '18%',
                 width: width,
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <Image style={{width: 356, height: 356}} source={require('../../../assets/image/Globe.png')}/>
+                <Image style={height > 700 ? {width: 356, height: 356} : {width: 300, height: 300}} source={require('../../../assets/image/Globe.png')}/>
             </View>
 
             <Svg style={{position: 'absolute', top: '45%', right: -10}} width="104" height="182" viewBox="-20 0 124 202"

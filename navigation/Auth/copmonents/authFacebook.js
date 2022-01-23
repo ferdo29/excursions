@@ -35,12 +35,10 @@ export const AuthFacebook = ({}) => {
                     return setAuth()
                 }
                 case 'cancel': {
-                    console.log({type,token,...props})
                     return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
                 }
             }
         }catch (e) {
-            console.log(e.message)
             dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
         }
 

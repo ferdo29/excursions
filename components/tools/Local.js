@@ -18,6 +18,7 @@ export default function Local({moveAction = () => {}}) {
         setItemAsync("KExcLanguage", data.value)
             .then(req => {
                 setLang(data.value)
+                moveAction()
             })
             .catch(err => console.error(err))
     }
