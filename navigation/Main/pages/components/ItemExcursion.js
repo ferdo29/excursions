@@ -42,9 +42,9 @@ export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, .
                 <Text16 numberOfLines={2}
                         style={{lineHeight: 20, paddingBottom: 5, flexGrow: 1, maxWidth: 200}}>{name}</Text16>
                 <Text10 style={{lineHeight: 17, color: '#4F4F4F'}}>{t('myExcursions.Order')}
-                    от {moment(created_at).locale(lang).format('DD MMMM YYYY')} {t('myExcursions.y')}</Text10>
+                    от {moment(created_at).format('DD.MM.YYYY')} {t('myExcursions.y')}</Text10>
                 <Text10 style={{lineHeight: 17, color: '#4F4F4F'}}>
-                    {t('myExcursions.Valid until')} {moment(expires_at).locale(lang).format('DD MMMM YYYY')} {t('myExcursions.y')}</Text10>
+                    {t('myExcursions.Valid until')} {moment(expires_at).format('DD.MM.YYYY')} {t('myExcursions.y')}</Text10>
             </BoxColumnView>
         </BoxRowPressable>
     );

@@ -54,14 +54,14 @@ export const City = ({}) => {
                 itemBack={<CityBackground/>}
                 count={data.excursions}
                 title={data.name}>
-                <ContainerMain>
-                    <View style={{marginBottom: 20, marginTop: 20}}>
-                        <InputSearchWrapper>
-                            <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                            <InputSearch placeholder={t('City.Country, city, excursion')}/>
-                        </InputSearchWrapper>
-                    </View>
-                </ContainerMain>
+                {/*<ContainerMain>*/}
+                {/*    <View style={{marginBottom: 20, marginTop: 20}}>*/}
+                {/*        <InputSearchWrapper>*/}
+                {/*            <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>*/}
+                {/*            <InputSearch placeholder={t('City.Country, city, excursion')}/>*/}
+                {/*        </InputSearchWrapper>*/}
+                {/*    </View>*/}
+                {/*</ContainerMain>*/}
 
                 <ScrollHorizontal title={t('City.Country Tours')} model={countries}/>
                 <ContainerMain>
@@ -69,7 +69,7 @@ export const City = ({}) => {
                 </ContainerMain>
                 {excursion && excursion.length > 0 && excursion.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
 
-
+                {excursion && excursion.length <= 1 && <View style={{height: 130, width: '100%'}}/>}
             </LayoutImageTop>}
             {!isView && isLoading &&
             <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>

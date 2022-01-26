@@ -77,7 +77,8 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
                 } else if (paymentIntent) {
                     dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
                     dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
-                    dispatch(showToastState({type: 'success', text1: t('success.Paid up'),}))
+                    dispatch(showToastState({type: 'success', text1: t('success.Paid up')}))
+                    handlerClose()
                 }
             }
         } catch (e) {
@@ -90,7 +91,10 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
     const handlerBlur = () => setHeight(height * 0.5)
     const handlerClose = () => {
         openClose()
-        setHeight(height * 0.5)
+        handlerBlur()
+        setEmail('')
+        setCardDetails(null)
+
     }
 
     return (
@@ -108,6 +112,7 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
             <CardField
                 onFocus={handlerFocus}
                 onBlur={handlerBlur}
+                autofocus={true}
                 onCardChange={setCardDetails}
                 style={[styleCard, {textColor: '#828282'}]} cardStyle={styleCard}
                 postalCodeEnabled={true}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigationState} from "@react-navigation/native";
+import {useLinkTo, useNavigationState} from "@react-navigation/native";
 import {LayoutImageTop} from "../../../layouts/LayoutImageTop";
 import {
     BoxColumnView,
@@ -24,15 +24,17 @@ import {excursionDelete, Liked} from "../../../store/excursion/reducer";
 import {getAuth} from "firebase/auth";
 import axios from "axios";
 import {t} from "i18n-js";
+import {fetchCart} from "../../../store/cart/service";
+import {showToastState} from "../../../store/toasts/reducer";
 
 
 export const Excursion = ({}) => {
+    const linkTo = useLinkTo();
     const dispatch = useDispatch()
     const isFocused = useIsFocused();
     const user = getAuth().currentUser
     const [maxReviews, setMaxReviews] = useState(3)
     const routes = useNavigationState(state => state.routes)
-    const excursion = useSelector(state => state.excursions.data[0])
     const {data: Excursion, reviews: Reviews, isLoading, isView, error} = useSelector(state => state.excursion)
 
 
@@ -54,6 +56,24 @@ export const Excursion = ({}) => {
             img,
             img,
         ]
+    }
+    const onRefreshBasket = (toost = false) => {
+        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        toost && dispatch(showToastState({
+            type: 'success',
+            text1: t('All.Paid up'),
+        }))
+    }
+    const handlerBasket = (isLink = false) => {
+        axios.post(`${process.env.DB_HOST}/cart/${routes[routes.length - 1]?.params?.screen}`, {"quantity": 1},
+            {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+            .then((data) => {
+                isLink && linkTo('/Basket')
+                onRefreshBasket(true)
+            })
+            .catch((e) => {
+                console.error(e.response)
+            })
     }
 
     useEffect(() => {
@@ -95,7 +115,7 @@ export const Excursion = ({}) => {
                         <Text10 style={{lineHeight: 18, color: '#BDBDBD'}}>{t('Excursion.Audio tour price')}</Text10>
                     </BoxColumnView>
                     <ButtonGrayWrapper style={{width: 'auto'}}>
-                        <ButtonGray activeOpacity={0.6} style={{width: 'auto'}}>
+                        <ButtonGray onPress={handlerBasket} activeOpacity={0.6} style={{width: 'auto'}}>
                             <Text16Bold500 style={{color: '#828282', width: 89}}>{t('Excursion.Buy')}</Text16Bold500>
 
                             <Svg width="29" height="29" viewBox="0 0 41 41"
@@ -137,7 +157,7 @@ export const Excursion = ({}) => {
                 </BoxColumnView>
 
                 <ButtonGrayWrapper style={{width: 'auto'}}>
-                    <ButtonGray activeOpacity={0.6} style={{marginBottom: 50, width: '100%'}}>
+                    <ButtonGray onPress={() => handlerBasket(true)} activeOpacity={0.6} style={{marginBottom: 50, width: '100%'}}>
                         <Text16Bold500 style={{color: '#828282', width: '60%'}}>{t('Excursion.Order now')}</Text16Bold500>
                         <Svg width="41" height="41" style={{position: 'absolute', right: 20}} fill="none"
                              xmlns="http://www.w3.org/2000/svg">

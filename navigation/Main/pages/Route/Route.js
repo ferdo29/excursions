@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MainLayout from "../../../../layouts/MainLayout";
-import {useDispatch, useSelector} from "react-redux";
-import {useIsFocused, useLinkTo, useNavigationState} from "@react-navigation/native";
+import {useSelector} from "react-redux";
+import {useLinkTo, useNavigationState} from "@react-navigation/native";
 import {
     BoxRow,
     ContainerMain,
@@ -11,34 +11,19 @@ import {
 import Svg, {Circle, Path} from "react-native-svg";
 import {Pressable, Image, View, Dimensions} from "react-native";
 import {WrapperCircle} from "../../../../styles/components/Cards";
-import {useContext, useEffect, useMemo, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import Carousel from 'react-native-snap-carousel';
 import {ButtonGray} from "../../../../styles/components/buttons";
 import AudioSlider from "../../../../components/AudioSlider";
-import {fetchMyExcursion} from "../../../../store/myExcursion/service";
-import {getAuth} from "firebase/auth";
-import {Loader} from "../../../../components/Loader";
 import {validPointsImages} from "../../../../middleware/middlewares";
 import {DownloadFile} from "./components/DownloadFile";
-import filesStore from "../../../../contexts/filesStore";
-import {showToastState} from "../../../../store/toasts/reducer";
 import {t} from "i18n-js";
 
 const {height, width} = Dimensions.get('window')
 
-const asd = (value, count) => {
-    const item = value.find(value => value.id === count)
-    if (!!item) return item
-    return value[0]
-}
-
 export default function Route({}) {
     const linkTo = useLinkTo();
-    const dispatch = useDispatch()
-    const isFocused = useIsFocused();
-    const user = getAuth().currentUser
     const ref = useRef();
-    const {excursionStore} = useContext(filesStore)
     const routes = useNavigationState(state => state.routes)
     const [Link, setLink] = useState(0)
     const {data: files} = useSelector(state => state.files)

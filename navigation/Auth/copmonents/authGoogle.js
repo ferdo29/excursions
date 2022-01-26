@@ -41,6 +41,7 @@ export const AuthGoogle = ({}) => {
                 }
             })
             .catch(err => {
+                console.log(err)
                 dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
             })
 

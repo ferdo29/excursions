@@ -1,22 +1,21 @@
 import * as React from 'react';
 import {
-    BoxColumnView,
     BoxRow,
-    ContainerMain, Text12,
-    Text23Bold, Text28,
+    ContainerMain,
+    Text23Bold
 } from "../../../../styles/components/tools";
-import {Dimensions, Platform, Pressable} from "react-native";
+import {Pressable} from "react-native";
 import Svg, {Path, Circle} from "react-native-svg";
 import {useIsFocused, useNavigation, useNavigationState} from "@react-navigation/native";
 import MainLayout from "../../../../layouts/MainLayout";
-import MapView, {Callout, Marker, Polyline } from 'react-native-maps';
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {CardImage, WrapperCircle} from "../../../../styles/components/Cards";
 import {t} from "i18n-js";
+import * as Device from 'expo-device';
+import {GoogleMap} from "./components/GoogleMap";
+import {MapBox} from "./components/MapBox";
 
 export const Map = ({}) => {
-    const ref = useRef()
     const isFocused = useIsFocused();
     const navigation = useNavigation();
     const routes = useNavigationState(state => state.routes)
@@ -24,6 +23,7 @@ export const Map = ({}) => {
     const {idExcursion} = useSelector(state =>  state.myExcursion)
     const [points, setPoints] = useState({latitude: 55.820262,longitude: 38.983882});
     const data = useSelector(state => state.myExcursions.data.find(value => value.id === idExcursion))
+
 
     useEffect(() => {
         if (isFocused) {
@@ -61,50 +61,12 @@ export const Map = ({}) => {
                     <Text23Bold style={{flexGrow: 14, textAlign:'center', marginRight: 40}}>{t('Route.Route')}</Text23Bold>
                 </BoxRow>
             </ContainerMain>
-            <MapView
-                region={{
-                latitude: points.latitude,
-                longitude: points.longitude,
-                latitudeDelta: data.latitude_delta,
-                longitudeDelta: data.longitude_delta,
-            }}
-                ref={ref}
-                style={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height * (Platform.OS === 'ios' ? 0.8 : 0.9),
-                }}>
-                {data.coordinates && data.coordinates.length > 0 &&
-                <Polyline
-                    coordinates={data.coordinates}
-                    strokeColor={'#11AEAE'}
-                    strokeWidth={2}
-                    lineDashPattern={[1]}
-                />}
-                {data?.points && data?.points.length > 0 && data?.points.map((value, index) =>
-                    <Marker coordinate={{
-                        latitude: value.position.coordinates[1],
-                        longitude: value.position.coordinates[0],
-                        latitudeDelta: 0.422,
-                        longitudeDelta: 0.1421
-                    }} title={value.name} isPreselected={screen === index}
-                            key={index}
-                            image={numbersImg(value.point_type)}
-                            onCalloutPress={() => {}}
-                    >
-                        <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>
-                            <BoxColumnView>
-                                {value.images.length > 0 &&
-                                <CardImage style={{width: 100, height: 100}}
-                                            source={value.images.length > 0 ?
-                                                {uri: value.images[0].path} :
-                                                require('../../../../assets/image/Church.png')}/>}
-                                <Text12>{value.name}</Text12>
-                            </BoxColumnView>
-                        </Callout>
+            {
+                Device.brand === "HUAWEI" && <MapBox data={data} points={points} screen={screen} numbersImg={numbersImg}/>
+                // :
+                // <GoogleMap data={data} points={points} screen={screen} numbersImg={numbersImg}/>
+            }
 
-                    </Marker>
-                )}
-            </MapView>
 
         </MainLayout>
     );

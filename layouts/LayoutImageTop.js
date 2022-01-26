@@ -2,24 +2,49 @@ import * as React from 'react';
 import {Animated, View, Dimensions, Pressable, SafeAreaView, ScrollView} from "react-native";
 import Svg, {Circle, Path} from "react-native-svg";
 import {Text12, Text16, Text23} from "../styles/components/tools";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {BottomNav} from "../navigation/Main/pages/components/BottomNav";
 import {useLinkTo, useNavigation} from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Gallery from 'react-native-image-gallery';
 import {t} from "i18n-js";
+import {ToastError, ToastSuccess, ToastText, ToastWarning} from "../styles/components/Toast";
+import Toast from "react-native-toast-message";
+import {closeToastState} from "../store/toasts/reducer";
+import {useDispatch, useSelector} from "react-redux";
 
 const {height, width} = Dimensions.get('window')
+
+const toastConfig = {
+    success: ({text1}) => (
+        <ToastSuccess>
+            <ToastText>{text1}</ToastText>
+        </ToastSuccess>
+    ),
+    error: ({text1}) => (
+        <ToastError >
+            <ToastText>{text1}</ToastText>
+        </ToastError>
+    ),
+    warning: ({text1}) => (
+        <ToastWarning >
+            <ToastText>{text1}</ToastText>
+        </ToastWarning>
+    ),
+
+}
 
 export const LayoutImageTop = ({children, img, itemBack, title, count, viewOption = false, gallery, itemAbsolute}) => {
     const navigation = useNavigation();
     const linkTo = useLinkTo();
+    const dispatch = useDispatch()
     const [stateScroll, setStateScroll] = useState(false)
     const [alignItems, setAlignItems] = useState('flex-start')
     const [galleryItems, setGalleryItems] = useState('30%')
     const transform = useRef(new Animated.Value(width <= 428 ? 270 : 400)).current
     const transformItemAbsolute = useRef(new Animated.Value(width <= 428 ? 250 : 500)).current
     const [page, setPage] = useState(0)
+    const {type, text1, text2, view, top} = useSelector(state => state.toasts)
 
     const handlerScroll = (event) => {
         const data = event.nativeEvent.contentOffset.y
@@ -62,6 +87,12 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
         }
 
     }, [stateScroll])
+    useMemo(() => {
+        if (view){
+            Toast.show({ type, text1, text2})
+            dispatch(closeToastState())
+        }
+    },[view])
 
     return (
         <View style={{width: '100%', height: '100%', position: 'relative', backgroundColor: '#F5F5F5'}}>
@@ -164,6 +195,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                     <View style={{paddingBottom: width <= 428 ? 200 : 500}}/>
                 </ScrollView>
             </SafeAreaView>
+            <Toast config={toastConfig} position={top ? 'bottom': 'top'}/>
             <BottomNav/>
         </View>
     );

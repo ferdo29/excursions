@@ -2,7 +2,7 @@
   "expo": {
     "name": "WalksTalks",
     "slug": "WalksTalks",
-    "version": "1.0.3",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/appIcons/playstore.png",
     "splash": {
@@ -38,7 +38,7 @@
       "bundleIdentifier": "walksandtalksapp.tilda.ws"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 6,
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDh3e1fXDRVpMf0PcN7JOT3qwqmiuCK5bk"

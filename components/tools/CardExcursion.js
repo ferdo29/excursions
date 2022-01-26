@@ -17,6 +17,8 @@ import axios from "axios";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
 import {Dimensions} from "react-native";
+import {fetchCart} from "../../store/cart/service";
+import {showToastState} from "../../store/toasts/reducer";
 
 const {height, width} = Dimensions.get('window')
 
@@ -24,6 +26,16 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
     const user = getAuth().currentUser
     const dispatch = useDispatch()
     const linkTo = useLinkTo();
+
+
+    const onRefreshBasket = (toost = false) => {
+        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        toost && dispatch(showToastState({
+            type: 'success',
+            text1: t('All.Paid up'),
+        }))
+    }
+
     const handlerLike = () => {
         dispatch(setLike(index))
 
@@ -37,6 +49,7 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
         axios.post(`${process.env.DB_HOST}/cart/${data.id}`, {"quantity": 1},
             {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
             .then((data) => {
+                onRefreshBasket(true)
             })
             .catch((e) => {
                 console.error(e.response)

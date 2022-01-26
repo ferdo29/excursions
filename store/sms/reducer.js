@@ -22,6 +22,9 @@ const counterSlice = createSlice({
         clearState(state){
             state.data = ['', '', '', '', '', '']
         },
+        clearStateOne(state, {payload}){
+            state.data[payload.num] = ''
+        },
         setPhoneSMS(state, action){
             state.phone = action.payload.replace(/\D+/g,"")
         },
@@ -35,5 +38,5 @@ const counterSlice = createSlice({
 
 })
 
-export const {changeState, clearState, setPhoneSMS, setEmailSMS, setZipPhoneSMS} = counterSlice.actions
+export const {changeState, clearState, setPhoneSMS, setEmailSMS, setZipPhoneSMS, clearStateOne} = counterSlice.actions
 export default counterSlice.reducer

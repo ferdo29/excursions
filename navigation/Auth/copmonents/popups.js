@@ -4,7 +4,7 @@ import {Input, InputNumber, WrapperInputNumber} from "../../../styles/components
 import {useContext, useRef, useState} from "react";
 import Locale from "../../../contexts/locale";
 import {useDispatch, useSelector} from "react-redux";
-import {changeState, clearState} from "../../../store/sms/reducer";
+import {changeState, clearState, clearStateOne} from "../../../store/sms/reducer";
 import {ButtonGreenOpacity, ButtonWhite, ButtonWrapper} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
 import {setPhoneAccount} from "../../../store/account/reducer";
@@ -30,7 +30,24 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
     const ref_input5 = useRef();
 
     const handlerState = (num, value) => {
+        if (value.length > 1){
+            dispatch(clearState())
 
+            const str = value.split('')
+
+            str.forEach((item, index) => {
+                dispatch(changeState({num: index, value: item}))
+                if (str.length === index + 1){
+                    setTimeout(() => {
+                        dispatch(clearState())
+                        openClose(data.join('') + value)
+                        handleBlur()
+                    }, 300)
+
+                }
+            })
+            return
+        }
         dispatch(changeState({num, value}))
         num === 0 && ref_input1.current.focus()
         num === 1 && ref_input2.current.focus()
@@ -44,7 +61,11 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
             handleBlur()
         }
     }
-    const handleFocus = () => setStateHeight(height * 0.1)
+
+    const handleFocus = (num) => {
+        dispatch(clearStateOne({num}))
+        setStateHeight(height * 0.1)
+    }
     const handleBlur = () => setStateHeight(height * 0.4)
 
     return (
@@ -59,20 +80,17 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input0}
-                            maxLength={1}
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
+                            onFocus={() => handleFocus(0)}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
-                            onChangeText={(data) => handlerState(0, data)}
+                            onChangeText={(data) => {handlerState(0, data)}}
                             returnKeyType={'next'}
                             value={data[0]}/>
                     </WrapperInputNumber>
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input1}
-                            maxLength={1}
-                            onFocus={handleFocus}
+                            onFocus={() => handleFocus(1)}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(1, data)}
@@ -82,8 +100,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input2}
-                            maxLength={1}
-                            onFocus={handleFocus}
+                            onFocus={() => handleFocus(2)}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(2, data)}
@@ -93,8 +110,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input3}
-                            maxLength={1}
-                            onFocus={handleFocus}
+                            onFocus={() => handleFocus(3)}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(3, data)}
@@ -103,8 +119,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input4}
-                            maxLength={1}
-                            onFocus={handleFocus}
+                            onFocus={() => handleFocus(4)}
                             textAlign={'center'}
                             keyboardType={'number-pad'}
                             onChangeText={(data) => handlerState(4, data)}
@@ -113,8 +128,7 @@ export const PopupsCheckSMS = ({openClose = () => {}, confirmation, handlerConfi
                     <WrapperInputNumber>
                         <InputNumber
                             ref={ref_input5}
-                            maxLength={1}
-                            onFocus={handleFocus}
+                            onFocus={() => handleFocus(5)}
                             onBlur={handleBlur}
                             textAlign={'center'}
                             keyboardType={'number-pad'}

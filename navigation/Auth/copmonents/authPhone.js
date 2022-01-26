@@ -27,6 +27,7 @@ export const AuthPhone = ({}) => {
     const [pop, setPop] = useState(false);
     const [confirmSMSCode, setConfirmSMSCode] = useState();
 
+
     const handleConfirmSMSCode = async (code) => {
         try {
             await confirmSMSCode.confirm(code);

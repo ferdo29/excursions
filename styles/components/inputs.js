@@ -29,9 +29,9 @@ export const WrapperInputNumber = styled.View`
   border-radius: 10px;
 `
 export const InputNumber = styled.TextInput`
-  width: 40px;
+  width: 100%;
   height: 60px;
-  padding: 0 15px;
+  padding: 0 0px;
   font-size: 20px;
   color: #0CA4A4;
   align-items: center;

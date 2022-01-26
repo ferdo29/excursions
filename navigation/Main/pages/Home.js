@@ -11,16 +11,18 @@ import {fetchCounter} from "../../../store/countries/service";
 import {fetchPopularPlacesData} from "../../../store/popularPlaces/service";
 import {fetchExcursions} from "../../../store/excursions/service";
 import {Loader} from "../../../components/Loader";
-import {getAuth} from "firebase/auth";
+import {getAuth, onAuthStateChanged, getIdToken, inMemoryPersistence} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {t} from "i18n-js";
 import {useFiles} from "../../../hooks/useFiles";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
+import {useIsFocused} from "@react-navigation/native";
 
 export default function Home({}) {
     useContext(Locale)
+    const isFocused = useIsFocused();
     const dispatch = useDispatch()
     const user = getAuth().currentUser
     const {handlerInitFiles} = useFiles()
@@ -36,12 +38,19 @@ export default function Home({}) {
         dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
         dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
     }
+
     useEffect(() => {
         onRefresh()
     }, [user])
     useEffect(() => {
         handlerInitFiles().then()
     }, [])
+    useEffect(() => {
+        // isFocused && getAuth().currentUser.getIdToken(true).then()
+        getAuth().currentUser.getIdToken().then(res => {
+            // console.log(res)
+        })
+    }, [isFocused])
     return (
         <MainLayout
             Refreshing={true}

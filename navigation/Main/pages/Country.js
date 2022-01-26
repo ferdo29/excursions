@@ -43,14 +43,14 @@ export const Country = ({}) => {
             {isView && <LayoutImageTop img={img}
                              itemBack={<CityBackground/>}
                              count={country?.excursions_count ? country.excursions_count : ' '} title={country?.name ? country.name : ' '}>
-                <ContainerMain>
-                    <View style={{marginBottom: 20, marginTop: 20}}>
-                        <InputSearchWrapper>
-                            <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>
-                            <InputSearch placeholder={t('Country.Country, city, excursion')}/>
-                        </InputSearchWrapper>
-                    </View>
-                </ContainerMain>
+                {/*<ContainerMain>*/}
+                {/*    <View style={{marginBottom: 20, marginTop: 20}}>*/}
+                {/*        <InputSearchWrapper>*/}
+                {/*            <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>*/}
+                {/*            <InputSearch placeholder={t('Country.Country, city, excursion')}/>*/}
+                {/*        </InputSearchWrapper>*/}
+                {/*    </View>*/}
+                {/*</ContainerMain>*/}
 
                 <ScrollHorizontal title={t('Country.Country Tours')} model={countries}/>
                 {city.data && <ScrollHorizontal title={t('Country.Popular places')} model={city.data}/>}

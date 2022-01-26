@@ -10,7 +10,7 @@ import {useContext, useRef, useState} from "react";
 import filesStore from "../../../../../contexts/filesStore";
 import {randomName} from "../../../../../middleware/middlewares";
 import {ActivityIndicator} from "react-native";
-import {t} from "i18n-js";
+import i18n, {t} from "i18n-js";
 import {useFiles} from "../../../../../hooks/useFiles";
 
 export const DownloadFile = ({path, id, date}) => {
@@ -64,7 +64,7 @@ export const DownloadFile = ({path, id, date}) => {
             {disabled &&
             <>
                 <Text16Bold500
-                    style={{color: '#828282'}}>Скачено - {bits}</Text16Bold500>
+                    style={{color: '#828282'}}>Скачено - {bits} {i18n.t("Route.Mbs")}</Text16Bold500>
                 <ActivityIndicator size={'large'} color={"#11AEAE"} />
             </>
             }
