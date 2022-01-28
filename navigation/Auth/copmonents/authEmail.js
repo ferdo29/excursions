@@ -6,13 +6,20 @@ import {Text14, Text16} from "../../../styles/components/tools";
 import Svg, {Circle, Path} from "react-native-svg";
 import {useContext, useState} from "react";
 import Locale from "../../../contexts/locale";
-import {getAuth, signInWithEmailAndPassword, signInWithEmailLink} from "firebase/auth";
+import {
+    getAuth,
+    inMemoryPersistence,
+    browserLocalPersistence,
+    setPersistence,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
 import userFB from "../../../contexts/userFB";
 import {Dimensions, TouchableOpacity} from "react-native";
 import {PopupAgreement, PopupRegForm} from "./popups";
 import LayoutPop from "../../../layouts/popups/LayoutPop";
 import {showToastState} from "../../../store/toasts/reducer";
 import {useDispatch} from "react-redux";
+import * as SecureStore from "expo-secure-store";
 
 const {height, width} = Dimensions.get('window')
 
@@ -24,8 +31,8 @@ export const AuthEmail = ({}) => {
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const {setAuth} = useContext(userFB)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('vitya22-99@list.ru')
+    const [password, setPassword] = useState('Coca1995cola')
 
     const handlerEmail = (data) => {
 
@@ -44,19 +51,23 @@ export const AuthEmail = ({}) => {
         setErrorPassword(false)
         const auth = getAuth();
 
+        setPersistence(auth, browserLocalPersistence).then(() => {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((data) => {
+                    SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Email', email, password})).then()
+                    setAuth(data)
+                })
+                .catch(e=> {
+                    switch (e.code) {
+                        case 'auth/invalid-email': return setErrorEmail(true)
+                        case 'auth/wrong-password': return setErrorPassword(true)
+                        default: return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
+                    }
+                })
+        }).catch((error) => {
+            console.log(error)
+        })
 
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((data) => {
-                setAuth(data)
-            })
-            .catch(e=> {
-                switch (e.code) {
-                    case 'auth/invalid-email': return setErrorEmail(true)
-                    case 'auth/wrong-password': return setErrorPassword(true)
-                    default: return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
-                }
-            })
     }
 
     return (

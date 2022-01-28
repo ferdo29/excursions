@@ -11,7 +11,7 @@ import {fetchCounter} from "../../../store/countries/service";
 import {fetchPopularPlacesData} from "../../../store/popularPlaces/service";
 import {fetchExcursions} from "../../../store/excursions/service";
 import {Loader} from "../../../components/Loader";
-import {getAuth, onAuthStateChanged, getIdToken, inMemoryPersistence} from "firebase/auth";
+import {getAuth, getIdToken, onAuthStateChanged} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
@@ -19,6 +19,7 @@ import {t} from "i18n-js";
 import {useFiles} from "../../../hooks/useFiles";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
 import {useIsFocused} from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 export default function Home({}) {
     useContext(Locale)
@@ -40,15 +41,23 @@ export default function Home({}) {
     }
 
     useEffect(() => {
-        onRefresh()
+        // onRefresh()
     }, [user])
     useEffect(() => {
         handlerInitFiles().then()
     }, [])
     useEffect(() => {
-        // isFocused && getAuth().currentUser.getIdToken(true).then()
-        getAuth().currentUser.getIdToken().then(res => {
-            // console.log(res)
+
+        getIdToken(getAuth().currentUser).then((data) => {
+            console.log(data)
+        })
+        getAuth().currentUser.getIdToken().then(async res => {
+            // const user = await getAuth()
+            // SecureStore.setItemAsync('KeyUser', JSON.stringify(user))
+            //     .then(() => {
+            //         // console.log(user)
+            //     })
+            //     .catch((e) => {console.log(e)})
         })
     }, [isFocused])
     return (

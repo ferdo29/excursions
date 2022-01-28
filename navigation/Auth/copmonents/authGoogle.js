@@ -3,13 +3,14 @@ import Svg, {Path} from "react-native-svg";
 import {Text14} from "../../../styles/components/tools";
 import {t} from "i18n-js";
 import {ButtonWhiteOpacity} from "../../../styles/components/buttons";
-import {getAuth, GoogleAuthProvider, signInWithCredential} from "firebase/auth";
+import {GoogleAuthProvider} from "firebase/auth";
 import * as Google from "expo-google-app-auth";
 import userFB from "../../../contexts/userFB";
 import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
-import { firebaseApp, auth } from "../../../firebase"
-import {Dimensions, Platform} from "react-native";
+import { auth } from "../../../firebase"
+import {Dimensions} from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 const {height, width} = Dimensions.get('window')
 
@@ -19,8 +20,8 @@ export const AuthGoogle = ({}) => {
 
     const handlerGoogle = () => {
         const config = {
-            iosClientId: '697525752458-315sj9diudnpin2ub4i0hdh0aar8si3u.apps.googleusercontent.com',
-            androidClientId: '697525752458-en0qvqm48128u1c793ar9ou0nlq2udts.apps.googleusercontent.com',
+            iosClientId: process.env.DB_IOS_CLIENT_ID,
+            androidClientId: process.env.ANDROID_CLIENT_ID,
             scopes: ['profile', 'email'],
         }
 
@@ -34,6 +35,7 @@ export const AuthGoogle = ({}) => {
                         accessToken
                     );
                     return auth.signInWithCredential(credential).then(data => {
+                            SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Google'})).then()
                             setAuth()
                         })
                 }else{

@@ -11,6 +11,7 @@ import {useDispatch} from "react-redux";
 import {showToastState} from "../../../store/toasts/reducer";
 import { firebaseApp, auth } from "../../../firebase"
 import {Dimensions, Platform} from "react-native";
+import * as SecureStore from "expo-secure-store";
 
 const {height, width} = Dimensions.get('window')
 
@@ -32,14 +33,15 @@ export const AuthFacebook = ({}) => {
                 case 'success': {
                     const credential = FacebookAuthProvider.credential(token);
                     await signInWithCredential(auth, credential)
+                    await SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Facebook'}))
                     return setAuth()
                 }
                 case 'cancel': {
-                    return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
+                    return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }
             }
         }catch (e) {
-            dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
+            dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
         }
 
     }

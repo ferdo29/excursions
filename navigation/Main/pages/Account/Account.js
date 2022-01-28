@@ -14,6 +14,7 @@ import {useContext} from "react";
 import userFB from "../../../../contexts/userFB";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
+import * as SecureStore from "expo-secure-store";
 const {height} = Dimensions.get('window')
 
 export default function Account({}) {
@@ -25,6 +26,8 @@ export default function Account({}) {
     const handlerLogout = async () => {
         try{
             logout()
+            await SecureStore.deleteItemAsync('KeyUser')
+            await user.signOut()
         }catch (e) {
         }
 

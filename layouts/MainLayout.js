@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Animated, Pressable, View, Text} from "react-native";
+import {Animated, Pressable, View, Text, Platform} from "react-native";
 import Toast from "react-native-toast-message";
 import {useDispatch, useSelector} from "react-redux";
 import {ToastError, ToastSuccess, ToastText, ToastWarning} from "../styles/components/Toast";
@@ -129,7 +129,7 @@ export default function ({
                                 {useNativeDriver: true}
                             )
                         }}
-                        style={{height: '100%'}}
+                        style={{height: '100%', paddingTop: Platform.OS === 'ios' ? 0 : 5}}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}>
                         {children}
