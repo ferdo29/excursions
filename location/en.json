@@ -24,6 +24,8 @@
   },
   "error": {
     "Enter your phone number": "Enter your phone number",
+    "Enter your email": "Enter your email",
+    "Enter password": "Enter correct password",
     "auth/weak-password": "Weak password",
     "auth/email-already-in-use": "Email already in use",
     "error": "Error",

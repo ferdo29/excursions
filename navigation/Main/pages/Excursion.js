@@ -15,7 +15,7 @@ import Svg, {Circle, Path} from "react-native-svg";
 import {ButtonCircle, ButtonGray, ButtonGrayWrapper} from "../../../styles/components/buttons";
 import CardReview from "../../../components/tools/CardReview";
 import {TouchableOpacity} from "react-native";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import img from '../../../assets/image/Shiadu.png'
 import {Loader} from "../../../components/Loader";
 import { useIsFocused } from '@react-navigation/native';
@@ -26,13 +26,15 @@ import axios from "axios";
 import {t} from "i18n-js";
 import {fetchCart} from "../../../store/cart/service";
 import {showToastState} from "../../../store/toasts/reducer";
+import {fetchFavourite} from "../../../store/favourite/service";
+import UserFB from "../../../contexts/userFB";
 
 
 export const Excursion = ({}) => {
     const linkTo = useLinkTo();
     const dispatch = useDispatch()
     const isFocused = useIsFocused();
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const [maxReviews, setMaxReviews] = useState(3)
     const routes = useNavigationState(state => state.routes)
     const {data: Excursion, reviews: Reviews, isLoading, isView, error} = useSelector(state => state.excursion)
@@ -40,11 +42,13 @@ export const Excursion = ({}) => {
 
     const handlerLike = () => {
         axios.get(`${process.env.DB_HOST}/excursions/${routes[routes.length - 1]?.params?.screen}/like`,
-            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
-            .then(() => {dispatch(Liked())})
+            {headers: {Authorization:`Bearer ${user.accessToken}`}})
+            .then(() => {
+                dispatch(fetchFavourite({token: user.accessToken}))
+                dispatch(Liked())
+            })
             .catch((e) => {
             })
-
     }
     const handlerMaxReviews = () => setMaxReviews(Reviews?.data.length)
     const handlerGallery = () => {
@@ -58,7 +62,7 @@ export const Excursion = ({}) => {
         ]
     }
     const onRefreshBasket = (toost = false) => {
-        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchCart({token: user.accessToken}))
         toost && dispatch(showToastState({
             type: 'success',
             text1: t('All.Paid up'),
@@ -66,7 +70,7 @@ export const Excursion = ({}) => {
     }
     const handlerBasket = (isLink = false) => {
         axios.post(`${process.env.DB_HOST}/cart/${routes[routes.length - 1]?.params?.screen}`, {"quantity": 1},
-            {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+            {headers: {Authorization: `Bearer ${user.accessToken}`}})
             .then((data) => {
                 isLink && linkTo('/Basket')
                 onRefreshBasket(true)
@@ -78,7 +82,7 @@ export const Excursion = ({}) => {
 
     useEffect(() => {
         if(isFocused){
-            dispatch(fetchExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.stsTokenManager.accessToken}))
+            dispatch(fetchExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.accessToken}))
         }
         else{
             dispatch(excursionDelete())

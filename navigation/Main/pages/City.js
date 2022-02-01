@@ -9,20 +9,22 @@ import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {CityBackground} from "../../../components/backgrounds/CityBackground";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
 import {popularPlacesDelete, popularPlacesDeleteExcursion} from "../../../store/popularPlaces/reducer";
 import {fetchPopularPlaces, fetchPopularPlacesExcursions} from "../../../store/popularPlaces/service";
 import {Loader} from "../../../components/Loader";
 import img from "../../../assets/image/Shiadu.png";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
+import UserFB from "../../../contexts/userFB";
 
 export const City = ({}) => {
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const dispatch = useDispatch()
     const isFocused = useIsFocused();
     const routes = useNavigationState(state => state.routes)
     const {data: countries} = useSelector(state => state.countries)
+    const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const {one: {data}, excursion: {isLoading: isLoadingE, isView: isViewE, data: excursion}, error, isLoading, isView} = useSelector(state => state.popularPlaces)
 
     const handlerGallery = () => {
@@ -37,8 +39,8 @@ export const City = ({}) => {
     }
     useEffect(() => {
         if(isFocused){
-            dispatch(fetchPopularPlaces({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.stsTokenManager.accessToken}))
-            dispatch(fetchPopularPlacesExcursions({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.stsTokenManager.accessToken}))
+            dispatch(fetchPopularPlaces({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.accessToken}))
+            dispatch(fetchPopularPlacesExcursions({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen, token: user.accessToken}))
 
         }else{
             dispatch(popularPlacesDelete())
@@ -63,7 +65,12 @@ export const City = ({}) => {
                 {/*    </View>*/}
                 {/*</ContainerMain>*/}
 
-                <ScrollHorizontal title={t('City.Country Tours')} model={countries}/>
+                <ScrollHorizontal title={t('Country.Country Tours')} toLink={'Country'} model={countries}/>
+                {!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}
+                                                                                               toLink={'City'}
+                                                                                               toLinkTwo={'Cities'}
+                                                                                               title={t('Home.Popular places')}
+                                                                                               model={popularPlaces}/>}
                 <ContainerMain>
                     <Text23Bold style={{marginBottom: 10}}>{t('City.Interesting excursions')}</Text23Bold>
                 </ContainerMain>

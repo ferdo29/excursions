@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {ButtonGray, ButtonGrayWrapper} from "../../../../styles/components/buttons";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {t} from "i18n-js";
 import {CardField, useConfirmPayment} from "@stripe/stripe-react-native";
 import {Input} from "../../../../styles/components/inputs";
@@ -12,6 +12,7 @@ import {getAuth} from "firebase/auth";
 import {fetchCart} from "../../../../store/cart/service";
 import {showToastState} from "../../../../store/toasts/reducer";
 import {fetchMyExcursions} from "../../../../store/myExcursions/service";
+import UserFB from "../../../../contexts/userFB";
 
 const {height, width} = Dimensions.get('window')
 const styleCard = {
@@ -30,7 +31,7 @@ const styleCard = {
 }
 
 export const StripePay = ({state = false, openClose = () => {}}) => {
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const dispatch = useDispatch()
     const [email, setEmail] = useState('');
     const [cardDetails, setCardDetails] = useState();
@@ -47,7 +48,7 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
             },
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${user.stsTokenManager.accessToken}`
+                "Authorization": `Bearer ${user.accessToken}`
             },
         });
         const { clientSecret, error } = await response.json();
@@ -75,8 +76,8 @@ export const StripePay = ({state = false, openClose = () => {}}) => {
                 if (error) {
                     dispatch(showToastState({type: 'error', text1: t('error.error')}))
                 } else if (paymentIntent) {
-                    dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
-                    dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
+                    dispatch(fetchCart({token: user.accessToken}))
+                    dispatch(fetchMyExcursions({token: user.accessToken}))
                     dispatch(showToastState({type: 'success', text1: t('success.Paid up')}))
                     handlerClose()
                 }

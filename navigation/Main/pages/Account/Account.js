@@ -15,19 +15,18 @@ import userFB from "../../../../contexts/userFB";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
 import * as SecureStore from "expo-secure-store";
+import UserFB from "../../../../contexts/userFB";
 const {height} = Dimensions.get('window')
 
 export default function Account({}) {
     const {logout} = useContext(userFB)
-    const user = getAuth()
+    const {user: {user}} = useContext(UserFB)
     const linkTo = useLinkTo();
     const dispatch = useDispatch()
     const {phoneFormat} = useValidDataUser()
     const handlerLogout = async () => {
         try{
             logout()
-            await SecureStore.deleteItemAsync('KeyUser')
-            await user.signOut()
         }catch (e) {
         }
 
@@ -39,9 +38,7 @@ export default function Account({}) {
                         <View>
                             <Text23 style={{color: '#4f4f4f', textAlign: 'center', paddingBottom: 10}}>{t('Account.We are happy to see you!')}</Text23>
                             <Text14 style={{color: '#828282', textAlign: 'center'}}>{
-                                user.currentUser.providerData[0].displayName ||
-                                user.currentUser.providerData[0].phoneNumber ||
-                                user.currentUser.providerData[0].email
+                                user ? user.displayName || user.phoneNumber || user.email || 'null' : ''
                             }</Text14>
                         </View>}
         >
@@ -71,15 +68,15 @@ export default function Account({}) {
                     <IconFile/>
                 </WrapperParticipantButton>
                 <WrapperParticipantButton onPress={() => linkTo(`/Faq`)}
-                    style={{borderBottomColor: '#E0E0E0'}}>
+                    style={{borderBottomColor: '#E0E0E0', marginBottom: 100}}>
                     <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Questions and Answers')}</Text16>
                     <IconHelp/>
                 </WrapperParticipantButton>
-                <WrapperParticipantButton onPress={() => linkTo(`/Support`)}
-                    style={{borderBottomColor: 'rgba(224,224,224,0)', marginBottom: 100}}>
-                    <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Contact technical support')}</Text16>
-                    <IconSettings/>
-                </WrapperParticipantButton>
+                {/*<WrapperParticipantButton onPress={() => linkTo(`/Support`)}*/}
+                {/*    style={{borderBottomColor: 'rgba(224,224,224,0)', marginBottom: 100}}>*/}
+                {/*    <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Contact technical support')}</Text16>*/}
+                {/*    <IconSettings/>*/}
+                {/*</WrapperParticipantButton>*/}
 
                 <ButtonGrayWrapper style={{width: 'auto'}}>
                     <ButtonGray activeOpacity={0.6} style={{marginBottom: 28, width: '100%'}}

@@ -45,7 +45,7 @@ export default function Route({}) {
     const renderItem = ({item : { title, image, id, order}, ...props}) => {
         (props.index === state) && setLink(order)
         return(
-            <View>
+            <Pressable onPress={() => linkTo(`/Map/` + Link)}>
                 <Image source={image} style={{width: (width  * 11/12) - 10, height: 350, }}/>
                 <BoxRow style={{justifyContent:'flex-start', paddingTop: 10}}>
                     <WrapperCircle style={{marginRight: 20, borderColor:  state === id ? '#11AEAE': '#828282'}}>
@@ -56,7 +56,7 @@ export default function Route({}) {
                         style={{color: '#828282', width: 200, lineHeight: 20}}>{title}</Text16>
                 </BoxRow>
 
-            </View>
+            </Pressable>
         )
     }
 
@@ -104,9 +104,10 @@ export default function Route({}) {
 
                 {data?.audio && data?.audio.length > 0 && <ValidAudio/>}
 
-                {data.coordinates && data.coordinates.length > 0 && <ButtonGray activeOpacity={0.6}
+                {data.coordinates && data.coordinates.length > 0 &&
+                <ButtonGray activeOpacity={0.6}
                              onPress={() => linkTo(`/Map/` + Link)}
-                             style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
+                             style={{marginBottom: 40, paddingLeft: 35, width: '100%', justifyContent: 'space-between'}}>
                     <Text16Bold500
                         style={{color: '#828282'}}>{t('Route.Show route on map')}</Text16Bold500>
                     <Svg width="41" height="41" style={{}} fill="none"

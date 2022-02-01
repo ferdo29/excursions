@@ -16,6 +16,7 @@ import cart from './cart/reducer'
 import myExcursions from './myExcursions/reducer'
 import myExcursion from './myExcursion/reducer'
 import files from './files/reducer'
+import info from './info/reducer'
 
 const rootReducer = combineReducers(
     {
@@ -35,6 +36,7 @@ const rootReducer = combineReducers(
         myExcursions,
         myExcursion,
         files,
+        info
     }
 )
 

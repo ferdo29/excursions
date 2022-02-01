@@ -35,9 +35,14 @@ export const AuthGoogle = ({}) => {
                         accessToken
                     );
                     return auth.signInWithCredential(credential).then(data => {
-                            SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Google'})).then()
-                            setAuth()
+                        const userJson = JSON.parse(JSON.stringify(data))
+
+                        setAuth({
+                            refreshToken: userJson.user.stsTokenManager.refreshToken,
+                            user: data.user.providerData[0],
+                            accessToken: userJson.user.stsTokenManager.accessToken
                         })
+                    })
                 }else{
                    dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }

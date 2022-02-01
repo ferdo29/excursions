@@ -12,15 +12,17 @@ import {validImg} from "../../../../middleware/middlewares";
 import axios from "axios";
 import {showToastState} from "../../../../store/toasts/reducer";
 import {t} from "i18n-js";
+import {useContext} from "react";
+import UserFB from "../../../../contexts/userFB";
 
 export default function ItemBasket({name, price, id, quantity, percent, ...props}) {
 
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const handlerRemoveBasket = async () => {
         try {
            await axios.delete(`${process.env.DB_HOST}/cart/${id}`,
-                {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+                {headers: {Authorization: `Bearer ${user.accessToken}`}})
             dispatch(setDeleteCartById(id))
         }catch (e) {
             dispatch(showToastState({
@@ -30,7 +32,7 @@ export default function ItemBasket({name, price, id, quantity, percent, ...props
         }
     }
     const handlerChangeCount = (data) => {
-        dispatch(fetchCartChange({id, quantity: data, token: user.stsTokenManager.accessToken}))
+        dispatch(fetchCartChange({id, quantity: data, token: user.accessToken}))
     }
 
     return (

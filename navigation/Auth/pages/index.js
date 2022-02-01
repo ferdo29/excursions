@@ -35,7 +35,7 @@ export default function ({navigation}) {
 
     return (
         <MainLayout backgroundColor={'#11AEAE'} viewBottomNav={false} itemBack={<CirclesAb/>}>
-            <ContainerMain style={{alignItems: 'center'}}>
+            <ContainerMain style={{alignItems: 'flex-start'}}>
 
                 <BoxRowView style={{paddingBottom: 37}}>
                     <BoxColumnView style={{alignItems: 'flex-start'}}>

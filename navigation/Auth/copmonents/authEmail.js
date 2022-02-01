@@ -8,9 +8,6 @@ import {useContext, useState} from "react";
 import Locale from "../../../contexts/locale";
 import {
     getAuth,
-    inMemoryPersistence,
-    browserLocalPersistence,
-    setPersistence,
     signInWithEmailAndPassword,
 } from "firebase/auth";
 import userFB from "../../../contexts/userFB";
@@ -31,8 +28,8 @@ export const AuthEmail = ({}) => {
     const [errorEmail, setErrorEmail] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false)
     const {setAuth} = useContext(userFB)
-    const [email, setEmail] = useState('vitya22-99@list.ru')
-    const [password, setPassword] = useState('Coca1995cola')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const handlerEmail = (data) => {
 
@@ -51,22 +48,26 @@ export const AuthEmail = ({}) => {
         setErrorPassword(false)
         const auth = getAuth();
 
-        setPersistence(auth, browserLocalPersistence).then(() => {
-            signInWithEmailAndPassword(auth, email, password)
-                .then((data) => {
-                    SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Email', email, password})).then()
-                    setAuth(data)
-                })
-                .catch(e=> {
-                    switch (e.code) {
-                        case 'auth/invalid-email': return setErrorEmail(true)
-                        case 'auth/wrong-password': return setErrorPassword(true)
-                        default: return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
-                    }
-                })
-        }).catch((error) => {
-            console.log(error)
-        })
+        signInWithEmailAndPassword(auth, email, password)
+            .then((data) => {
+                    setAuth({
+                        refreshToken: data._tokenResponse.refreshToken,
+                        user: data.user.providerData[0],
+                        accessToken: data.user.stsTokenManager.accessToken
+                    })
+            })
+            .catch(e => {
+                switch (e.code) {
+                    case 'auth/invalid-email':
+                        dispatch(showToastState({type: 'error', top: false, text1: t(`error.Enter your email`)}))
+                        return setErrorEmail(true)
+                    case 'auth/wrong-password':
+                        dispatch(showToastState({type: 'error', top: false, text1: t(`error.Enter password`)}))
+                        return setErrorPassword(true)
+                    default:
+                        return dispatch(showToastState({type: 'error', top: true, text1: t(`error.error`)}))
+                }
+            })
 
     }
 
@@ -94,8 +95,8 @@ export const AuthEmail = ({}) => {
                           strokeLinejoin="round"/>
                 </Svg>
             </ButtonWhite>
-            <TouchableOpacity onPress={() => setAgreement(!agreement)} style={{paddingTop: 15, paddingRight: 10}}>
-                <Text16 style={{color: '#fff', textAlign: 'left'}}>{t('Login by phone.Register')}</Text16>
+            <TouchableOpacity onPress={() => setAgreement(!agreement)} style={{marginTop: 10, paddingTop: 10, paddingBottom: 10, width: '100%'}}>
+                <Text16 style={{color: '#fff', textAlign: 'center', width: '100%'}}>{t('Login by phone.Register')}</Text16>
             </TouchableOpacity>
             <LayoutPop state={agreement} openClose={() => setAgreement(!agreement)} start={height > 700 ? height * 0.43 : height * 0.35} responseSize={false} mountainTop={true} reSizeOnSwipe={true}>
                 <PopupAgreement handlerAgreement={() => setAgreement(!agreement)}

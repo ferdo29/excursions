@@ -9,25 +9,28 @@ import {setMyExcursionPath} from "../../../../../store/myExcursion/reducer";
 import {useContext, useRef, useState} from "react";
 import filesStore from "../../../../../contexts/filesStore";
 import {randomName} from "../../../../../middleware/middlewares";
-import {ActivityIndicator} from "react-native";
+import {ActivityIndicator, Platform} from "react-native";
 import i18n, {t} from "i18n-js";
 import {useFiles} from "../../../../../hooks/useFiles";
+import UserFB from "../../../../../contexts/userFB";
 
 export const DownloadFile = ({path, id, date}) => {
     const dispatch = useDispatch()
     const [disabled, setDisabled] = useState(false)
     const [bits, setBits] = useState(0)
     const {handlerSetFileStore} = useFiles()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
 
     const downloadFile = async () => {
         try {
             setDisabled(true)
+            const uri = `${path}`
+            const options = {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`
+                }
+            }
 
-            const uri = `${path}?token=Bearer ${user.stsTokenManager.accessToken}`
-            // const options = {headers: {'Authorization': `Bearer ${user.stsTokenManager.accessToken}`}}
-            // const urilink = `https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_1MG.mp3`
-            const options = {}
 
             const fileUri = FileSystem.documentDirectory + `${randomName()}.mp3`.split('-').join('')
             const callback = ({totalBytesWritten}) => {
@@ -50,7 +53,7 @@ export const DownloadFile = ({path, id, date}) => {
         <ButtonGray activeOpacity={0.6}
                     disabled={disabled}
                     onPress={downloadFile}
-                    style={{marginBottom: 40, paddingLeft: 35, justifyContent: 'space-between'}}>
+                    style={{marginBottom: 40, paddingLeft: 35, width: '100%', justifyContent: 'space-between'}}>
             {!disabled && <>
                 <Text16Bold500
                     style={{color: '#828282'}}>{t('Route.Download')}</Text16Bold500>

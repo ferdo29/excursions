@@ -24,6 +24,8 @@
   },
   "error": {
     "Enter your phone number": "Введите свой номер телефона",
+    "Enter your email": "Введите свою почту",
+    "Enter password": "Введите корректный пароль",
     "auth/weak-password": "Слабый пароль",
     "auth/email-already-in-use": "Электронная почта уже используется",
     "error": "Ошибка",

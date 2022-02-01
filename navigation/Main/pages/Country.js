@@ -1,10 +1,7 @@
 import * as React from 'react';
-import {Text, View} from "react-native";
-import {useIsFocused, useNavigation, useNavigationState} from "@react-navigation/native";
+import {useIsFocused, useNavigationState} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import {LayoutImageTop} from "../../../layouts/LayoutImageTop";
-import {InputSearch, InputSearchWrapper} from "../../../styles/components/inputs";
-import {IconSearch} from "../../../components/Icons";
 import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
@@ -20,7 +17,8 @@ export const Country = ({}) => {
     const isFocused = useIsFocused();
     const routes = useNavigationState(state => state.routes)
     const {data: countries} = useSelector(state => state.countries)
-    const {data, error, isLoading, isView, city, excursion} = useSelector(state => state.country)
+    const {isView, excursion} = useSelector(state => state.country)
+    const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const country = useSelector(state => state.countries.data
         .find(value => value.id === (routes.length > 1 && parseInt(routes[routes.length - 1]?.params?.screen)))
     )
@@ -30,11 +28,6 @@ export const Country = ({}) => {
             dispatch(fetchCounter({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
             dispatch(fetchCounterCity({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
             dispatch(fetchCounterExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
-        }
-        else{
-            // dispatch(countryDelete())
-            // dispatch(countryDeleteCity())
-            // dispatch(countryDeleteExcursion())
         }
     }, [isFocused])
 
@@ -52,8 +45,12 @@ export const Country = ({}) => {
                 {/*    </View>*/}
                 {/*</ContainerMain>*/}
 
-                <ScrollHorizontal title={t('Country.Country Tours')} model={countries}/>
-                {city.data && <ScrollHorizontal title={t('Country.Popular places')} model={city.data}/>}
+                <ScrollHorizontal title={t('Country.Country Tours')} toLink={'Country'} model={countries}/>
+                {!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}
+                                                                                               toLink={'City'}
+                                                                                               toLinkTwo={'Cities'}
+                                                                                               title={t('Home.Popular places')}
+                                                                                               model={popularPlaces}/>}
                 <ContainerMain>
                     <Text23Bold style={{marginBottom: 10}}>{t('Country.Interesting excursions')}</Text23Bold>
                 </ContainerMain>

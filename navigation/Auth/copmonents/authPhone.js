@@ -14,12 +14,15 @@ import {FirebaseRecaptchaVerifierModal} from "expo-firebase-recaptcha";
 import {PopupsCheckSMS} from "./popups";
 import { firebaseApp } from "../../../firebase"
 import {Dimensions} from "react-native";
+import {showToastState} from "../../../store/toasts/reducer";
+import {useDispatch} from "react-redux";
 
 const {height, width} = Dimensions.get('window')
 
 
 export const AuthPhone = ({}) => {
     useContext(Locale)
+    const dispatch = useDispatch()
     const {setAuth} = useContext(userFB)
     const recaptchaVerifier = useRef(null);
     const [phone, setPhone] = useState('')
@@ -30,8 +33,14 @@ export const AuthPhone = ({}) => {
 
     const handleConfirmSMSCode = async (code) => {
         try {
-            await confirmSMSCode.confirm(code);
-            setAuth()
+            const data = await confirmSMSCode.confirm(code);
+            const userJson = JSON.parse(JSON.stringify(data))
+
+            setAuth({
+                refreshToken: userJson.user.stsTokenManager.refreshToken,
+                user: data.user.providerData[0],
+                accessToken: userJson.user.stsTokenManager.accessToken
+            })
             setPop(false)
         } catch (e) {
             console.error(e);
@@ -40,13 +49,18 @@ export const AuthPhone = ({}) => {
     const Login = async () => {
         const auth = getAuth();
 
+        if (!phone || (phone.match(/[0-9]/g).join('').length < 10)){
+            return dispatch(showToastState({type: 'error', top: false, text1: t(`error.Enter your phone number`)}))
+        }
+
         signInWithPhoneNumber(auth, zip+ phone.match(/[0-9]/g).join(''), recaptchaVerifier.current)
             .then((res) => {
                 handleConfirmSMSCode(res)
                 setConfirmSMSCode(res)
                 setPop(true)
             })
-            .catch(e => console.error(e, 123))
+            .catch(e => {
+            })
     }
 
     return (

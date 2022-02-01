@@ -62,9 +62,7 @@ export const Map = ({}) => {
                 </BoxRow>
             </ContainerMain>
             {
-                Device.brand === "HUAWEI" && <MapBox data={data} points={points} screen={screen} numbersImg={numbersImg}/>
-                // :
-                // <GoogleMap data={data} points={points} screen={screen} numbersImg={numbersImg}/>
+                <GoogleMap data={data} points={points} screen={screen} numbersImg={numbersImg}/>
             }
 
 

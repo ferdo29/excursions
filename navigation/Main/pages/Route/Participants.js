@@ -5,7 +5,7 @@ import {BoxRowView, ContainerMain, Text16, Text23Bold} from "../../../../styles/
 import {ButtonCircle} from "../../../../styles/components/buttons";
 import {useNavigation} from "@react-navigation/native";
 import {WrapperParticipant} from "../../../../styles/components/Cards";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {InputSearch, InputSearchWrapper} from "../../../../styles/components/inputs";
 import {IconNext, IconSearch} from "../../../../components/Icons";
 import {View} from "react-native";
@@ -18,11 +18,12 @@ import {getAuth} from "firebase/auth";
 import axios from "axios";
 import {showToastState} from "../../../../store/toasts/reducer";
 import {t} from "i18n-js";
+import UserFB from "../../../../contexts/userFB";
 
 export default function Participants({}) {
     const navigation = useNavigation();
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const [added, setAdded] = useState('');
     const [statePop, setStatePop] = useState(false);
     const {idExcursion} = useSelector(state =>  state.myExcursion)
@@ -33,9 +34,9 @@ export default function Participants({}) {
             await axios.post(`${process.env.DB_HOST}/excursions/add-user`, {
                 "purchased_excursion": data.id,
                 "login": added
-            }, {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+            }, {headers: {Authorization: `Bearer ${user.accessToken}`}})
             dispatch(fetchMyExcursions({
-                token: user.stsTokenManager.accessToken
+                token: user.accessToken
             }))
             navigation.goBack()
             dispatch(showToastState({ type: 'success', top: false, text1: t(`message.Success`)}))

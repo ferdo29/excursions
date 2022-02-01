@@ -54,7 +54,7 @@ export const LayoutAudio = ({children}) => {
         try {
             const getAudioPerm = await Audio.requestPermissionsAsync();
             await Audio.setAudioModeAsync({
-                allowsRecordingIOS: true,
+                allowsRecordingIOS: false,
                 playsInSilentModeIOS: true,
                 staysActiveInBackground: true,
                 interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,

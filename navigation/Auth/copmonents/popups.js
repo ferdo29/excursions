@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeState, clearState, clearStateOne} from "../../../store/sms/reducer";
 import {ButtonGreenOpacity, ButtonWhite, ButtonWrapper} from "../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
-import {setPhoneAccount} from "../../../store/account/reducer";
 import LayoutPop from "../../../layouts/popups/LayoutPop";
 import {Dimensions} from "react-native";
 import {t} from "i18n-js";

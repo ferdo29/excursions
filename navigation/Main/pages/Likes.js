@@ -11,18 +11,20 @@ import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
+import {useContext} from "react";
+import UserFB from "../../../contexts/userFB";
 
 export default function ({}) {
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const {data: favourite} = useSelector(state => state.favourite)
 
     const onRefresh = () => {
-        dispatch(fetchFavourite({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchFavourite({token: user.accessToken}))
     }
 
     return (
-        <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={favourite.length > 2} itemBack={<FirstBackground/>}>
+        <MainLayout Refreshing={true} scrollEnabled={favourite.length > 0} handlerRefresh={onRefresh} animation={favourite.length > 2} itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>{t('Favorites.Favorites')}</Text23Bold>
                 <Text12 style={{textAlign: 'center', marginTop: favourite.length <= 0 ? 15 : 0}}>

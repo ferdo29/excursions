@@ -2,7 +2,7 @@ import * as React from 'react';
 import MainLayout from "../../../layouts/MainLayout";
 import {BoxRow, ContainerMain, Text18Bold} from "../../../styles/components/tools";
 import {ButtonTab} from "../../../styles/components/buttons";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {ItemExcursion} from "./components/ItemExcursion";
@@ -11,15 +11,16 @@ import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {getAuth} from "firebase/auth";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
 import {View} from "react-native";
+import UserFB from "../../../contexts/userFB";
 
 export default function ({}) {
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const [state, setState] = useState(0)
     const {data, isLoading, error} = useSelector(state => state.myExcursions)
 
     const onRefresh = () => {
-        dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchMyExcursions({token: user.accessToken}))
     }
     const ItemTitle = () => (
         <BoxRow style={{justifyContent: 'flex-start', paddingBottom: 10}}>

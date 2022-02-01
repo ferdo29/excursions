@@ -30,110 +30,41 @@ import PreviewContext from '../contexts/preview'
 import {First} from "./Preview/pages/First";
 import {Second} from "./Preview/pages/Second";
 import {Third} from "./Preview/pages/Third";
-import {
-    getIdToken, FacebookAuthProvider, getAuth
-} from "firebase/auth";
-import { auth } from "../firebase"
-import firebase from "firebase/compat";
 import * as SecureStore from "expo-secure-store";
-import * as Google from "expo-google-app-auth";
-import {initializeAsync, logInWithReadPermissionsAsync} from "expo-facebook";
+import {useUserData} from "../hooks/useUserData";
+import {fetchInfo} from "../store/info/service";
+import {useDispatch} from "react-redux";
+import {fetchFAQ} from "../store/faq/service";
+import Locale from "../contexts/locale";
 
 
 const Stack = createStackNavigator();
 
 
 export const NavigationController = ({}) => {
+    const {lang} = useContext(Locale)
+    const dispatch = useDispatch()
     const {auth: Auth, setAuth} = useContext(userFB)
     const {preview} = useContext(PreviewContext);
+    const {checkedOldSession} = useUserData()
 
     const session = async () => {
         try {
-                const KeyUser = await SecureStore.getItemAsync('KeyUser')
-            // const ads = await getAuth().currentUser.getIdToken()
-            // console.log(await getAuth())
-
-                // window.openDatabase = JSON.parse(KeyUser)
-                // window.__localStorageStore = {};
-                // window.localStorage = {
-                //     getItem: function(key) {
-                //         return window.__localStorageStore[key];
-                //     },
-                //     setItem: function(key, value) {
-                //         window.__localStorageStore[key] = value;
-                //     },
-                //     removeItem: function(key) {
-                //         delete window.__localStorageStore[key];
-                //     },
-                //     clear: function() {
-                //         window.__localStorageStore = {};
-                //     },
-                //     key: function(i) {
-                //         Object.keys(window.__localStorageStore)[i];
-                //     }
-                // };
-                //
-                // firebase.firestore().enablePersistence().then(res => {
-                //     console.log(res)
-                // }).catch(err => console.log(err))
-
-            // window.__localStorageStore = {};
-
-            // if (!!KeyUser){
-            //
-            //     switch (JSON.parse(KeyUser).type) {
-            //         case 'Google':
-            //             const config = {
-            //                 iosClientId: process.env.DB_IOS_CLIENT_ID,
-            //                 androidClientId: process.env.ANDROID_CLIENT_ID,
-            //                 scopes: ['profile', 'email'],
-            //             }
-            //
-            //             const { idToken, accessToken, type, user } = await Google.logInAsync(config)
-            //             const credentialGoogle = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
-            //
-            //             return auth.signInWithCredential(credentialGoogle).then(data => {
-            //                 setAuth()
-            //             }).catch(e => {
-            //             })
-            //         case 'Facebook':
-            //             const appId = process.env.facebook
-            //             const permissions = ['public_profile', 'email'];
-            //             await initializeAsync(appId)
-            //             const {type: typeFB ,token,...props} = await logInWithReadPermissionsAsync({
-            //                 permissions,
-            //                 appId
-            //             });
-            //             switch (typeFB) {
-            //                 case 'success': {
-            //                     const credential = FacebookAuthProvider.credential(token);
-            //                     await auth.signInWithCredential(credential)
-            //                     return setAuth()
-            //                 }
-            //                 case 'cancel': {
-            //                     console.log(props)
-            //                     // return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)} + '1'))
-            //                 }
-            //             }
-            //             return
-            //         case "Email":
-            //             const {email, password} = JSON.parse(KeyUser)
-            //             await auth.signInWithEmailAndPassword(email, password)
-            //             setAuth()
-            //             return
-            //         default: return
-            //     }
-            //
-            // }
-
-        }catch (e) {
+            // const KeyUser = await SecureStore.getItemAsync('KeyUser')
+            // console.log(JSON.parse(KeyUser))
+        } catch (e) {
             console.log(e)
         }
 
     }
+    checkedOldSession(Auth)
     useEffect(() => {
         !Auth && session().then()
     }, [Auth])
+    useEffect(() => {
+        dispatch(fetchInfo())
+        dispatch(fetchFAQ({lang}))
+    }, [])
 
     return (
             <NavigationContainer>

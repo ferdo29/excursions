@@ -83,12 +83,24 @@ const counterSlice = createSlice({
     name: 'faq',
     initialState,
     reducers: {
-            setOpenClose(state, action){
-                state.data[action.payload.parent].data[action.payload.child] = !state.data[action.payload.parent].data[action.payload.child]
-            }
+        setOpenClose(state, action) {
+            state.data[action.payload.parent].data[action.payload.child] = !state.data[action.payload.parent].data[action.payload.child]
+        },
+        faqFetching(state) {
+            state.isLoading = true
+        },
+        faqFetchingSuccess(state, action) {
+            state.isLoading = false
+            state.data = action.payload.data
+        },
+        faqFetchingError(state, action) {
+            state.isLoading = false
+            state.error = action.payload
+        }
     },
 
 })
 
-export const {setOpenClose} = counterSlice.actions
+export const {
+    setOpenClose, faqFetching, faqFetchingError, faqFetchingSuccess} = counterSlice.actions
 export default counterSlice.reducer

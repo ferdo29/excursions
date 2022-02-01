@@ -17,7 +17,7 @@ import {
     Ubuntu_700Bold_Italic,
 } from '@expo-google-fonts/ubuntu';
 import { ToastProvider } from 'react-native-toast-notifications'
-import {View} from "react-native";
+import {Platform, StatusBar, View} from "react-native";
 import {Loader} from "./components/Loader";
 import * as SecureStore from "expo-secure-store";
 import UserFB from './contexts/userFB'
@@ -27,6 +27,7 @@ import {LayoutAudio} from "./layouts/LayoutAudio";
 export default function App() {
     const [lang, setLang] = useState('EN');
     const [Auth, setAuth] = useState(false)
+    const [user, setUser] = useState({})
     const [preview, setPreview] = useState(false)
     const [loading, setLoading] = useState(false);
     const [excursionStore, setExcursionStore] = useState([{}])
@@ -78,10 +79,16 @@ export default function App() {
     }
 
     const userAuth = (value) => {
-        setAuth(true)
+        SecureStore.setItemAsync('KeyUser', JSON.stringify(value)).then(() => {
+            setUser(value)
+            setAuth(true)
+        })
+
     }
-    const userAuthRemove = (value) => {
+    const userAuthRemove = () => {
+        setUser({})
         setAuth(false)
+        SecureStore.deleteItemAsync('KeyUser').then()
     }
 
     const asyncFunc = async () => {
@@ -126,7 +133,7 @@ export default function App() {
 
       <Locale.Provider value={{lang, setLang}}>
           <Preview.Provider value={{preview, handlerPreview}}>
-              <UserFB.Provider value={{auth: Auth, setAuth: userAuth, logout: userAuthRemove}}>
+              <UserFB.Provider value={{auth: Auth, user, setAuth: userAuth, logout: userAuthRemove}}>
                   <Provider store={store}>
                       <ToastProvider>
                           <FilesStore.Provider value={{
@@ -135,6 +142,13 @@ export default function App() {
                               clearExcursionsStore,
                               reExcursionStoreFile
                           }}>
+                              {Platform.OS === 'ios' && <StatusBar
+                                  animated={true}
+                                  backgroundColor={"#F5F5F5"}
+                                  barStyle={'dark-content'}
+                                  showHideTransition={'fade'}
+                                  // hidden={hidden}
+                              />}
                               <LayoutAudio>
                                   <NavigationController/>
                               </LayoutAudio>

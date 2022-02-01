@@ -26,6 +26,7 @@ export const Faq = ({}) => {
 
                     </BoxRowView>
                 )}
+                <BoxRowView style={{width: '100%', height: 50}}/>
             </ContainerMain>
         </MainLayout>
     );

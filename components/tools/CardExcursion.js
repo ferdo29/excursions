@@ -11,7 +11,7 @@ import {
 import {IconBasket, IconHeadPhone, IconHeart, IconRoad, IconStar, IconWatch} from "../Icons";
 import {ButtonCircle, ButtonGrayWrapper} from "../../styles/components/buttons";
 import {useDispatch} from "react-redux";
-import {setBasket, setLike} from "../../store/excursions/reducer";
+import {setBasket, setLike, setLikeById} from "../../store/excursions/reducer";
 import {useLinkTo} from "@react-navigation/native";
 import axios from "axios";
 import {getAuth} from "firebase/auth";
@@ -19,35 +19,40 @@ import {t} from "i18n-js";
 import {Dimensions} from "react-native";
 import {fetchCart} from "../../store/cart/service";
 import {showToastState} from "../../store/toasts/reducer";
+import {Liked} from "../../store/excursion/reducer";
+import {fetchFavourite} from "../../store/favourite/service";
+import {useContext, useState} from "react";
+import UserFB from "../../contexts/userFB";
 
 const {height, width} = Dimensions.get('window')
 
 export const CardExcursion = ({data, index, callBack = () => {}}) => {
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const dispatch = useDispatch()
     const linkTo = useLinkTo();
 
 
     const onRefreshBasket = (toost = false) => {
-        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchCart({token: user.accessToken}))
         toost && dispatch(showToastState({
             type: 'success',
             text1: t('All.Paid up'),
         }))
     }
-
     const handlerLike = () => {
-        dispatch(setLike(index))
-
         axios.get(`${process.env.DB_HOST}/excursions/${data.id}/like`,
-            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
-            .then(() => {callBack()})
+            {headers: {Authorization:`Bearer ${user.accessToken}`}})
+            .then(() => {
+                dispatch(fetchFavourite({token: user.accessToken}))
+                dispatch(setLikeById(data.id))
+                })
             .catch((e) => {
             })
     }
+
     const handlerBasket = () => {
         axios.post(`${process.env.DB_HOST}/cart/${data.id}`, {"quantity": 1},
-            {headers: {Authorization:`Bearer ${user.stsTokenManager.accessToken}`}})
+            {headers: {Authorization:`Bearer ${user.accessToken}`}})
             .then((data) => {
                 onRefreshBasket(true)
             })
@@ -93,7 +98,7 @@ export const CardExcursion = ({data, index, callBack = () => {}}) => {
                         </ButtonGrayWrapper>
                         <ButtonGrayWrapper  style={{width: 'auto'}}>
                         <ButtonCircle onPress={handlerLike} style={{marginRight: 10}}>
-                                <IconHeart fill={data?.liked ? '#E0E0E0' : '#11AEAE'}/>
+                                <IconHeart fill={data.liked ? '#E0E0E0' : '#11AEAE'}/>
                         </ButtonCircle>
                         </ButtonGrayWrapper>
                         <BoxRow>

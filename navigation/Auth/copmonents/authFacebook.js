@@ -32,15 +32,22 @@ export const AuthFacebook = ({}) => {
             switch (type) {
                 case 'success': {
                     const credential = FacebookAuthProvider.credential(token);
-                    await signInWithCredential(auth, credential)
-                    await SecureStore.setItemAsync('KeyUser', JSON.stringify({type: 'Facebook'}))
-                    return setAuth()
+                    const data = await signInWithCredential(auth, credential)
+                    await SecureStore.setItemAsync('KeyUser', JSON.stringify(data))
+                    const userJson = JSON.parse(JSON.stringify(data))
+
+                    return setAuth({
+                        refreshToken: userJson.user.stsTokenManager.refreshToken,
+                        user: data.user.providerData[0],
+                        accessToken: userJson.user.stsTokenManager.accessToken
+                    })
                 }
                 case 'cancel': {
                     return dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
                 }
             }
         }catch (e) {
+            console.log(e)
             dispatch(showToastState({ type: 'error', top: true, text1: t(`error.error`)}))
         }
 

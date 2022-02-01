@@ -4,7 +4,7 @@ import Svg, {Path} from "react-native-svg";
 import {Text, TouchableOpacity, Animated} from "react-native";
 import {useEffect, useRef, useState} from "react";
 
-export const Accordion = ({title, body, state}) => {
+export const Accordion = ({title, body, state, ...props}) => {
     const [open, setOpen] = useState(false)
     const rotate = useRef(new Animated.Value(0)).current
     const height = useRef(new Animated.Value(0)).current
@@ -16,7 +16,7 @@ export const Accordion = ({title, body, state}) => {
     })
     const mainText = height.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, (body.length / 1.6)]
+        outputRange: [0, body.length > 40 ? (body.length / 1.6) : 40]
     })
 
     useEffect(() => {

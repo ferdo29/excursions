@@ -18,13 +18,14 @@ import ItemBasket from "./components/ItemBasket";
 import {FirstBackground} from "../../../components/backgrounds/FirstBackground";
 import {fetchCart} from "../../../store/cart/service";
 import {getAuth} from "firebase/auth";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {showToastState} from "../../../store/toasts/reducer";
 import {t} from "i18n-js";
 import {StripeProvider} from "@stripe/stripe-react-native";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {StripePay} from "./components/StripePay";
+import UserFB from "../../../contexts/userFB";
 
 const percent = (count) => {
     if (count < 3) return 1
@@ -44,12 +45,12 @@ export default function ({}) {
     const linkTo = useLinkTo();
     const isFocused = useIsFocused();
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
+    const {user} = useContext(UserFB)
     const {data: cart, error} = useSelector(state => state.cart);
     const [popupPay, setPopupPay] = useState(false);
 
     const onRefresh = (toost = false) => {
-        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchCart({token: user.accessToken}))
         toost && dispatch(showToastState({
             type: 'success',
             text1: t('All.Paid up'),
@@ -58,7 +59,7 @@ export default function ({}) {
     useEffect(() => {
         if (isFocused) {
             onRefresh()
-            dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
+            dispatch(fetchMyExcursions({token: user.accessToken}))
         }
     }, [isFocused])
 
@@ -66,7 +67,7 @@ export default function ({}) {
         try {
             const {data} = await axios.get(
                 `${process.env.DB_HOST}/cart/pay-url/robokassa`,
-                {headers: {Authorization: `Bearer ${user.stsTokenManager.accessToken}`}})
+                {headers: {Authorization: `Bearer ${user.accessToken}`}})
             await Linking.canOpenURL(data);
             await Linking.openURL(data);
             setTimeout(() => onRefresh(true), 60000)
@@ -82,7 +83,7 @@ export default function ({}) {
 
     return (
         <StripeProvider publishableKey={'pk_test_51KB35SCovcxLQ3JZcbT4gECEK7PAeZ2hHbspw3xqhuRWTR14fdTQQggB8uoP5BENuCvdinwz8Ef0W2MAgGQMjAEk00yJV1hhWg'}>
-        <MainLayout Refreshing={true} handlerRefresh={onRefresh} animation={0}  itemBack={<FirstBackground/>}>
+        <MainLayout scrollEnabled={cart.length > 0} Refreshing={true} handlerRefresh={onRefresh} animation={0}  itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>{t('All.Cart')}</Text23Bold>
                 <Text12 style={{textAlign: 'center', marginBottom: 54, marginTop: 24}}>

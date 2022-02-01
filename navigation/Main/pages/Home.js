@@ -18,61 +18,48 @@ import {fetchMyExcursions} from "../../../store/myExcursions/service";
 import {t} from "i18n-js";
 import {useFiles} from "../../../hooks/useFiles";
 import {CardExcursionsWrapper} from "../../../styles/components/Cards";
-import {useIsFocused} from "@react-navigation/native";
-import * as SecureStore from "expo-secure-store";
+import UserFB from '../../../contexts/userFB'
+import {fetchFAQ} from "../../../store/faq/service";
 
 export default function Home({}) {
-    useContext(Locale)
-    const isFocused = useIsFocused();
+    const {lang} = useContext(Locale)
+    const {user} = useContext(UserFB)
     const dispatch = useDispatch()
-    const user = getAuth().currentUser
     const {handlerInitFiles} = useFiles()
     const {data: countries, isLoading: isLoadingC} = useSelector(state => state.countries)
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const {data: excursions, isLoading} = useSelector(state => state.excursions)
 
     const onRefresh = () => {
-        dispatch(fetchCounter({token: user.stsTokenManager.accessToken}))
-        dispatch(fetchPopularPlacesData({token: user.stsTokenManager.accessToken}))
-        dispatch(fetchExcursions({token: user.stsTokenManager.accessToken}))
-        dispatch(fetchFavourite({token: user.stsTokenManager.accessToken}))
-        dispatch(fetchCart({token: user.stsTokenManager.accessToken}))
-        dispatch(fetchMyExcursions({token: user.stsTokenManager.accessToken}))
+        dispatch(fetchCounter({token: user.accessToken}))
+        dispatch(fetchPopularPlacesData({token: user.accessToken}))
+        dispatch(fetchExcursions({token: user.accessToken}))
+        dispatch(fetchFavourite({token: user.accessToken}))
+        dispatch(fetchCart({token: user.accessToken}))
+        dispatch(fetchMyExcursions({token: user.accessToken}))
     }
 
     useEffect(() => {
-        // onRefresh()
+        onRefresh()
     }, [user])
     useEffect(() => {
+        dispatch(fetchFAQ({lang}))
         handlerInitFiles().then()
     }, [])
-    useEffect(() => {
 
-        getIdToken(getAuth().currentUser).then((data) => {
-            console.log(data)
-        })
-        getAuth().currentUser.getIdToken().then(async res => {
-            // const user = await getAuth()
-            // SecureStore.setItemAsync('KeyUser', JSON.stringify(user))
-            //     .then(() => {
-            //         // console.log(user)
-            //     })
-            //     .catch((e) => {console.log(e)})
-        })
-    }, [isFocused])
     return (
         <MainLayout
             Refreshing={true}
             handlerRefresh={onRefresh}
             itemBack={<HomeBackground/>}>
-            <ContainerMain>
+            {/*<ContainerMain>*/}
                 {/*<View style={{marginBottom: 20,}}>*/}
                 {/*    <InputSearchWrapper>*/}
                 {/*        <IconSearch style={{position: 'absolute', left: 20, top: 10}}/>*/}
                 {/*        <InputSearch value={''} placeholder={'Страна, город, экскурсия...'}/>*/}
                 {/*    </InputSearchWrapper>*/}
                 {/*</View>*/}
-            </ContainerMain>
+            {/*</ContainerMain>*/}
 
             {!isLoadingC && countries.length > 0 && countries && <ScrollHorizontal buttonView={true}
                                                   toLink={'Country'}

@@ -38,6 +38,7 @@ export default function ({
                              backgroundColor = '#F5F5F5',
                              viewBottomNav = true,
                              viewBack = false,
+                             scrollEnabled = true,
                              itemBack,
                              itemTitle,
                              title,
@@ -55,7 +56,7 @@ export default function ({
     const {type, text1, text2, view, top} = useSelector(state => state.toasts)
     const translation = scrolling.interpolate({
         inputRange: [100, 250],
-        outputRange: [40, 25],
+        outputRange: Platform.OS === 'android' ?[40, 25] : [20, 10],
         extrapolate: 'clamp',
     });
 
@@ -120,6 +121,7 @@ export default function ({
                 <SafeAreaView>
                     <Animated.ScrollView
                         scrollEventThrottle={16}
+                        scrollEnabled={scrollEnabled}
                         refreshControl={
                             Refreshing && <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         onScroll={(data) => {

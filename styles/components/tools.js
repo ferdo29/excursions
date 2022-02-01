@@ -84,7 +84,7 @@ export const CardScrollView = styled.ScrollView`
 export const Text47Bold = styled.Text`
   font-family: "Ubuntu_700Bold";
   font-size: 47px;
-  line-height: 43px;
+  line-height: 47px;
   color: #11AEAE;
 `
 export const Text47 = styled.Text`

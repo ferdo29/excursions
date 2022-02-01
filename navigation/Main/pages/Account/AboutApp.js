@@ -2,11 +2,23 @@ import * as React from 'react';
 import MainLayout from "../../../../layouts/MainLayout";
 import {BoxRowView, ContainerMain, Text14, Text23Bold} from "../../../../styles/components/tools";
 import {IconBC, IconFacebookColor, IconInstagramColor, IconVKColor} from "../../../../components/Icons";
-import {Image} from "react-native";
+import {Image, Linking, Pressable} from "react-native";
 import {FirstBackground} from "../../../../components/backgrounds/FirstBackground";
 import {t} from "i18n-js";
+import {useSelector} from "react-redux";
 
 export default function AboutApp({}) {
+
+    const data = useSelector(state => state.info.data)
+    console.log(data)
+    const handlerLink = async (url) => {
+        const supported = await Linking.canOpenURL(url);
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+        }
+    }
+
     return (
         <MainLayout animation={0} viewBack={true} itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 40}}>
@@ -19,11 +31,20 @@ export default function AboutApp({}) {
                     </Text14>
                 </BoxRowView>
                 <BoxRowView style={{justifyContent:'space-evenly', marginBottom: 27}}>
-                    <IconFacebookColor />
-                    <IconVKColor/>
-                    <IconInstagramColor/>
+                    {data?.facebook && <Pressable onPress={() => handlerLink(data.facebook)}>
+                        <IconFacebookColor/>
+                    </Pressable>}
+                    {data?.vk && <Pressable onPress={() => handlerLink(data.vk)}>
+                        <IconVKColor/>
+                    </Pressable>}
+                    {data?.instagram && <Pressable onPress={() => handlerLink(data.instagram)}>
+                        <IconInstagramColor/>
+                    </Pressable>}
                 </BoxRowView>
-                <Text14 style={{textAlign: 'center', color: '#11AEAE'}}>www.website.com</Text14>
+                {data?.site && <Pressable onPress={() => handlerLink(data.site)}>
+                    <Text14 style={{textAlign: 'center', color: '#11AEAE'}}>www.website.com</Text14>
+                </Pressable>}
+                <BoxRowView style={{width: '100%', height: 50}}/>
 
             </ContainerMain>
         </MainLayout>

@@ -17,8 +17,8 @@ export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
             region={{
                 latitude: points.latitude,
                 longitude: points.longitude,
-                latitudeDelta: data.latitude_delta,
-                longitudeDelta: data.longitude_delta,
+                latitudeDelta: data.latitude_delta - 0.008,
+                longitudeDelta: data.longitude_delta - 0.01,
             }}
             style={{
                 width: Dimensions.get('window').width,
