@@ -14,14 +14,12 @@ import {IconHeadPhone, IconHeart, IconStar, IconWarning, IconWatchTwo} from "../
 import Svg, {Circle, Path} from "react-native-svg";
 import {ButtonCircle, ButtonGray, ButtonGrayWrapper} from "../../../styles/components/buttons";
 import CardReview from "../../../components/tools/CardReview";
-import {TouchableOpacity} from "react-native";
+import {Dimensions, TouchableOpacity} from "react-native";
 import {useContext, useEffect, useState} from "react";
-import img from '../../../assets/image/Shiadu.png'
 import {Loader} from "../../../components/Loader";
 import { useIsFocused } from '@react-navigation/native';
 import {fetchExcursion} from "../../../store/excursion/service";
 import {excursionDelete, Liked} from "../../../store/excursion/reducer";
-import {getAuth} from "firebase/auth";
 import axios from "axios";
 import {t} from "i18n-js";
 import {fetchCart} from "../../../store/cart/service";
@@ -29,6 +27,7 @@ import {showToastState} from "../../../store/toasts/reducer";
 import {fetchFavourite} from "../../../store/favourite/service";
 import UserFB from "../../../contexts/userFB";
 
+const {width} = Dimensions.get('window')
 
 export const Excursion = ({}) => {
     const linkTo = useLinkTo();
@@ -56,9 +55,7 @@ export const Excursion = ({}) => {
             return Excursion.data.images.map(value => ({uri: value.path}))
         }
         return [
-            img,
-            img,
-            img,
+
         ]
     }
     const onRefreshBasket = (toost = false) => {
@@ -78,6 +75,13 @@ export const Excursion = ({}) => {
             .catch((e) => {
                 console.error(e.response)
             })
+    }
+    const parseFillTime = () => {
+        if (Excursion?.data['time']){
+            const result = Excursion.data['time'].split(':')
+            return `${result[1]} ${t('Excursion.hours')} ${result[2]} ${t('Excursion.min')}`
+        }
+        return `${0} ${t('Excursion.hours')} ${0} ${t('Excursion.min')}`
     }
 
     useEffect(() => {
@@ -119,11 +123,10 @@ export const Excursion = ({}) => {
                         <Text10 style={{lineHeight: 18, color: '#BDBDBD'}}>{t('Excursion.Audio tour price')}</Text10>
                     </BoxColumnView>
                     <ButtonGrayWrapper style={{width: 'auto'}}>
-                        <ButtonGray onPress={handlerBasket} activeOpacity={0.6} style={{width: 'auto'}}>
-                            <Text16Bold500 style={{color: '#828282', width: 89}}>{t('Excursion.Buy')}</Text16Bold500>
+                        <ButtonGray onPress={handlerBasket} activeOpacity={0.6} style={{width: 110, justifyContent: 'space-between'}}>
+                            <Text16Bold500 style={{color: '#828282'}}>{t('Excursion.Buy')}</Text16Bold500>
 
-                            <Svg width="29" height="29" viewBox="0 0 41 41"
-                                 style={{position: 'absolute', right: 10}} fill="none"
+                            <Svg width="29" height="29" viewBox="0 0 41 41"  fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
                                 <Path d="M13 21h14M20 14l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round"
@@ -136,23 +139,24 @@ export const Excursion = ({}) => {
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 15}}>{t('Excursion.Route')}</Text18Bold>
 
-                    <Text16 style={{color: '#4F4F4F', lineHeight: 27}} >{Excursion.data.points_path}</Text16>
+                <Text16 style={{color: '#4F4F4F', lineHeight: 27}} >{Excursion.data.points_path}</Text16>
 
-                <Text18Bold style={{color: '#4F4F4F', marginBottom: 24}}> Детали экскурсии</Text18Bold>
+                <Text18Bold style={{color: '#4F4F4F', marginBottom: 24}}> {t('Excursion.Tour details')}</Text18Bold>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 24}}>
                     <IconWatchTwo style={{marginRight: 22}}/>
-                    <BoxColumnView style={{alignItems: 'flex-start'}}>
+                    <BoxColumnView style={{alignItems: 'flex-start', width: width - 34 - 60}}>
                         <Text16 style={{color: '#4F4F4F', lineHeight: 21}}>{t('Excursion.Audio tour times')}</Text16>
                         <Text16 style={{color: '#4F4F4F', lineHeight: 21}}>
-                            {Excursion.data.minutes} {t('Excursion.min')}.
+                            {parseFillTime()}.
                         </Text16>
                     </BoxColumnView>
                 </BoxRow>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 30}}>
                     <IconWarning style={{marginRight: 34}}/>
-                    <Text16 style={{color: '#4F4F4F', width: 290}}>
-                        {t('Excursion.The excursion price does not include the cost of entrance tickets to attractions.')}
+                    <Text16 style={{color: '#4F4F4F', width: width - 34 - 60}}>
+                        {t('Excursion.The excursion price does not include the cost of entrance tickets to attractions')}
                     </Text16>
+
                 </BoxRow>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 20}}>{t('Excursion.Description')}</Text18Bold>

@@ -42,7 +42,7 @@ export default function Route({}) {
         }
         return <DownloadFile path={data.audio[0].path} id={data.id} date={data.expires_at}/>
     }
-    const renderItem = ({item : { title, image, id, order}, ...props}) => {
+    const renderMarkers = ({item : { title, image, id, order}, ...props}) => {
         (props.index === state) && setLink(order)
         return(
             <Pressable onPress={() => linkTo(`/Map/` + Link)}>
@@ -51,8 +51,7 @@ export default function Route({}) {
                     <WrapperCircle style={{marginRight: 20, borderColor:  state === id ? '#11AEAE': '#828282'}}>
                         <Text28 style={{color: state === id ? '#11AEAE': '#828282'}}>{id + 1}</Text28>
                     </WrapperCircle>
-                    <Text16
-                        numberOfLines={2}
+                    <Text16 numberOfLines={2}
                         style={{color: '#828282', width: 200, lineHeight: 20}}>{title}</Text16>
                 </BoxRow>
 
@@ -90,7 +89,7 @@ export default function Route({}) {
             {data?.points && <Carousel
                 ref={ref}
                 data={validPointsImages(data)}
-                renderItem={renderItem}
+                renderItem={renderMarkers}
                 activeAnimationType={'spring'}
                 sliderWidth={width}
                 inactiveSlideShift={0}

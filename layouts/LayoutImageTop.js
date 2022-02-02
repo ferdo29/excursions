@@ -134,6 +134,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
 
             <Animated.View
                 style={{
+                    backgroundColor: '#11AEAE',
                     width: width,
                     height: transform,
                     position: 'relative',
