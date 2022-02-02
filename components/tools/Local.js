@@ -23,7 +23,7 @@ export default function Local({moveAction = () => {}}) {
             .catch(err => console.error(err))
     }
 
-    const jlk = (value) => {
+    const blockLang = (value) => {
         return  !value || (value.label === 'GM') || (value.label === 'SP') || (value.label === 'CH')
     }
 
@@ -50,13 +50,13 @@ export default function Local({moveAction = () => {}}) {
 
                 <BoxColumnView>
                     {arrLang.map(value =>
-                        <ButtonLocal disabled={jlk(value)} key={value.value} onPress={() => handlerPickedData(value)}>
+                        <ButtonLocal disabled={blockLang(value)} key={value.value} onPress={() => handlerPickedData(value)}>
                                 {value.label === 'EN' && <IconEn style={{marginRight: 10, flexGrow: 1}}/>}
                                 {value.label === 'RU' && <IconRu style={{marginRight: 10, flexGrow: 1}}/>}
                                 {value.label === 'GM' && <IconGM style={{marginRight: 10, flexGrow: 1}}/>}
                                 {value.label === 'SP' && <IconSP style={{marginRight: 10, flexGrow: 1}}/>}
                                 {value.label === 'CH' && <IconCh style={{marginRight: 10, flexGrow: 1}}/>}
-                                <Text16 style={{color: jlk(value) ? '#bdbdbd' : '#fff', flexGrow: 2}}>{value.name}</Text16>
+                                <Text16 style={{color: blockLang(value) ? '#bdbdbd' : '#fff', flexGrow: 2}}>{value.name}</Text16>
 
                             {value.value === lang && <IconOK style={{position: 'absolute', right: 0}}/> }
                         </ButtonLocal>

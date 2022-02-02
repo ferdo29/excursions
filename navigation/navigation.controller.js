@@ -22,15 +22,13 @@ import PrivacyPolicy from "./Main/pages/Account/PrivacyPolicy";
 import {Faq} from "./Main/pages/Account/FAQ";
 import {Support} from "./Main/pages/Account/Support";
 import Home from "./Main/pages/Home";
-import Preview from "./Preview/pages/index";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import userFB from "../contexts/userFB";
 import PreviewContext from '../contexts/preview'
 import {First} from "./Preview/pages/First";
 import {Second} from "./Preview/pages/Second";
 import {Third} from "./Preview/pages/Third";
-import * as SecureStore from "expo-secure-store";
 import {useUserData} from "../hooks/useUserData";
 import {fetchInfo} from "../store/info/service";
 import {useDispatch} from "react-redux";

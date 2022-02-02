@@ -23,7 +23,6 @@ export const Faq = ({}) => {
                         {value.data.map(item =>
                             <Accordion key={item.id} title={item.title} body={item.body} state={item.open}/>
                         )}
-
                     </BoxRowView>
                 )}
                 <BoxRowView style={{width: '100%', height: 50}}/>

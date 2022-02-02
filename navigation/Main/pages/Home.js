@@ -11,7 +11,6 @@ import {fetchCounter} from "../../../store/countries/service";
 import {fetchPopularPlacesData} from "../../../store/popularPlaces/service";
 import {fetchExcursions} from "../../../store/excursions/service";
 import {Loader} from "../../../components/Loader";
-import {getAuth, getIdToken, onAuthStateChanged} from "firebase/auth";
 import {fetchFavourite} from "../../../store/favourite/service";
 import {fetchCart} from "../../../store/cart/service";
 import {fetchMyExcursions} from "../../../store/myExcursions/service";

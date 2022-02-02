@@ -1,20 +1,22 @@
 import * as React from 'react';
 import {ContainerMain, Text14, Text16, Text16Bold500, Text23} from "../../../../styles/components/tools";
 import MainLayout from "../../../../layouts/MainLayout";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {Dimensions, View} from "react-native";
 import {WrapperParticipantButton} from "../../../../styles/components/Cards";
 import {ButtonGray, ButtonGrayWrapper} from "../../../../styles/components/buttons";
 import Svg, {Circle, Path} from "react-native-svg";
-import {IconAlertCircle, IconFile, IconHelp, IconSettings, IconUserPlus} from "../../../../components/Icons";
-import useValidDataUser from "../../../../hooks/useValidDataUser";
+import {
+    IconAlertCircle,
+    IconFile,
+    IconHelp,
+    IconUserPlus
+} from "../../../../components/Icons";
 import {useLinkTo} from "@react-navigation/native";
 import {AccountBackground} from "../../../../components/backgrounds/AccountBackground";
 import {useContext} from "react";
 import userFB from "../../../../contexts/userFB";
-import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
-import * as SecureStore from "expo-secure-store";
 import UserFB from "../../../../contexts/userFB";
 const {height} = Dimensions.get('window')
 
@@ -22,14 +24,11 @@ export default function Account({}) {
     const {logout} = useContext(userFB)
     const {user: {user}} = useContext(UserFB)
     const linkTo = useLinkTo();
-    const dispatch = useDispatch()
-    const {phoneFormat} = useValidDataUser()
     const handlerLogout = async () => {
         try{
             logout()
         }catch (e) {
         }
-
     }
     return (
         <MainLayout animation={0}

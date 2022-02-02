@@ -77,6 +77,14 @@ export default function App() {
             .catch((e) => {
             })
     }
+    const handlerLanguage = async (language) => {
+        try {
+            await SecureStore.setItemAsync('KeyLanguage', language)
+            setLang(language)
+        }catch (e) {
+
+        }
+    }
 
     const userAuth = (value) => {
         SecureStore.setItemAsync('KeyUser', JSON.stringify(value)).then(() => {
@@ -95,10 +103,14 @@ export default function App() {
         try {
             setLoading(true)
             const KeyUserAuth = await SecureStore.getItemAsync('KeyUserAuth')
+            const KeyLanguage = await SecureStore.getItemAsync('KeyLanguage')
             const KeyExcursionStore = await SecureStore.getItemAsync('KeyExcursionStore')
             const KeyPreview = await SecureStore.getItemAsync('KeyPreview')
             if (KeyUserAuth){
                 // setAuth(JSON.parse(KeyUserAuth))
+            }
+            if (!!KeyLanguage && KeyLanguage !== 'undefined' && KeyLanguage !== 'false'){
+                setLang(KeyLanguage)
             }
             if (!!KeyExcursionStore && KeyExcursionStore !== 'undefined' && KeyExcursionStore !== 'false') {
                 const jsonData = JSON.parse(KeyExcursionStore)
@@ -130,11 +142,10 @@ export default function App() {
         return <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}><Loader/></View>;
 
   return (
-
-      <Locale.Provider value={{lang, setLang}}>
-          <Preview.Provider value={{preview, handlerPreview}}>
-              <UserFB.Provider value={{auth: Auth, user, setAuth: userAuth, logout: userAuthRemove}}>
-                  <Provider store={store}>
+      <Provider store={store}>
+          <Locale.Provider value={{lang, setLang: handlerLanguage}}>
+              <Preview.Provider value={{preview, handlerPreview}}>
+                  <UserFB.Provider value={{auth: Auth, user, setAuth: userAuth, logout: userAuthRemove}}>
                       <ToastProvider>
                           <FilesStore.Provider value={{
                               excursionStore,
@@ -154,10 +165,10 @@ export default function App() {
                               </LayoutAudio>
                           </FilesStore.Provider>
                       </ToastProvider>
-                  </Provider>
-              </UserFB.Provider>
-          </Preview.Provider>
-      </Locale.Provider>
+                  </UserFB.Provider>
+              </Preview.Provider>
+          </Locale.Provider>
+      </Provider>
 
   );
 }
