@@ -26,7 +26,10 @@ export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
             }}>
             {data.coordinates && data.coordinates.length > 0 &&
             <Polyline
-                coordinates={data.coordinates}
+                coordinates={data.coordinates.map(value => ({
+                        "latitude": parseFloat(value.latitude),
+                        "longitude": parseFloat(value.longitude),
+                    }))}
                 strokeColor={'#11AEAE'}
                 strokeWidth={2}
                 lineDashPattern={[1]}

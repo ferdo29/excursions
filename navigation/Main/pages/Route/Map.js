@@ -11,9 +11,7 @@ import MainLayout from "../../../../layouts/MainLayout";
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {t} from "i18n-js";
-import * as Device from 'expo-device';
 import {GoogleMap} from "./components/GoogleMap";
-import {MapBox} from "./components/MapBox";
 
 export const Map = ({}) => {
     const isFocused = useIsFocused();
@@ -48,7 +46,7 @@ export const Map = ({}) => {
     return (
         <MainLayout animation={false} >
 
-            <ContainerMain style={{marginBottom: 22}}>
+            <ContainerMain style={{marginBottom: 22, paddingLeft: 0}}>
                 <BoxRow style={{justifyContent: 'flex-start'}}>
                     <Pressable onPress={() => navigation.goBack()} style={{transform: [{ rotate: "180deg" }], flexGrow: 1}}>
                         <Svg width="41" height="41" fill="none"
@@ -61,9 +59,7 @@ export const Map = ({}) => {
                     <Text23Bold style={{flexGrow: 14, textAlign:'center', marginRight: 40}}>{t('Route.Route')}</Text23Bold>
                 </BoxRow>
             </ContainerMain>
-            {
                 <GoogleMap data={data} points={points} screen={screen} numbersImg={numbersImg}/>
-            }
 
 
         </MainLayout>
