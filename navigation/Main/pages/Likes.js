@@ -27,11 +27,11 @@ export default function ({}) {
         <MainLayout Refreshing={true} scrollEnabled={favourite.length > 0} handlerRefresh={onRefresh} animation={favourite.length > 2} itemBack={<FirstBackground/>}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 20}}>
                 <Text23Bold style={{textAlign: 'center'}}>{t('Favorites.Favorites')}</Text23Bold>
-                <Text12 style={{textAlign: 'center', marginTop: favourite.length <= 0 ? 15 : 0}}>
-                    {favourite.length > 0 ?
-                            `${t('Favorites.In your favorites')} ${favourite.length} ${t('Favorites.excursions')}` :
-                            t('Favorites.You have no excursions added to your favorites')}
-                </Text12>
+                {/*<Text12 style={{textAlign: 'center', marginTop: favourite.length <= 0 ? 15 : 0}}>*/}
+                {/*    {favourite.length > 0 ?*/}
+                {/*            `${t('Favorites.In your favorites')} ${favourite.length} ${t('Favorites.excursions')}` :*/}
+                {/*            t('Favorites.You have no excursions added to your favorites')}*/}
+                {/*</Text12>*/}
                 {favourite.length <= 0 &&
                 <>
                     <Text12 style={{textAlign: 'center', color: '#828282', paddingTop: 50}}>

@@ -2,10 +2,10 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     data: {
-        facebook: 'https://facebook.com',
-        vk: 'https://vk.com',
-        instagram: 'https://instagram.com',
-        site: 'https://vk.com',
+        facebook: 'https://m.facebook.com/Walksandtalksapp-108902298305526',
+        vk: 'https://vk.com/walksandtalks_app ',
+        instagram: 'https://instagram.com/walksandtalks_app',
+        // site: 'https://vk.com',
     },
     isLoading: false,
     error: '',

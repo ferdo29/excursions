@@ -8,7 +8,8 @@
     "build:android_aab": "expo build:android -t app-bundle",
     "build:ios": "expo build:ios -t archive",
     "env": "expo-env --env=development",
-    "env:prod": "expo-env --env=prod"
+    "env:prod": "expo-env --env=prod",
+    "ios: device": "expo run:ios --device"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.0",

@@ -14,7 +14,7 @@ import {useLinkTo} from "@react-navigation/native";
 import {MoreDetail} from "../components/MoreDetail";
 import {t} from "i18n-js";
 import axios from "axios";
-import {useContext} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import UserFB from "../../../../contexts/userFB";
 
 const {height, width} = Dimensions.get('window')
@@ -25,8 +25,33 @@ const topModel = () =>{
 }
 export default function InviteFriend({}) {
     const {user} = useContext(UserFB)
-    const {ButtonMoreData, ViewMoreData} = MoreDetail({right:40, top:topModel()})
+    // const {ButtonMoreData, ViewMoreData} = MoreDetail({right:40, top:topModel()})
     const linkTo = useLinkTo();
+    const [state, setState] = useState(false)
+    const scale = useRef(new Animated.Value(0)).current;
+    const Right = useRef(new Animated.Value(0)).current;
+    const Top = useRef(new Animated.Value(0)).current;
+    const Radius = useRef(new Animated.Value(100)).current;
+
+    useEffect(() => {
+        Animated.spring(scale, {
+            toValue: !state ? 0 : 1,
+            duration: 500,
+        }).start()
+        Animated.spring(Right, {
+            toValue: !state ? -(257/2.6) : 40,
+            duration: 250,
+        }).start()
+        Animated.spring(Top, {
+            toValue: !state ? -(248/2.6) : topModel(),
+            duration: 250,
+        }).start()
+        Animated.spring(Radius, {
+            toValue: !state ? 100 : 9,
+            duration: 250,
+        }).start()
+    }, [state])
+
     const onShare = async () => {
         try {
             const {data: message} = await axios.get(`${process.env.DB_HOST}/referral`, {headers: {Authorization: `Bearer ${user.accessToken}`}})
@@ -43,6 +68,7 @@ export default function InviteFriend({}) {
             console.log(error);
         }
     };
+
     return (
         <MainLayout animation={0} viewBack={true}>
             <ContainerMain style={{paddingBottom: 20, marginTop: 60, position: 'relative'}}>
@@ -59,7 +85,15 @@ export default function InviteFriend({}) {
                     <BoxRowView style={{justifyContent: 'center', alignItems: 'flex-end', paddingTop: 20, marginBottom: 15, position: 'relative'}}>
                         <Text47Bold >- 10</Text47Bold>
                         <Text30Bold style={{color: '#11AEAE', paddingBottom: 4}}>% {t('InviteFriend.discount')}</Text30Bold>
-                        {/*<ButtonMoreData/>*/}
+                        <Pressable onPress={() => setState(!state)}
+                                   style={{
+                                       position: 'absolute',
+                                       right: 15,
+                                       top: 8,
+                                       padding: 10,
+                                   }}>
+                            <IconExclamations/>
+                        </Pressable>
                     </BoxRowView>
                     <ButtonGrayWrapper2 style={{width: 'auto'}}>
                         <ButtonGray activeOpacity={0.6} style={{marginBottom: 28, width: '100%'}}
@@ -88,7 +122,35 @@ export default function InviteFriend({}) {
                     </BoxRowView>
 
                 </BoxColumnView>
-                {/*<ViewMoreData/>*/}
+                <Animated.View onPress={() => setState(!state)} style={{
+                    position: 'absolute',
+                    width: 257,
+                    height: 200,
+                    backgroundColor: "#FFF",
+                    flexDirection: 'column',
+                    paddingTop: 30,
+                    paddingRight: 21,
+                    paddingBottom: 32,
+                    paddingLeft: 24,
+                    transform: [{ scale }],
+                    right: Right,
+                    top: Top,
+                    zIndex: 100,
+                    justifyContent: 'space-between',
+                    borderRadius: 9,
+                }}>
+                    {state &&
+                        <>
+                            <Text12 style={{color: '#828282', width: 207}}>
+                                {t("InviteFriend.Send the link")}
+                                <Text12 style={{color: '#11AEAE'}}>{t('InviteFriend.10% discount')}</Text12> {t('InviteFriend.on the excursion if your friend downloads the app')}
+                            </Text12>
+                            <Pressable onPress={() => setState(!state)} style={{ width: 'auto', paddingTop: 29}}>
+                                <Text16 style={{color: '#11AEAE', textAlign: 'right', lineHeight: 19}}>{t('InviteFriend.UNDERSTANDABLY')}</Text16>
+                            </Pressable>
+                        </>
+                    }
+                </Animated.View>
             </ContainerMain>
 
         </MainLayout>

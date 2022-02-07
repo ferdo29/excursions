@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {Dimensions, Platform} from "react-native";
 import {BoxColumnView, Text12} from "../../../../../styles/components/tools";
-import {CardImage} from "../../../../../styles/components/Cards";
-import MapView, {Callout, Marker, Polyline } from 'react-native-maps';
+import {CardImage, CardImages} from "../../../../../styles/components/Cards";
+import MapView, {Callout, Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import {ImageBackground} from "react-native";
 
 export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
 
@@ -14,6 +15,7 @@ export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
 
     return (
         <MapView
+            provider={PROVIDER_GOOGLE}
             region={{
                 latitude: points.latitude,
                 longitude: points.longitude,
@@ -48,8 +50,11 @@ export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
                     <Callout style={{borderRadius: 10, padding: 10, margin: 0}}>
                         <BoxColumnView>
                             {value.images.length > 0 &&
-                            <CardImage style={{width: 100, height: 100}}
-                                       source={handlerImage(value)}/>}
+                            Platform.OS === 'ios' ? <CardImage style={{flex: 1, width: 100, height: 100, backgroundColor: 'red'}}
+                                       resizeMode="cover"
+                                       source={value.images.length > 0 ?
+                                           {uri: 'https://limg.imgsmail.ru/splash/v/i/share-fp-a2954bf3df.png'} :
+                                           require('../../../../../assets/image/Church.png')}/> : <></>}
                             <Text12>{value.name}</Text12>
                         </BoxColumnView>
                     </Callout>

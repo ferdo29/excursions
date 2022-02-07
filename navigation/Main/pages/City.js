@@ -17,6 +17,7 @@ import img from "../../../assets/image/Shiadu.png";
 import {getAuth} from "firebase/auth";
 import {t} from "i18n-js";
 import UserFB from "../../../contexts/userFB";
+import {Text} from "react-native";
 
 export const City = ({}) => {
     const {user} = useContext(UserFB)
@@ -47,15 +48,15 @@ export const City = ({}) => {
             dispatch(popularPlacesDeleteExcursion())
         }
     }, [isFocused])
-
     return (
         <>
             {isView && !isLoading && <LayoutImageTop
                 viewOption={false}
                 img={handlerGallery()[0]}
                 itemBack={<CityBackground/>}
-                count={data.excursions}
+                count={data.excursions ? data.excursions : '0'}
                 title={data.name}>
+
                 {/*<ContainerMain>*/}
                 {/*    <View style={{marginBottom: 20, marginTop: 20}}>*/}
                 {/*        <InputSearchWrapper>*/}

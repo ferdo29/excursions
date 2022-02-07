@@ -12,6 +12,13 @@ export const Countries = ({}) => {
     const linkTo = useLinkTo();
     const {data: countries} = useSelector(state => state.countries)
 
+    const validImg = (value) => {
+        if(value &&  value?.images &&  value?.images.length > 0 && value?.images[0]?.path){
+            return {uri: value.images[0].path}
+        }
+        return require('../../../assets/image/Church.png')
+    }
+
     return (
         <MainLayout animation={countries.length > 6} viewBack={true}>
             <ContainerMain style={{paddingBottom: 20}}>
@@ -22,12 +29,11 @@ export const Countries = ({}) => {
             <MainBoxWrap>
                 {countries.map((value, index) =>
                     <Pressable
-
                         key={value.country}
                         onPress={() => linkTo(`/Country/${value.id}`)}>
                         <CardImage
                             imageStyle={{borderRadius: 15}}
-                            source={{uri: value.images[0].path}}>
+                            source={validImg(value)}>
                             <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
                             <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } {t('Countries.excursions')}</Text12>
                         </CardImage>

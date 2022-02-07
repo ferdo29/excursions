@@ -56,11 +56,11 @@ export default function Account({}) {
                     <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.About the app')}</Text16>
                     <IconAlertCircle/>
                 </WrapperParticipantButton>
-                <WrapperParticipantButton onPress={() => linkTo(`/TermsUse`)}
-                    style={{borderBottomColor: '#E0E0E0'}}>
-                    <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Terms of use')}</Text16>
-                    <IconFile/>
-                </WrapperParticipantButton>
+                {/*<WrapperParticipantButton onPress={() => linkTo(`/TermsUse`)}*/}
+                {/*    style={{borderBottomColor: '#E0E0E0'}}>*/}
+                {/*    <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Terms of use')}</Text16>*/}
+                {/*    <IconFile/>*/}
+                {/*</WrapperParticipantButton>*/}
                 <WrapperParticipantButton onPress={() => linkTo(`/PrivacyPolicy`)}
                     style={{borderBottomColor: '#E0E0E0'}}>
                     <Text16 style={{lineHeight: 16, color: '#828282'}}>{t('Account.Privacy Policy')}</Text16>

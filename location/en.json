@@ -16,7 +16,7 @@
     "View excursions":"View excursions"
   },
   "myExcursions": {
-    "My excursions": "My excursions",
+    "My excursions": "My tours ",
     "Order": "Order",
     "Valid until": "Valid until",
     "y": "",
@@ -115,7 +115,7 @@
     "Questions that may help you": "Questions that may help you"
   },
   "Favorites": {
-    "Favorites": "Favorites",
+    "Favorites": "Selected tours",
     "In your favorites": "In your favorites",
     "excursions":"excursions",
     "You have no excursions added to your favorites": "You have no excursions added to your favorites.",
@@ -124,18 +124,18 @@
   },
   "Account": {
     "We are happy to see you!": "We are happy to see you!",
-    "Invite a friend": "Invite a friend",
-    "and get a discount":"and get a discount",
-    "About the app": "About the app",
+    "Invite a friend": "Invite a friend and",
+    "and get a discount":"get a discount",
+    "About the app": "About the application",
     "Terms of use":"Terms of use",
     "Privacy Policy": "Privacy Policy",
-    "Questions and Answers":"Questions and Answers",
-    "Contact technical support": "Contact technical support",
+    "Questions and Answers":"Questions & answers",
+    "Contact technical support": "User support",
     "Log off":"Log off"
   },
   "AboutApp": {
-    "About the app": "About the app",
-    "Text": "Our mobile application makes it possible to take excursions around the world, various routes, as well as quests. You can take the excursion on your own, as well as with a company or family. An unforgettable adventure awaits you!"
+    "About the app": "About the application",
+    "Text": "The Walks&Talks mobile app contains immersive audio tours. At any time, you can independently go on an excursion without a guide or other tourists. Our audio tours are voiced by the best voice-overs. Special effects have been applied to the audio recording, which will immerse you in the atmosphere of the city and you will become part of the plot.\n"
   },
   "Agreement": {
     "Agreement":"Agreement",
@@ -150,6 +150,10 @@
   "InviteFriend": {
     "We give you an additional discount for participating in the Invite a friend program" : "We give you an additional discount for participating in the \"Invite a friend\" program",
     "discount": "discount",
+    "Send the link": "Send the link to the app to a friend. You will receive a ",
+    "10% discount": "10% discount",
+    "on the excursion if your friend downloads the app": "on the excursion if your friend downloads the app.",
+    "UNDERSTANDABLY": "UNDERSTANDABLY",
     "Share link": "Share link",
     "Read the program rules": "Read the program rules",
     "Invite a friend": "\"Invite a friend\"",

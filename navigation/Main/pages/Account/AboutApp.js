@@ -10,7 +10,7 @@ import {useSelector} from "react-redux";
 export default function AboutApp({}) {
 
     const data = useSelector(state => state.info.data)
-    console.log(data)
+
     const handlerLink = async (url) => {
         const supported = await Linking.canOpenURL(url);
         if (supported) {

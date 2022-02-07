@@ -30,12 +30,18 @@ export const Country = ({}) => {
             dispatch(fetchCounterExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
         }
     }, [isFocused])
+    const validImg = () => {
+        if(country &&  country?.images &&  country?.images.length > 0 && country?.images[0]?.path){
+            return {uri: country.images[0].path}
+        }
+        return require('../../../assets/image/Church.png')
+    }
 
     return (
         <>
-            {isView && <LayoutImageTop img={img}
+            {isView && <LayoutImageTop img={validImg()}
                              itemBack={<CityBackground/>}
-                             count={country?.excursions_count ? country.excursions_count : ' '} title={country?.name ? country.name : ' '}>
+                             count={country?.excursions_count ? country.excursions_count : '0'} title={country?.name ? country.name : ' '}>
                 {/*<ContainerMain>*/}
                 {/*    <View style={{marginBottom: 20, marginTop: 20}}>*/}
                 {/*        <InputSearchWrapper>*/}

@@ -21,7 +21,7 @@ export const fetchPopularPlaces = ({id= 1, token= ''}) => async (dispatch) => {
 export const fetchPopularPlacesData = ({id= 1, token= ''}) => async (dispatch) => {
     try {
         dispatch(popularPlacesFetching())
-        const {data} = await axios.get(`${process.env.DB_HOST}/cities?country=1`,
+        const {data} = await axios.get(`${process.env.DB_HOST}/cities?limit=50`,
             {headers: {Authorization: `Bearer ${token}`}})
         dispatch(popularPlacesFetchingSuccessData(data.data))
     }catch (e) {
@@ -31,9 +31,10 @@ export const fetchPopularPlacesData = ({id= 1, token= ''}) => async (dispatch) =
 export const fetchPopularPlacesExcursions = ({id= 1, token= ''}) => async (dispatch) => {
     try {
         dispatch(popularPlacesFetching())
-        const {data} = await axios.get(`${process.env.DB_HOST}/excursions?country=${id}`)
+        const {data} = await axios.get(`${process.env.DB_HOST}/excursions?cities=${id}`)
         dispatch(popularPlacesFetchingSuccessExcursion(data))
     }catch (e) {
+        console.log(e.response)
         dispatch(popularPlacesFetchingError(e.response.message))
     }
 }

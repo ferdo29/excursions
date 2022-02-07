@@ -11,6 +11,13 @@ export const Cities = ({}) => {
     const linkTo = useLinkTo();
     const {data, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
 
+    const validImg = (value) => {
+        if(value &&  value?.images &&  value?.images.length > 0 && value?.images[0]?.path){
+            return {uri: value.images[0].path}
+        }
+        return require('../../../assets/image/Church.png')
+    }
+
     return (
         <MainLayout animation={data.length > 6} viewBack={true}>
             <ContainerMain style={{paddingBottom: 20}}>
@@ -26,7 +33,7 @@ export const Cities = ({}) => {
                     onPress={() => linkTo(`/City/${value.id}`)}>
                     <CardImage
                         imageStyle={{borderRadius: 15}}
-                        source={{uri: value.images[0].path}}>
+                        source={validImg(value)}>
                         <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
                         <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count} {t('Cities.excursions')}</Text12>
                     </CardImage>
