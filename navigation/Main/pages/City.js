@@ -47,7 +47,7 @@ export const City = ({}) => {
             dispatch(popularPlacesDelete())
             dispatch(popularPlacesDeleteExcursion())
         }
-    }, [isFocused])
+    }, [isFocused, routes])
     return (
         <>
             {isView && !isLoading && <LayoutImageTop

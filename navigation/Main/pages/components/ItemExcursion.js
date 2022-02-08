@@ -10,22 +10,26 @@ import {useContext} from "react";
 import Locale from "../../../../contexts/locale";
 import {myExcursionLinks} from "../../../../store/myExcursion/reducer";
 import {useDispatch} from "react-redux";
-import {Dimensions} from "react-native";
+import {Dimensions, View} from "react-native";
+import {LinearGradient} from "expo-linear-gradient";
 
 const {width} = Dimensions.get('window')
 
-export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, ...props}) => {
+export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, expired, ...props}) => {
     const dispatch = useDispatch()
-    const {lang} = useContext(Locale)
+    useContext(Locale)
     const linkTo = useLinkTo();
     const Link = () => {
-        dispatch(myExcursionLinks(id))
-        linkTo(`/Route/${id}`)
+        if (!expired) {
+            dispatch(myExcursionLinks(id))
+            linkTo(`/Route/${id}`)
+        }
     }
 
     return (
         <BoxRowPressable
             onPress={Link}
+            disabled={expired}
             style={{
             justifyContent: 'space-between',
             paddingBottom: 20,
@@ -36,7 +40,43 @@ export const ItemExcursion = ({name, excursion_id, id, created_at, expires_at, .
             marginBottom: 20,
             marginRight:  width <= 480 ? 0 : 20
         }}>
-            <CardBasketImage source={validImg(props)} style={{flexGrow: 1, marginRight: 20}}/>
+
+            {expired &&
+                <View style={{position:'relative', height: 97, width: 104, marginRight: 20}}>
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)']}
+                        style={{
+                            position: 'absolute',
+                            height: 97,
+                            width: 104,
+                            zIndex: 3,
+                            bottom: 0,
+                            paddingBottom: 20,
+                            paddingHorizontal: 12,
+                            borderBottomLeftRadius: 0,
+                            borderBottomRightRadius: 0,
+                            borderTopLeftRadius: 15,
+                            borderTopRightRadius: 15,
+                            borderRadius: 15,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}/>
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0.0)', 'rgba(0,0,0,0.5)']}
+                        style={{
+                            position: 'absolute',
+                            height: 20,
+                            width: 104,
+                            zIndex: 3,
+                            bottom: 0,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}/>
+                    <CardBasketImage source={validImg(props)} style={{flexGrow: 1, marginRight: 20}}/>
+                </View>
+
+            }
+            {!expired && <CardBasketImage source={validImg(props)} style={{flexGrow: 1, marginRight: 20}}/>}
 
             <BoxColumnView style={{alignItems: 'flex-start', flexGrow: 2, height: 97}}>
                 <Text16 numberOfLines={2}

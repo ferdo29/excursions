@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SafeAreaView} from "react-native";
+import {Platform, SafeAreaView} from "react-native";
 import {
     CardScrollView,
     ContainerMain,
@@ -15,6 +15,8 @@ import {useContext} from "react";
 import Locale from "../../contexts/locale";
 import {t} from "i18n-js";
 import {useLinkTo} from "@react-navigation/native";
+import {View} from "react-native";
+import {LinearGradient} from "expo-linear-gradient";
 
 export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Cities', buttonView = false, limit = 4}) => {
     useContext(Locale)
@@ -27,6 +29,7 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
             return require('../../assets/image/Church.png')
     }
 
+
     return (
         <>
             <ContainerMain>
@@ -37,14 +40,28 @@ export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Ci
                                 showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                     {model && model.length > 0 && model.map((value, index) => index < limit &&
                         <WrapperImagePressable
+                            style={{position: 'relative'}}
                             key={value.id}
-                            onPress={() => linkTo(`/${toLink}/${value.id}`)}>
+                            onPress={() => (value.excursions_count || value.excursions) ? linkTo(`/${toLink}/${value.id}`) : () => {}}>
                             <CardImage
                                 style={{marginRight: index + 1 === (limit > model.length ? model.length : limit) ? 22 : 0}}
-                                imageStyle={{borderRadius: 15}}
+                                imageStyle={{borderRadius: 15,}}
                                 source={validImg(value)}>
-                                <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
-                                <Text12 style={{color: '#fff', lineHeight: 14}}>{value.excursions_count } экскурсий</Text12>
+                                <LinearGradient
+                                    colors={(value.excursions_count || value.excursions) ? ['rgba(0,0,0,0)', 'rgba(0,0,0,0.76)'] : ['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.5)']}
+                                    style={{
+                                        width: '100%',
+                                        height: (value.excursions_count || value.excursions) ? 100: '100%',
+                                        paddingBottom: 20,
+                                        paddingHorizontal: 12,
+                                        borderRadius: 15,
+                                        flexDirection: 'column',
+                                        justifyContent: 'flex-end',
+                                    }}>
+                                    <Text16Bold numberOfLines={1} style={{color: '#fff'}}>{value.name}</Text16Bold>
+                                    <Text12 style={{color: '#fff', lineHeight: 14}}>{(value.excursions_count || value.excursions) || '0' } {t('Countries.excursions')}</Text12>
+                                </LinearGradient>
+
                             </CardImage>
                         </WrapperImagePressable>
                     )}

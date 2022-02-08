@@ -12,7 +12,7 @@ export const CardImage = styled.ImageBackground`
   justify-content: flex-end;
   background-color: #cbcbcb;
   border-radius: 15px;
-  padding: 20px 12px;
+  
   margin-bottom: 20px;
   shadow-color: rgba(0, 0, 0, 0.33);
   shadow-offset: 3px;

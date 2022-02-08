@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "expo start",
+    "start: no-dev": "expo start --no-dev",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "eject": "expo eject",

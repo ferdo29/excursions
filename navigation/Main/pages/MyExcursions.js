@@ -41,7 +41,9 @@ export default function ({}) {
             <ContainerMain style={{paddingBottom: 20,marginTop: 20,}}>
                 <CardExcursionsWrapper>
                 {data.filter(value => state === 0 ? !value.expired : value.expired)
-                    .map(value => <ItemExcursion {...value} expired={value.expired} key={value.id}/>)}
+                    .map(value =>
+                        <ItemExcursion {...value} expired={value.expired} key={value.id}/>
+                    )}
                 </CardExcursionsWrapper>
             </ContainerMain>
             <View style={{height: 150, width: '100%'}}/>
