@@ -1,18 +1,25 @@
 import * as React from 'react';
 import {Dimensions, Platform} from "react-native";
 import {BoxColumnView, Text12} from "../../../../../styles/components/tools";
-import {CardImage, CardImages} from "../../../../../styles/components/Cards";
+import {CardImage} from "../../../../../styles/components/Cards";
 import MapView, {Callout, Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
-import {ImageBackground} from "react-native";
+import * as Location from 'expo-location';
 
 export const GoogleMap = ({points, data, screen, numbersImg = () => {}}) => {
+
 
     const handlerImage = (value) => {
         return value.images.length > 0 ?
             {uri: value.images[0].path} :
             require('../../../../../assets/image/Church.png')
     }
-
+    Location.getCurrentPositionAsync({}).then((data) => {
+        console.log(data)
+        console.log({
+            latitude: points.latitude,
+            longitude: points.longitude,
+        })
+    })
     return (
         <MapView
             provider={PROVIDER_GOOGLE}

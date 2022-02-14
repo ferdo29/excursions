@@ -96,7 +96,7 @@ export const Excursion = ({}) => {
     return (
         <LayoutImageTop
             itemAbsolute={
-                <ButtonCircle onPress={handlerLike}>
+                <ButtonCircle style={{}} onPress={handlerLike}>
                     <IconHeart fill={Excursion?.data?.liked ? '#E0E0E0' : '#11AEAE'}/>
                 </ButtonCircle>
             }
@@ -135,11 +135,16 @@ export const Excursion = ({}) => {
                         </ButtonGray>
                     </ButtonGrayWrapper>
                 </BoxRow>
-                <Text16 style={{color: '#4F4F4F', marginBottom: 30}}>{Excursion.data.short_description}</Text16>
+                {/*<Text16 style={{color: '#4F4F4F', marginBottom: 10}}>{Excursion.data.short_description}</Text16>*/}
 
-                <Text18Bold style={{color: '#4F4F4F', marginBottom: 15}}>{t('Excursion.Route')}</Text18Bold>
+                {/*<Text18Bold style={{color: '#4F4F4F', marginBottom: 15}}>{t('Excursion.Route')}</Text18Bold>*/}
 
-                <Text16 style={{color: '#4F4F4F', lineHeight: 27}} >{Excursion.data.points_path}</Text16>
+                {/*<Text16 style={{color: '#4F4F4F', lineHeight: 27}} >{Excursion.data.points_path}</Text16>*/}
+
+                <Text18Bold style={{color: '#4F4F4F', marginBottom: 20}}>{t('Excursion.Description')}</Text18Bold>
+                <BoxColumnView style={{marginBottom: 30}}>
+                    <Text14 style={{color: '#828282', marginBottom: 15}}>{Excursion.data.description}</Text14>
+                </BoxColumnView>
 
                 <Text18Bold style={{color: '#4F4F4F', marginBottom: 24}}> {t('Excursion.Tour details')}</Text18Bold>
                 <BoxRow style={{justifyContent: 'flex-start', marginBottom: 24}}>
@@ -159,10 +164,7 @@ export const Excursion = ({}) => {
 
                 </BoxRow>
 
-                <Text18Bold style={{color: '#4F4F4F', marginBottom: 20}}>{t('Excursion.Description')}</Text18Bold>
-                <BoxColumnView style={{marginBottom: 30}}>
-                        <Text14 style={{color: '#828282', marginBottom: 15}}>{Excursion.data.description}</Text14>
-                </BoxColumnView>
+
 
                 <ButtonGrayWrapper style={{width: 'auto'}}>
                     <ButtonGray onPress={() => handlerBasket(true)} activeOpacity={0.6} style={{marginBottom: 50, width: '100%'}}>

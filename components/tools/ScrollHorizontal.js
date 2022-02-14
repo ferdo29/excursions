@@ -15,7 +15,6 @@ import {useContext} from "react";
 import Locale from "../../contexts/locale";
 import {t} from "i18n-js";
 import {useLinkTo} from "@react-navigation/native";
-import {View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 
 export const ScrollHorizontal = ({model, title, toLink = 'City', toLinkTwo = 'Cities', buttonView = false, limit = 4}) => {

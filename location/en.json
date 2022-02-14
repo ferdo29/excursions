@@ -101,6 +101,8 @@
   "Route": {
     "Show route on map": "Show route on map",
     "Download": "Download",
+    "Listen": "Listen",
+    "Downloaded": "Downloaded",
     "Route": "Route",
     "Do you want to add a member": "Do you want to add a member",
     "Confirm": "Confirm",
@@ -167,6 +169,7 @@
   "City": {
     "Country, city, excursion": "Country, city, excursion...",
     "Country Tours":"Country Tours",
+    "Choose tour":"Choose tour",
     "Interesting excursions":"Interesting excursions"
   },
   "Countries": {
@@ -175,7 +178,8 @@
   },
   "Country": {
     "Country, city, excursion": "Country, city, excursion...",
-    "excursions":"экскурсий",
+    "excursions":"excursions",
+    "Choose city":"Choose city",
     "Country Tours":"Country Tours",
     "Popular places":"Popular places",
     "Interesting excursions":"Interesting excursions"
@@ -203,6 +207,7 @@
   },
   "Home": {
     "Country Tours": "Country Tours",
+    "Choose country": "Choose country",
     "Popular places":"Popular places",
     "Interesting excursions": "Interesting excursions"
   },

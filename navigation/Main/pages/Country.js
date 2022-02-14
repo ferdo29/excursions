@@ -1,35 +1,22 @@
 import * as React from 'react';
-import {useIsFocused, useNavigationState} from "@react-navigation/native";
-import {useDispatch, useSelector} from "react-redux";
+import {useNavigationState} from "@react-navigation/native";
+import {useSelector} from "react-redux";
 import {LayoutImageTop} from "../../../layouts/LayoutImageTop";
 import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {ScrollHorizontal} from "../../../components/tools/ScrollHorizontal";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {CityBackground} from "../../../components/backgrounds/CityBackground";
-import img from '../../../assets/image/Portug.jpg'
-import {useEffect} from "react";
-import {fetchCounter, fetchCounterCity, fetchCounterExcursion} from "../../../store/country/service";
-import {Loader} from "../../../components/Loader";
 import {t} from "i18n-js";
+import {View} from "react-native";
 
 export const Country = ({}) => {
-    const dispatch = useDispatch()
-    const isFocused = useIsFocused();
     const routes = useNavigationState(state => state.routes)
-    const {data: countries} = useSelector(state => state.countries)
-    const {isView, excursion} = useSelector(state => state.country)
+    const excursion = useSelector(state => state.excursions.data.filter(value => value.country.id === parseInt(routes[routes.length - 1]?.params?.screen)))
     const {data: popularPlaces, isLoading: isLoadingP} = useSelector(state => state.popularPlaces)
     const country = useSelector(state => state.countries.data
         .find(value => value.id === (routes.length > 1 && parseInt(routes[routes.length - 1]?.params?.screen)))
     )
 
-    useEffect(() => {
-        if(isFocused){
-            dispatch(fetchCounter({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
-            dispatch(fetchCounterCity({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
-            dispatch(fetchCounterExcursion({id: routes.length > 1 && routes[routes.length - 1]?.params?.screen}))
-        }
-    }, [isFocused])
     const validImg = () => {
         if(country &&  country?.images &&  country?.images.length > 0 && country?.images[0]?.path){
             return {uri: country.images[0].path}
@@ -37,11 +24,16 @@ export const Country = ({}) => {
         return require('../../../assets/image/Church.png')
     }
 
+    const filterPopularPlaces = () => {
+        const id = routes[routes.length - 1]?.params?.screen
+        return popularPlaces.filter(place => place.country.id === parseInt(id))
+    }
+
     return (
         <>
-            {isView && <LayoutImageTop img={validImg()}
-                             itemBack={<CityBackground/>}
-                             count={country?.excursions_count ? country.excursions_count : '0'} title={country?.name ? country.name : ' '}>
+            <LayoutImageTop img={validImg()}
+                            itemBack={<CityBackground/>}
+                            count={country?.excursions_count ? country.excursions_count : '0'} title={country?.name ? country.name : ' '}>
                 {/*<ContainerMain>*/}
                 {/*    <View style={{marginBottom: 20, marginTop: 20}}>*/}
                 {/*        <InputSearchWrapper>*/}
@@ -51,21 +43,18 @@ export const Country = ({}) => {
                 {/*    </View>*/}
                 {/*</ContainerMain>*/}
 
-                <ScrollHorizontal title={t('Country.Country Tours')} toLink={'Country'} model={countries}/>
                 {!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}
                                                                                                toLink={'City'}
+                                                                                               limit={1000}
                                                                                                toLinkTwo={'Cities'}
-                                                                                               title={t('Home.Popular places')}
-                                                                                               model={popularPlaces}/>}
-                <ContainerMain>
+                                                                                               title={t('Country.Choose city')}
+                                                                                               model={filterPopularPlaces()}/>}
+                {excursion.length > 0 && <ContainerMain>
                     <Text23Bold style={{marginBottom: 10}}>{t('Country.Interesting excursions')}</Text23Bold>
-                </ContainerMain>
-                {isView && excursion?.data.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
-
-            </LayoutImageTop>}
-            {!isView &&
-            <ContainerMain style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Loader/></ContainerMain>
-            }
+                </ContainerMain>}
+                {excursion.length > 0 && excursion.map((value, index) => <CardExcursion key={index} data={value} index={index}/>)}
+                {excursion && excursion.length <= 1 && <View style={{height: 200, width: '100%'}}/>}
+            </LayoutImageTop>
         </>
     );
 };

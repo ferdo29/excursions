@@ -101,13 +101,14 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                 position: 'absolute',
                 top: transformItemAbsolute,
                 right: 30,
-                zIndex: 20
+                zIndex: 20,
+                elevation: 6
             }}>
                 {itemAbsolute}
             </Animated.View>}
             <Pressable
                 onPress={() => navigation.goBack()}
-                style={{position: 'absolute', left: 20, top: 44, zIndex: 10, transform: [{ rotate: "180deg" }]}}>
+                style={{position: 'absolute', left: 20, top: 44,  elevation: 6, zIndex: 10, transform: [{rotate: "180deg"}]}}>
                 <Svg width="41" height="41" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -119,7 +120,7 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
             {viewOption &&
             <Pressable
                 onPress={() => linkTo(`/Filters`)}
-                style={{position: 'absolute', right: 20, top: 44, zIndex: 10, transform: [{rotate: "180deg"}]}}>
+                style={{position: 'absolute', right: 20, top: 44,  elevation: 6, zIndex: 10, transform: [{rotate: "180deg"}]}}>
                 <Svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <Circle r="20.5" transform="matrix(-1 0 0 1 20.5 21.4714)" fill="#11AEAE"/>
                     <Path d="M17 15.9714H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -138,6 +139,15 @@ export const LayoutImageTop = ({children, img, itemBack, title, count, viewOptio
                     width: width,
                     height: transform,
                     position: 'relative',
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+
+                    elevation: 5,
                 }} >
 
                 {!gallery && img && <Animated.Image source={img} style={{position: 'absolute', height: transform, zIndex: 2, width}}/>}

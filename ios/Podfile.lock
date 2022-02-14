@@ -36,6 +36,9 @@ PODS:
     - ExpoModulesCore
   - EXLinearGradient (10.0.3):
     - ExpoModulesCore
+  - EXLocation (13.0.4):
+    - ExpoModulesCore
+    - UMTaskManagerInterface
   - EXManifests (0.2.2):
     - EXJSONUtils
   - Expo (43.0.4):
@@ -45,6 +48,8 @@ PODS:
   - ExpoModulesCore (0.4.9):
     - React-Core
   - EXSecureStore (11.1.0):
+    - ExpoModulesCore
+  - EXSensors (11.0.3):
     - ExpoModulesCore
   - EXSplashScreen (0.14.1):
     - ExpoModulesCore
@@ -478,6 +483,8 @@ PODS:
   - Stripe/Stripe3DS2 (21.8.1):
     - StripeCore (= 21.8.1)
   - StripeCore (21.8.1)
+  - UMTaskManagerInterface (7.0.3):
+    - ExpoModulesCore
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -495,11 +502,13 @@ DEPENDENCIES:
   - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
+  - EXLocation (from `../node_modules/expo-location/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - Expo (from `../node_modules/expo/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
+  - EXSensors (from `../node_modules/expo-sensors/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - EXSQLite (from `../node_modules/expo-sqlite/ios`)
   - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
@@ -544,6 +553,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - "stripe-react-native (from `../node_modules/@stripe/stripe-react-native`)"
+  - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -596,6 +606,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLinearGradient:
     :path: "../node_modules/expo-linear-gradient/ios"
+  EXLocation:
+    :path: "../node_modules/expo-location/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
   Expo:
@@ -606,6 +618,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
+  EXSensors:
+    :path: "../node_modules/expo-sensors/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   EXSQLite:
@@ -690,6 +704,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   stripe-react-native:
     :path: "../node_modules/@stripe/stripe-react-native"
+  UMTaskManagerInterface:
+    :path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -710,11 +726,13 @@ SPEC CHECKSUMS:
   EXJSONUtils: f515cf71710855d7ba5bfc6752af3b9a6f6aad01
   EXKeepAwake: b571c2ad8323b2fced6e907766e2549f75119471
   EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
+  EXLocation: 192eaee761c159d1479111a0ced3bab7ad8475a3
   EXManifests: 50e42e01335df4e54109dee7be5a91bfd37347db
   Expo: 363a3f3c60d5a1d4f8badb29a869005487f2d9e4
   ExpoHaptics: c62a5fc7bba0184d0165d559fc2b0fc46168ef40
   ExpoModulesCore: e41ed0b72daeac74731816ad7997d639f0115a9d
   EXSecureStore: fa0fdde1c81ceee2a3cb0519e649feae42767969
+  EXSensors: 7aff000712e1205de852515f8aa4c5125d870e12
   EXSplashScreen: 7872675b95bb07c25f922b3d3dfae70c76fb5a00
   EXSQLite: 908e34753a9dcfbef6a0f3a543ad32a5a6ced452
   EXStructuredHeaders: 873e7f329c2f6279c1b1e0229df59c9861560b53
@@ -773,6 +791,7 @@ SPEC CHECKSUMS:
   Stripe: 57c6997c64042a3f5aedae9b76e331942f8b75d2
   stripe-react-native: ae53a97cc9ab084cc6228f2250da56b0e53da276
   StripeCore: a6e50d58119a0c7601773b56f274db2d394dcdac
+  UMTaskManagerInterface: 5654c50e68af11b19b9d05452bacf23d19b3f30f
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
 PODFILE CHECKSUM: 1f80a25bdbe042d55f9c05d514a81e971d2f52b8

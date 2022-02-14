@@ -123,6 +123,8 @@
   "Route": {
     "Show route on map": "Показать маршрут на карте",
     "Download": "Скачать",
+    "Listen": "Слушать",
+    "Downloaded": "Загружено",
     "Route": "Маршрут",
     "Do you want to add a member": "Вы хотите добавить участника",
     "Confirm": "Подтвердить",
@@ -167,6 +169,7 @@
   "City": {
     "Country, city, excursion": "Страна, город, экскурсия...",
     "Country Tours":"Экскурсии по странам",
+    "Choose tour":"Выберите экскурсию",
     "Interesting excursions":"Интересные экскурсии"
   },
   "Countries": {
@@ -176,6 +179,7 @@
   "Country": {
     "Country, city, excursion": "Страна, город, экскурсия...",
     "excursions":"экскурсий",
+    "Choose city":"Выберите город",
     "Country Tours":"Экскурсии по странам",
     "Popular places":"Популярные места",
     "Interesting excursions":"Интересные экскурсии"
@@ -203,6 +207,7 @@
   },
   "Home": {
     "Country Tours": "Экскурсии по странам",
+    "Choose country": "Выберите страну",
     "Popular places":"Популярные места",
     "Interesting excursions": "Интересные экскурсии"
   },

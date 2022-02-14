@@ -3,13 +3,10 @@ import {ButtonGray} from "../../../../../styles/components/buttons";
 import {Text16Bold500} from "../../../../../styles/components/tools";
 import Svg, {Circle, Path} from "react-native-svg";
 import * as FileSystem from 'expo-file-system';
-import {getAuth} from "firebase/auth";
 import {useDispatch} from "react-redux";
-import {setMyExcursionPath} from "../../../../../store/myExcursion/reducer";
-import {useContext, useRef, useState} from "react";
-import filesStore from "../../../../../contexts/filesStore";
+import {useContext, useState} from "react";
 import {randomName} from "../../../../../middleware/middlewares";
-import {ActivityIndicator, Platform} from "react-native";
+import {ActivityIndicator} from "react-native";
 import i18n, {t} from "i18n-js";
 import {useFiles} from "../../../../../hooks/useFiles";
 import UserFB from "../../../../../contexts/userFB";
@@ -56,7 +53,7 @@ export const DownloadFile = ({path, id, date}) => {
                     style={{marginBottom: 40, paddingLeft: 35, width: '100%', justifyContent: 'space-between'}}>
             {!disabled && <>
                 <Text16Bold500
-                    style={{color: '#828282'}}>{t('Route.Download')}</Text16Bold500>
+                    style={{color: '#828282'}}>{t('Route.Listen')}</Text16Bold500>
                 <Svg width="41" height="41" style={{}} fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <Circle cx="20.5" cy="20.5" r="20.5" fill="#11AEAE"/>
@@ -67,7 +64,7 @@ export const DownloadFile = ({path, id, date}) => {
             {disabled &&
             <>
                 <Text16Bold500
-                    style={{color: '#828282'}}>Скачено - {bits} {i18n.t("Route.Mbs")}</Text16Bold500>
+                    style={{color: '#828282'}}>{t('Route.Downloaded')} - {bits} {i18n.t("Route.Mbs")}</Text16Bold500>
                 <ActivityIndicator size={'large'} color={"#11AEAE"} />
             </>
             }

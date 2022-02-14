@@ -6,6 +6,7 @@ import {ContainerMain, Text23Bold} from "../../../styles/components/tools";
 import {CardExcursion} from "../../../components/tools/CardExcursion";
 import {useContext, useEffect} from "react";
 import Locale from "../../../contexts/locale";
+import * as Location from 'expo-location';
 import {HomeBackground} from "../../../components/backgrounds/HomeBackground";
 import {fetchCounter} from "../../../store/countries/service";
 import {fetchPopularPlacesData} from "../../../store/popularPlaces/service";
@@ -46,6 +47,20 @@ export default function Home({}) {
         handlerInitFiles().then()
     }, [])
 
+    useEffect(() => {
+        (async () => {
+            try {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    await Location.getForegroundPermissionsAsync()
+                }
+            }catch (e) {
+                console.log(e)
+            }
+
+        })();
+    }, []);
+
     return (
         <MainLayout
             Refreshing={true}
@@ -63,13 +78,13 @@ export default function Home({}) {
             {!isLoadingC && countries.length > 0 && countries && <ScrollHorizontal buttonView={true}
                                                   toLink={'Country'}
                                                    toLinkTwo={'Countries'}
-                                                  title={t('Home.Country Tours')}
+                                                  title={t('Home.Choose country')}
                                                   model={ countries}/>}
-            {!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}
-                                                         toLink={'City'}
-                                                         toLinkTwo={'Cities'}
-                                                         title={t('Home.Popular places')}
-                                                         model={popularPlaces}/>}
+            {/*{!isLoadingP && popularPlaces.length > 0 && popularPlaces && <ScrollHorizontal buttonView={true}*/}
+            {/*                                             toLink={'City'}*/}
+            {/*                                             toLinkTwo={'Cities'}*/}
+            {/*                                             title={t('Home.Popular places')}*/}
+            {/*                                             model={popularPlaces}/>}*/}
 
             {!isLoading ?
                 <>
